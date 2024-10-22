@@ -195,7 +195,7 @@ namespace NGO.Business
                     childrensDetailsModel[i].ResidentState = item.ChildState;
                     childrensDetailsModel[i].ResidentCity = item.ChildCity;
                     childrensDetailsModel[i].ResidentCountry = item.ChildCountry;
-                    childrensDetailsModel[i].EmialId = item.ChildEmailAddress;
+                    childrensDetailsModel[i].EmailId = item.ChildEmailAddress;
                     childrensDetailsModel[i].PhoneNo = item.ChildPhoneNumber;
                     childrensDetailsModel[i].ChildUniqueId = item.ChildPhoneNumber;
                     i++;

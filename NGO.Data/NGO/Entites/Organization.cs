@@ -17,5 +17,7 @@ namespace NGO.Data
         public DateTime? CreatedDate { get; set; }
 
         public virtual ICollection<OrganizationChapter> OrganizationChapters { get; set; }
+        public virtual ICollection<UserDetail> UserDetails { get; set; }
+
     }
 }

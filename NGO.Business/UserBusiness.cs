@@ -13,6 +13,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Mail;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using static NGO.Model.FileModel;
 
@@ -100,7 +101,7 @@ namespace NGO.Business
                         children[i].ChildCity = item.ResidentCity;
                         children[i].ChildCountry = item.ResidentCountry;
                         children[i].ChildDOB = item.Dob;
-                        children[i].ChildEmailAddress = item.EmialId;
+                        children[i].ChildEmailAddress = item.EmailId;
                         children[i].ChildFirstName = item.FirstName;
                         children[i].ChildLastName = item.LastName;
                         children[i].ChildPhoneNumber = item.PhoneNo;
@@ -282,10 +283,15 @@ namespace NGO.Business
             {
                 Organization organization = null;
                 var payment = (await _paymentRepository.GetByAsync(x => x.UserDetailId == item.UserId)).FirstOrDefault();
-                if (item.OrgId != null)
+                //if (item.OrgId != null)
+                //{
+                //    organization = (await _orgRepository.GetByAsync(x => x.Id == int.Parse(item.OrgId))).FirstOrDefault();
+                //}
+                if (!string.IsNullOrEmpty(item.OrgId)) // Check for null or empty
                 {
-                    organization = (await _orgRepository.GetByAsync(x => x.Id == int.Parse(item.OrgId))).FirstOrDefault();
+                    organization = (await _orgRepository.GetByAsync(x => x.Id == item.OrgId)).FirstOrDefault();
                 }
+
                 Random random = new Random();
                 int id = 0;
                 id = random.Next(100000, 999999);
@@ -541,7 +547,7 @@ namespace NGO.Business
                             {
                                 item.FirstName = userDetailModel.ChildrensDetails[i].ChildFirstName;
                                 item.LastName = userDetailModel.ChildrensDetails[i].ChildLastName;
-                                item.EmialId = userDetailModel.ChildrensDetails[i].ChildEmailAddress;
+                                item.EmailId = userDetailModel.ChildrensDetails[i].ChildEmailAddress;
                                 item.PhoneNo = userDetailModel.ChildrensDetails[i].ChildPhoneNumber;
                                 item.Dob = userDetailModel.ChildrensDetails[i].ChildDOB;
                                 item.ResidentCity = userDetailModel.ChildrensDetails[i].ChildCity;
@@ -566,7 +572,7 @@ namespace NGO.Business
                                 childrensDetailsModel[j].ResidentState = userDetailModel.ChildrensDetails[i].ChildState;
                                 childrensDetailsModel[j].ResidentCity = userDetailModel.ChildrensDetails[i].ChildCity;
                                 childrensDetailsModel[j].ResidentCountry = userDetailModel.ChildrensDetails[i].ChildCountry;
-                                childrensDetailsModel[j].EmialId = userDetailModel.ChildrensDetails[i].ChildEmailAddress;
+                                childrensDetailsModel[j].EmailId = userDetailModel.ChildrensDetails[i].ChildEmailAddress;
                                 childrensDetailsModel[j].PhoneNo = userDetailModel.ChildrensDetails[i].ChildPhoneNumber;
                                 j++;
                             }

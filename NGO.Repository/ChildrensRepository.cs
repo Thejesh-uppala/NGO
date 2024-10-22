@@ -4,6 +4,7 @@ using NGO.Data;
 using NGO.Model;
 using NGO.Repository.Contracts;
 using NGO.Repository.Infrastructure;
+using Npgsql; // Use Npgsql for PostgreSQL DB access
 using System.Data;
 
 namespace NGO.Repository
@@ -11,47 +12,57 @@ namespace NGO.Repository
     public class ChildrensRepository : Repository<ChildrensDetail>, IChildrensRepository
     {
         private readonly NGOContext _nGOContext;
-        public ChildrensRepository(NGOContext nGOContext, ApplicationContext applicationContext) : base(nGOContext, applicationContext)
+
+        public ChildrensRepository(NGOContext nGOContext, ApplicationContext applicationContext)
+            : base(nGOContext, applicationContext)
         {
             _nGOContext = nGOContext;
         }
 
         public async Task<UserDetailModel> GetCurrentUserDetails(int id)
         {
-            //var userId = new SqlParameter("@p0", id);
-            //var sql = "exec UspGetCurrentUserDetails @p0";
-            //var result = _nGOContext.UspUserReturnModels.FromSqlRaw(sql, userId).ToList().FirstOrDefault();
             UserDetailModel userDetailModel = new UserDetailModel();
             using (var connection = _nGOContext.Database.GetDbConnection())
             {
                 await connection.OpenAsync();
                 var command = connection.CreateCommand();
-                command.CommandText = "UspGetCurrentUserDetails";
+                command.CommandText = "UspGetCurrentUserDetails";  // Ensure procedure name matches PostgreSQL casing
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add(new Microsoft.Data.SqlClient.SqlParameter("@userId", id));
-                var reader = await command.ExecuteReaderAsync();
-                while (reader.Read())
-                {
-                    userDetailModel.OrgId = reader["OrgId"].ToString();
-                    userDetailModel.UserId = int.Parse(reader["UserId"].ToString());
-                    userDetailModel.Address = reader["Address"].ToString();
-                    userDetailModel.State = reader["State"].ToString();
 
+                // Use NpgsqlParameter instead of SqlParameter for PostgreSQL
+                command.Parameters.Add(new NpgsqlParameter("@userIdP", id));
+
+                var reader = await command.ExecuteReaderAsync();
+
+                // Read user details first
+                if (reader.Read())
+                {
+                    userDetailModel.OrgId = reader.GetString(reader.GetOrdinal("OrgId"));
+                    userDetailModel.UserId = reader.GetInt32(reader.GetOrdinal("UserId"));
+                    userDetailModel.Address = reader.GetString(reader.GetOrdinal("Address"));
+                    userDetailModel.State = reader.GetString(reader.GetOrdinal("State"));
                 }
+
+                // Move to the next result for children's details
                 await reader.NextResultAsync();
+
                 List<ChildrensDetailsModel> childrensDetailsModels = new List<ChildrensDetailsModel>();
                 while (reader.Read())
                 {
-                    ChildrensDetailsModel childrensDetails = new ChildrensDetailsModel();
+                    ChildrensDetailsModel childrensDetails = new ChildrensDetailsModel
+                    {
+                        Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                        ResidentCity = reader.GetString(reader.GetOrdinal("ResidentCity")),
+                        UserDetailId = reader.GetInt32(reader.GetOrdinal("UserDetailId")),
+                        ResidentState = reader.GetString(reader.GetOrdinal("ResidentState"))
+                    };
 
-                    childrensDetails.Id = int.Parse(reader["Id"].ToString());
-                    childrensDetails.ResidentCity = reader["ResidentCity"].ToString();
-                    childrensDetails.UserDetailId = int.Parse(reader["UserDetailId"].ToString());
-                    childrensDetails.ResidentState = reader["ResidentState"].ToString();
                     childrensDetailsModels.Add(childrensDetails);
                 }
+
                 userDetailModel.ChildrensDetails = childrensDetailsModels;
             }
+
             return userDetailModel;
         }
     }

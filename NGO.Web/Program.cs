@@ -7,6 +7,8 @@ using NGO.Web.Infrastructure;
 using System.Text;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using NGO.Repository;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager ConfigurationManager = builder.Configuration;
@@ -18,6 +20,10 @@ var configRoot = new
 ConfigurationManager.Bind(configRoot);
 
 // Add services to the container.
+
+builder.Services.AddDbContext<NGOContext>(options =>
+    options.UseNpgsql(builder.Configuration["AppSettings:ConnectionString"]));
+
 
 builder.Services.RegisterDependency(configRoot.AppSettings);
 builder.Services.AddControllers();
