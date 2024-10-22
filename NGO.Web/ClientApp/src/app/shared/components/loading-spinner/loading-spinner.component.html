@@ -1,0 +1,11 @@
+<!--<div class="spinner-bg" *ngIf="(loaderService.loader$ | async)?.valueOf()">
+  <div class="spinner-container">
+    <div class="spinner-image"></div>
+  </div>
+</div>-->
+
+<div class="spinner-bg" [class.hidden]="!isLoading">
+  <div class="spinner-container">
+    <div class="spinner-image"></div>
+  </div>
+</div>

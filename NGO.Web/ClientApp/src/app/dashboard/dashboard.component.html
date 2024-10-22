@@ -1,0 +1,228 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+    </div>
+  </div>
+
+  <!-- Page content -->
+
+  <div class="container-fluid mt--7">
+    <!-- Table -->
+    <!-- Dark table -->
+    <div class="row mt-5">
+      <div class="col">
+        <div class="card bg-default shadow">
+          <div class="card-header  border-0" [ngStyle]="{backgroundColor: warningColor}">
+            <!-- <h3 class="text-white mb-0">{{this.userId.name}} Details</h3> -->
+          </div>
+          <div class="table-responsive" [ngStyle]="{backgroundColor: warningColor}">
+            <table class="table align-items-center  table-flush">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Photo</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Family Name</th>
+                  <th scope="col">City</th>
+                  <th scope="col">State</th>
+                  <th scope="col">Country</th>
+                  <th scope="col">Phone Number</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row" style="width: 100px;">
+                    <div class="media align-items-center">
+                      <a class="avatar rounded-circle mr-3">
+                        <img style="width: 50px;height:60px;" [src]='this.image'>
+                      </a>
+                      <!-- <div class="media-body">
+                      <span class="mb-0 text-sm">Argon Design System</span>
+                    </div> -->
+                    </div>
+                  </th>
+                  <td style="color: white;width: 100px;">
+                    <div class="b" title="{{this.userDetail.firstName}}">{{this.userDetail.firstName}}</div>
+                    <!-- {{this.userDetail.firstName}} -->
+                  </td>
+                  <td style="color: white;width: 100px;">
+                    <span>
+                      <i></i> {{this.userDetail.familyName}}
+                    </span>
+                  </td>
+                  <td style="color: white;width: 100px;">
+                    {{this.userDetail.city}}
+                  </td>
+                  <td style="color: white;width: 100px;">
+                    {{this.userDetail.state}}
+                  </td>
+                  <td style="color: white;width: 100px;">
+                    <span class="mr-2"> {{this.userDetail.country}}</span>
+                  </td>
+                  <td style="color: white;width: 100px;">
+                    <span class="mr-2"> {{this.userDetail.phoneNumber}}</span>
+                  </td>
+                  <td class="text-left">
+                    <div style="display: inline;">
+                      <div style="float: left;">
+                        <p-button (click)="edit()" icon="pi pi-external-link" label="Edit"></p-button>&nbsp;&nbsp;
+                      </div>
+                      <div  style="width: 100px;">
+                        <div title="Renew" #paypalRef></div>
+                      </div>
+                    </div>
+                    <!-- <p-button (click)="renew()" icon="pi pi-external-link" label="Renew"></p-button>-->
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+<div class="container-fluid mt" style="width: 80%;">
+  <!-- <p-chart type="bar" [data]="data"  width="400" height="400"></p-chart> -->
+  <p-chart type="bar" (onDataSelect)="selectData($event)" [data]="multiAxisData" [options]="multiAxisOptions"></p-chart>
+</div>
+<br><br>
+<br><br>
+<br><br>
+<br><br>
+<div class="container-fluid mt--7">
+
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <h5>List of filters</h5>
+          <p-table #dt1 [value]="chartBool?filteredChartDetails:userDetail1" dataKey="id" [rows]="10"
+            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="loading"
+            styleClass="p-datatable-customers p-datatable-gridlines" [paginator]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [globalFilterFields]="['firstName','homeTown','city','state','orgName.name']"
+            (onLazyLoad)="onLazyLoad($event)">
+            <ng-template pTemplate="caption">
+              <div class="flex">
+                <button pButton label="Reset Filter" class="p-button-outlined" icon="pi pi-filter-slash"
+                  (click)="clear(dt1)"></button>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Name
+                    <p-columnFilter type="text" field="firstName" display="menu"></p-columnFilter>
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Home Town
+                    <p-columnFilter type="text" field="homeTown" display="menu"></p-columnFilter>
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    City
+                    <p-columnFilter type="text" field="city" display="menu"></p-columnFilter>
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    State
+                    <p-columnFilter type="text" field="state" display="menu"></p-columnFilter>
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Oganization
+                    <p-columnFilter field="orgName" matchMode="in" display="menu" [showMatchModes]="false"
+                      [showOperator]="false" [showAddButton]="false">
+                      <ng-template pTemplate="header">
+                        <div class="px-3 pt-3 pb-0">
+                          <span class="font-bold"> Oganization Picker</span>
+                        </div>
+                      </ng-template>
+                      <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                        <p-multiSelect [ngModel]="value" [options]="organizationData" placeholder="Any"
+                          (onChange)="filter($event.value)" optionLabel="name">
+                          <ng-template let-option pTemplate="item">
+                            <div class="p-multiselect-representative-option">
+                              <!-- <img [alt]="option.label" src="assets/showcase/images/demo/avatar/{{option.image}}" width="32" style="vertical-align: middle" /> -->
+                              <span class="ml-1">{{option.name}}</span>
+                            </div>
+                          </ng-template>
+                        </p-multiSelect>
+                      </ng-template>
+                    </p-columnFilter>
+                  </div>
+                </th>
+                <th>Action</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-customer>
+              <tr>
+                <td>
+                  <div class="b" title=" {{customer.firstName}}"> {{customer.firstName}}</div>
+
+                </td>
+                <td>
+                  <span class="image-text">{{customer.homeTown}}</span>
+                </td>
+                <td>
+                  <span class="image-text">{{customer.city}}</span>
+                </td>
+                <td>
+                  <span class="image-text">{{customer.state}}</span>
+                </td>
+                <td>
+                  <span class="image-text">{{customer.orgName.name}}</span>
+                </td>
+                <td>
+                  <p-button pRipple label="Contact Me" class="p-button-raised p-button-info"
+                    (onClick)="contactMe(customer.userId)"></p-button>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="7">No customers found.</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+    <p-toast></p-toast>
+    <p-toast position="bottom-center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+      <ng-template let-message pTemplate="message">
+        <div class="p-flex p-flex-column" style="flex: 1">
+          <div class="p-text-center">
+            <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+            <h4>{{message.summary}}</h4>
+            <p>{{message.detail}}</p>
+          </div>
+          <div class="p-grid p-fluid">
+            <div class="p-col-6">
+              <button type="button" pButton (click)="onConfirm()" label="Yes" class="p-button-success"></button>
+            </div>
+            <div class="p-col-6">
+              <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-toast>
+    <div>
+      <p-dialog header="Renew" [(visible)]="displayBasic" [style]="{width: '50vw',height:'25vw'}" [baseZIndex]="10000">
+        <p-panel>
+          <div #paypalRef></div>
+        </p-panel>
+      </p-dialog>
+    </div>
+    <ngo-loading-spinner></ngo-loading-spinner>

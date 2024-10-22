@@ -1,0 +1,624 @@
+<!-- <div class="header bg-gradient-danger py-7 py-lg-8">
+    <div class="container">
+      <div class="header-body text-center mb-7">
+        <div class="row justify-content-center">
+          <div class="col-lg-5 col-md-6">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="separator separator-bottom separator-skew zindex-100">
+      <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
+      </svg>
+    </div>
+  </div>
+  <div class="container mt--8 pb-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-md-8">
+        <div class="card bg-secondary shadow border-0">
+          <div class="card-header bg-transparent pb-5">
+            <div class="text-muted text-center mt-2 mb-4" style="font-size: large;"> <b>Welcome to NGO</b></div>
+          </div>
+          <div class="card-body px-lg-5 py-lg-5">
+            <div class="text-center text-muted mb-4">
+              
+            </div>
+            <form [formGroup]="signUpForm" (ngSubmit)="signUp()">
+              <div class="form-group">
+                <div class="input-group input-group-alternative mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                  </div>
+                  <input class="form-control" formControlName="username" placeholder="Name" type="text">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="input-group input-group-alternative mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                  </div>
+                  <input class="form-control" formControlName="email" placeholder="Email" type="email">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="input-group input-group-alternative">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                  </div>
+                  <input class="form-control" formControlName="phNumber" placeholder="Phone Number" type="text">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="input-group input-group-alternative">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                  </div>
+                  <input class="form-control" formControlName="password" placeholder="Password" type="password">
+                </div>
+              </div>
+              <div class="text-center">
+                <button type="button" type="submit" class="btn btn-primary mt-4">Create account</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
+  style="min-height: 60px;  background-size: cover; background-position: center top;">
+  <!-- Mask -->
+  <span class="mask bg-gradient-danger opacity-8"></span>
+  <!-- Header container -->
+  <div class="container-fluid d-flex align-items-center">
+  </div>
+</div>
+<div style="margin: auto; width: 80%; padding: 10px;">
+  <div class="container-fluid mt--7">
+    <div class="row">
+      <div class="col-xl-12 order-xl-1">
+        <div class="card bg-secondary shadow">
+          <div class="card-header bg-white border-0">
+            <div class="row align-items-center">
+              <div class="col-8">
+                <h3 class="mb-0">Register account</h3>
+              </div>
+              <div class="col-4 text-right">
+                <!-- <a href="#!" class="btn btn-sm btn-primary">Settings</a> -->
+              </div>
+            </div>
+          </div>
+          <form [formGroup]="signUpForm" (ngSubmit)="signUp()">
+            <div class="card-body">
+              <h6 class="heading-small text-muted mb-4">Primary Personal information</h6>
+              <div class="pl-lg-4">
+                <div class="row">
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-username">First Name</label>
+                      <input type="text" id="firstName" class="form-control " formControlName="firstName"
+                        placeholder="First Name"
+                        [class.valid]="signUpForm.controls['firstName'].valid && (signUpForm.controls['firstName'].dirty || signUpForm.controls['firstName'].touched)"
+                        [class.invalid]=" signUpForm.controls['firstName'].invalid && (signUpForm.controls['firstName'].dirty || signUpForm.controls['firstName'].touched)">
+                      <!-- <div *ngIf="signUpForm.controls['firstName'].invalid && (signUpForm.controls['firstName'].dirty || signUpForm.controls['firstName'].touched)" class="alert">
+                          <div style="color: red;" *ngIf="signUpForm.controls['firstName'].errors">
+                          Please enter username
+                        </div>
+                      </div> -->
+                    </div>
+
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-Last-name">Last name</label>
+                      <input type="text" id="input-first-name" formControlName="lastName" class="form-control "
+                        placeholder="Last name"
+                        [class.valid]="signUpForm.controls['lastName'].valid && (signUpForm.controls['lastName'].dirty || signUpForm.controls['lastName'].touched)"
+                        [class.invalid]="signUpForm.controls['lastName'].invalid && (signUpForm.controls['lastName'].dirty || signUpForm.controls['lastName'].touched)">
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-familyName">Family name</label>
+                      <input type="text" id="familyName"  formControlName="familyName" class="form-control"
+                        placeholder="Family name"
+                        [class.valid]="signUpForm.controls['familyName'].valid && (signUpForm.controls['familyName'].dirty || signUpForm.controls['familyName'].touched)"
+                        [class.invalid]="signUpForm.controls['familyName'].invalid && (signUpForm.controls['familyName'].dirty || signUpForm.controls['familyName'].touched)">
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-email">Email address</label>
+                      <input type="email" id="input-email" [pattern]="emailPattern" formControlName="emailAddress" class="form-control"
+                        placeholder="Email address"
+                        [attr.disabled]="true"
+                        [(ngModel)]="email"
+                        [class.valid]="signUpForm.controls['emailAddress'].valid && (signUpForm.controls['emailAddress'].dirty || signUpForm.controls['emailAddress'].touched)"
+                        [class.invalid]="signUpForm.controls['emailAddress'].invalid && (signUpForm.controls['emailAddress'].dirty || signUpForm.controls['emailAddress'].touched)">
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-phoneNumber">Phone Number</label>
+                      <input type="text" id="phoneNumber" formControlName="phoneNumber" class="form-control "
+                        placeholder="Phone Number"
+                        [class.valid]="signUpForm.controls['phoneNumber'].valid && (signUpForm.controls['phoneNumber'].dirty || signUpForm.controls['phoneNumber'].touched)"
+                        [class.invalid]="signUpForm.controls['phoneNumber'].invalid && (signUpForm.controls['phoneNumber'].dirty || signUpForm.controls['phoneNumber'].touched)">
+                      <small class="text-danger" *ngIf="f['phoneNumber'].touched && f['phoneNumber'].invalid">
+                        <div *ngIf="f['phoneNumber'].errors?.['pattern']">Please, Enter 10 digit Mobile Number.</div>
+                      </small>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-dOB">DOB</label>
+                      <input type="date" id="dOB" formControlName="dOB" class="form-control " placeholder="DOB"
+                        [class.valid]="signUpForm.controls['dOB'].valid && (signUpForm.controls['dOB'].dirty || signUpForm.controls['dOB'].touched)"
+                        [class.invalid]="signUpForm.controls['dOB'].invalid && (signUpForm.controls['dOB'].dirty || signUpForm.controls['dOB'].touched)">
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-postalCode">Postal Code</label>
+                      <input type="text" id="input-postalCode" formControlName="postalCode" class="form-control "
+                        placeholder="Postal Code"
+                        [class.valid]="signUpForm.controls['postalCode'].valid && (signUpForm.controls['postalCode'].dirty || signUpForm.controls['postalCode'].touched)"
+                        [class.invalid]="signUpForm.controls['postalCode'].invalid && (signUpForm.controls['postalCode'].dirty || signUpForm.controls['postalCode'].touched)">
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-homeTown">Home Town</label>
+                      <input type="text" id="homeTown" formControlName="homeTown" class="form-control"
+                        placeholder="Home Town"
+                        [class.valid]="signUpForm.controls['homeTown'].valid && (signUpForm.controls['homeTown'].dirty || signUpForm.controls['homeTown'].touched)"
+                        [class.invalid]="signUpForm.controls['homeTown'].invalid && (signUpForm.controls['homeTown'].dirty || signUpForm.controls['homeTown'].touched)">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-country">Country</label><br>
+                      <!-- <select formControlName="country" class="form-control" (change)="onChangeCountry($event)"
+                        [class.valid]="signUpForm.controls['country'].valid && (signUpForm.controls['country'].dirty || signUpForm.controls['country'].touched)"
+                        [class.invalid]="signUpForm.controls['country'].invalid && (signUpForm.controls['country'].dirty || signUpForm.controls['country'].touched)">
+                        <option value="">Select country...</option>
+                        <option *ngFor="let country of countries" [value]="country.id">{{country.name}}</option>
+                      </select> -->
+                      <p-dropdown  [options]="countries" optionLabel="name" (onChange)="onChangeCountry($event)"
+                        formControlName="country" placeholder="Select Country" [showClear]="true" [editable]="true" autoWidth="false" [style]="{'width':'100%'}"
+                        [class.valid]="signUpForm.controls['country'].valid && (signUpForm.controls['country'].dirty || signUpForm.controls['country'].touched)"
+                        [class.invalid]="signUpForm.controls['country'].invalid && (signUpForm.controls['country'].dirty || signUpForm.controls['country'].touched)">
+                      </p-dropdown>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-State">State</label><br>
+                      <!-- <select formControlName="state" class="form-control" (change)="onChangeState($event)"
+                        [class.valid]="signUpForm.controls['state'].valid && (signUpForm.controls['state'].dirty || signUpForm.controls['state'].touched)"
+                        [class.invalid]="signUpForm.controls['state'].invalid && (signUpForm.controls['state'].dirty || signUpForm.controls['state'].touched)">
+                        <option value="">Select state...</option>
+                        <option *ngFor="let state of states" [value]="state.id">{{state.name}}</option>
+                      </select> -->
+                      <p-dropdown  [options]="states" optionLabel="name" (onChange)="onChangeState($event)"
+                        formControlName="state" placeholder="Select state" [showClear]="true" [editable]="true" autoWidth="false" [style]="{'width':'100%'}"
+                        [class.valid]="signUpForm.controls['state'].valid && (signUpForm.controls['state'].dirty || signUpForm.controls['state'].touched)"
+                        [class.invalid]="signUpForm.controls['state'].invalid && (signUpForm.controls['state'].dirty || signUpForm.controls['state'].touched)">
+                      </p-dropdown>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-city">City</label><br>
+                      <!-- <select formControlName="city" class="form-control"
+                        [class.valid]="signUpForm.controls['city'].valid && (signUpForm.controls['city'].dirty || signUpForm.controls['city'].touched)"
+                        [class.invalid]="signUpForm.controls['city'].invalid && (signUpForm.controls['city'].dirty || signUpForm.controls['city'].touched)">
+                        <option value="">Select city...</option>
+                        <option *ngFor="let city of cities">{{city.name}}</option>
+                      </select> -->
+                      <p-dropdown  [options]="cities" optionLabel="name" (onChange)="onChangeCity($event)"
+                        formControlName="city" placeholder="Select city" [showClear]="true" [editable]="true" autoWidth="false" [style]="{'width':'100%'}"
+                        [class.valid]="signUpForm.controls['city'].valid && (signUpForm.controls['city'].dirty || signUpForm.controls['city'].touched)"
+                        [class.invalid]="signUpForm.controls['city'].invalid && (signUpForm.controls['city'].dirty || signUpForm.controls['city'].touched)">
+                      </p-dropdown>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-whatsAppNumber">Add in whatsApp/Telegram?</label>
+                      <select formControlName="whatsAppNumber" class="form-control" 
+                        [class.valid]="signUpForm.controls['whatsAppNumber'].valid && (signUpForm.controls['whatsAppNumber'].dirty || signUpForm.controls['whatsAppNumber'].touched)"
+                        [class.invalid]="signUpForm.controls['whatsAppNumber'].invalid && (signUpForm.controls['whatsAppNumber'].dirty || signUpForm.controls['whatsAppNumber'].touched)">
+                        <option value="">Add in whatsApp/Telegram?</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-memberShipType">MemberShip Type</label>
+                      <select formControlName="memberShipType" class="form-control" 
+                        [class.valid]="signUpForm.controls['memberShipType'].valid && (signUpForm.controls['memberShipType'].dirty || signUpForm.controls['memberShipType'].touched)"
+                        [class.invalid]="signUpForm.controls['memberShipType'].invalid && (signUpForm.controls['memberShipType'].dirty || signUpForm.controls['memberShipType'].touched)">
+                        <option value="">Choose Type</option>
+                        <option value="1">Annual</option>
+                        <option value="2">Life-Time</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-reason">Reason</label>
+                      <select formControlName="reason" class="form-control"
+                        [class.valid]="signUpForm.controls['reason'].valid && (signUpForm.controls['reason'].dirty || signUpForm.controls['reason'].touched)"
+                        [class.invalid]="signUpForm.controls['reason'].invalid && (signUpForm.controls['reason'].dirty || signUpForm.controls['reason'].touched)">
+                        <option value="">Choose Reason</option>
+                        <option value="Annual">Option 1</option>
+                        <option value="Life-Time">Option 2</option>
+                        <option value="Annual">Option 3</option>
+                        <option value="Life-Time">Option 4</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-country">Upload Photo</label>
+                      <input type="file" #imageInput accept="image/*" (change)="processFile($event)"
+                        formControlName="Photo" class="form-control form-control-alternative" placeholder="Upload Photo">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="pl-lg-4">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-address">Address</label>
+                      <input id="address" class="form-control " formControlName="address" placeholder="Home Address"
+                        type="text"
+                        [class.valid]="signUpForm.controls['address'].valid && (signUpForm.controls['address'].dirty || signUpForm.controls['address'].touched)"
+                        [class.invalid]="signUpForm.controls['address'].invalid && (signUpForm.controls['address'].dirty || signUpForm.controls['address'].touched)">
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-refference">Reffered By</label>
+                      <input type="text" id="refference" formControlName="refference" class="form-control "
+                        placeholder="Reffered By"
+                        [class.valid]="signUpForm.controls['refference'].valid && (signUpForm.controls['refference'].dirty || signUpForm.controls['refference'].touched)"
+                        [class.invalid]="signUpForm.controls['refference'].invalid && (signUpForm.controls['refference'].dirty || signUpForm.controls['refference'].touched)">
+                    </div>
+                  </div>
+                 
+
+                </div>
+                <hr class="my-4" />
+                <h6 class="heading-small text-muted mb-4">Spouse Details</h6>
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-spouseFirstName">First Name</label>
+                        <input type="text" id="spouseFirstName" formControlName="spouseFirstName" class="form-control "
+                          placeholder="First Name"
+                          [class.valid]="signUpForm.controls['spouseFirstName'].valid && (signUpForm.controls['spouseFirstName'].dirty || signUpForm.controls['spouseFirstName'].touched)"
+                          [class.invalid]="signUpForm.controls['spouseFirstName'].invalid && (signUpForm.controls['spouseFirstName'].dirty || signUpForm.controls['spouseFirstName'].touched)">
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-spouseLastName">Last name</label>
+                        <input type="text" id="spouseLastName" formControlName="spouseLastName" class="form-control "
+                          placeholder="Last name"
+                          [class.valid]="signUpForm.controls['spouseLastName'].valid && (signUpForm.controls['spouseLastName'].dirty || signUpForm.controls['spouseLastName'].touched)"
+                          [class.invalid]="signUpForm.controls['spouseLastName'].invalid && (signUpForm.controls['spouseLastName'].dirty || signUpForm.controls['spouseLastName'].touched)">
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-spouseEmail">Email address</label>
+                        <input type="email" id="spouseEmail" [pattern]="emailPattern" formControlName="spouseEmail" class="form-control "
+                          placeholder="Email address"
+                          [class.valid]="signUpForm.controls['spouseEmail'].valid && (signUpForm.controls['spouseEmail'].dirty || signUpForm.controls['spouseEmail'].touched)"
+                          [class.invalid]="signUpForm.controls['spouseEmail'].invalid && (signUpForm.controls['spouseEmail'].dirty || signUpForm.controls['spouseEmail'].touched)">
+                      </div>
+                    </div>
+
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-spousePhoneNumber">Phone Number</label>
+                        <input type="text" id="spousePhoneNumber" formControlName="spousePhoneNumber"
+                          class="form-control " placeholder="Phone Number"
+                          [class.valid]="signUpForm.controls['spousePhoneNumber'].valid && (signUpForm.controls['spousePhoneNumber'].dirty || signUpForm.controls['spousePhoneNumber'].touched)"
+                          [class.invalid]="signUpForm.controls['spousePhoneNumber'].invalid && (signUpForm.controls['spousePhoneNumber'].dirty || signUpForm.controls['spousePhoneNumber'].touched)">
+                        <small class="text-danger"
+                          *ngIf="f['spousePhoneNumber'].touched && f['spousePhoneNumber'].invalid">
+                          <div *ngIf="f['spousePhoneNumber'].errors?.['pattern']">Please, Enter 10 digit Mobile Number.
+                          </div>
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-2">
+                      <div class="form-group">
+                        <input type="checkbox" (click)="spouseSameAddress($event)">
+                        Same As Primary Address
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-spouseCountry">Country</label>
+                        <!-- <select [attr.disabled]="disableSpouseFlag ? 'disabled' : null" [ngModel]="spouseCountry" formControlName="spouseCountry" class="form-control"
+                          (change)="onChangeSpouseCountry($event)"
+                          [class.valid]="signUpForm.controls['spouseCountry'].valid && (signUpForm.controls['spouseCountry'].dirty || signUpForm.controls['spouseCountry'].touched)"
+                          [class.invalid]="signUpForm.controls['spouseCountry'].invalid && (signUpForm.controls['spouseCountry'].dirty || signUpForm.controls['spouseCountry'].touched)">
+                          <option value="">Select country...</option>
+                          <option *ngFor="let country of countries" [value]="country.id">{{country.name}}</option>
+                        </select> -->
+                        <p-dropdown [disabled]="disableSpouseFlag" [options]="countries" [(ngModel)]="countryName" optionLabel="name"
+                          (onChange)="onChangeSpouseCountry($event)" formControlName="spouseCountry"
+                          placeholder="Select Country" [showClear]="true" autoWidth="false" [editable]="true" [style]="{'width':'100%'}"
+                          [class.valid]="signUpForm.controls['spouseCountry'].valid && (signUpForm.controls['spouseCountry'].dirty || signUpForm.controls['spouseCountry'].touched)"
+                          [class.invalid]="signUpForm.controls['spouseCountry'].invalid && (signUpForm.controls['spouseCountry'].dirty || signUpForm.controls['spouseCountry'].touched)">
+                        </p-dropdown>
+
+                        <span *ngIf="hasDropDownError">Enter Country ...</span>
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-spouseState">State</label>
+                        <!-- <select [attr.disabled]="disableSpouseFlag ? 'disabled' : null" formControlName="spouseState" class="form-control"
+                          (change)="onChangeSpouseState($event)"
+                          [class.valid]="signUpForm.controls['spouseState'].valid && (signUpForm.controls['spouseState'].dirty || signUpForm.controls['spouseState'].touched)"
+                          [class.invalid]="signUpForm.controls['spouseState'].invalid && (signUpForm.controls['spouseState'].dirty || signUpForm.controls['spouseState'].touched)">
+                          <option value="">Select state...</option>
+                          <option *ngFor="let state of spouseStates" [value]="state.id">{{state.name}}</option>
+                        </select>  -->
+                        <p-dropdown [disabled]="disableSpouseFlag" [options]="spouseStates" [(ngModel)]="stateName"
+                          optionLabel="name" (onChange)="onChangeSpouseState($event)" formControlName="spouseState"
+                          placeholder="Select State" [showClear]="true" autoWidth="false" [editable]="true" [style]="{'width':'100%'}"
+                          [class.valid]="signUpForm.controls['spouseState'].valid && (signUpForm.controls['spouseState'].dirty || signUpForm.controls['spouseState'].touched)"
+                          [class.invalid]="signUpForm.controls['spouseState'].invalid && (signUpForm.controls['spouseState'].dirty || signUpForm.controls['spouseState'].touched)">
+                        </p-dropdown>
+
+                        <span *ngIf="hasDropDownError">Enter Country ...</span>
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-spouseCity">City</label><br>
+                        <!-- <select [attr.disabled]="disableSpouseFlag ? 'disabled' : null" formControlName="spouseCity" class="form-control"
+                          [class.valid]="signUpForm.controls['spouseCity'].valid && (signUpForm.controls['spouseCity'].dirty || signUpForm.controls['spouseCity'].touched)"
+                          [class.invalid]="signUpForm.controls['spouseCity'].invalid && (signUpForm.controls['spouseCity'].dirty || signUpForm.controls['spouseCity'].touched)">
+                          <option value="">Select city...</option>
+                          <option *ngFor="let city of spouseCities">{{city.name}}</option>
+                        </select> -->
+                        <p-dropdown [disabled]="disableSpouseFlag" [options]="spouseCities" [(ngModel)]="cityName"
+                          optionLabel="name" formControlName="spouseCity" placeholder="Select City" [showClear]="true" [editable]="true" autoWidth="false" [style]="{'width':'100%'}"
+                          [class.valid]="signUpForm.controls['spouseCity'].valid && (signUpForm.controls['spouseCity'].dirty || signUpForm.controls['spouseCity'].touched)"
+                          [class.invalid]="signUpForm.controls['spouseCity'].invalid && (signUpForm.controls['spouseCity'].dirty || signUpForm.controls['spouseCity'].touched)">
+                        </p-dropdown>
+                      </div>
+                    </div>
+                    
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-spouseDob">DOB</label>
+                        <input type="date" id="spouseDob" formControlName="spouseDob" class="form-control "
+                          placeholder="DOB"
+                          [class.valid]="signUpForm.controls['spouseDob'].valid && (signUpForm.controls['spouseDob'].dirty || signUpForm.controls['spouseDob'].touched)"
+                          [class.invalid]="signUpForm.controls['spouseDob'].invalid && (signUpForm.controls['spouseDob'].dirty || signUpForm.controls['spouseDob'].touched)">
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-spouseHometown">Home town</label>
+                        <input type="text" id="spouseHometown" formControlName="spouseHometown" class="form-control "
+                          placeholder="Hometown"
+                          [class.valid]="signUpForm.controls['spouseHometown'].valid && (signUpForm.controls['spouseHometown'].dirty || signUpForm.controls['spouseHometown'].touched)"
+                          [class.invalid]="signUpForm.controls['spouseHometown'].invalid && (signUpForm.controls['spouseHometown'].dirty || signUpForm.controls['spouseHometown'].touched)">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr class="my-4" />
+                <p>
+                  <button class="btn btn-info" type="button" (click)="addChildrens()">Add Childrens Details</button>
+                  &nbsp;&nbsp;Click on this to add each child details
+                </p>
+                <div formArrayName="childrensDetails">
+                  <div *ngFor="let skill of childrensDetails.controls; let i=index">
+                    <div [formGroupName]="i">
+                      <div class="pl-lg-4">
+                        <div class="row">
+                          <div class="col-lg-3">
+                            <div class="form-group">
+                              <label class="form-control-label" for="input-childFirstName">First Name</label>
+                              <input type="text" id="childFirstName" formControlName="childFirstName"
+                                class="form-control " placeholder="First Name"
+                                [class.valid]="childrensDetails.controls[i].get('childFirstName')?.valid &&childrensDetails.controls[i].get('childFirstName')?.dirty||childrensDetails.controls[i].get('childFirstName')?.touched"
+                                [class.invalid]="childrensDetails.controls[i].get('childFirstName')?.invalid && (childrensDetails.controls[i].get('childFirstName')?.dirty || childrensDetails.controls[i].get('childFirstName')?.touched)">
+                            </div>
+                          </div>
+                          <div class="col-lg-3">
+                            <div class="form-group">
+                              <label class="form-control-label" for="input-childLastName">Last name</label>
+                              <input type="text" id="input-childLastName" formControlName="childLastName"
+                                class="form-control" placeholder="Last name"
+                                [class.valid]="childrensDetails.controls[i].get('childLastName')?.valid &&childrensDetails.controls[i].get('childLastName')?.dirty||childrensDetails.controls[i].get('childLastName')?.touched"
+                                [class.invalid]="childrensDetails.controls[i].get('childLastName')?.invalid && (childrensDetails.controls[i].get('childLastName')?.dirty || childrensDetails.controls[i].get('childLastName')?.touched)">
+                            </div>
+                          </div>
+                          <div class="col-lg-3">
+                            <div class="form-group">
+                              <label class="form-control-label" for="input-childEmailAddress">Email address</label>
+                              <input type="email" id="childEmailAddress" [pattern]="emailPattern" formControlName="childEmailAddress"
+                                class="form-control" placeholder="Email address"
+                                [class.valid]="childrensDetails.controls[i].get('childEmailAddress')?.valid &&childrensDetails.controls[i].get('childEmailAddress')?.dirty||childrensDetails.controls[i].get('childEmailAddress')?.touched"
+                                [class.invalid]="childrensDetails.controls[i].get('childEmailAddress')?.invalid && (childrensDetails.controls[i].get('childEmailAddress')?.dirty || childrensDetails.controls[i].get('childEmailAddress')?.touched)">
+                            </div>
+                          </div>
+                          <div class="col-lg-3">
+                            <div class="form-group">
+                              <label class="form-control-label" for="input-childPhoneNumber">Phone Number</label>
+                              <input type="text" id="childPhoneNumber" formControlName="childPhoneNumber"
+                                class="form-control " maxlength="10" placeholder="Phone Number"
+                                [class.valid]="childrensDetails.controls[i].get('childPhoneNumber')?.valid &&childrensDetails.controls[i].get('childPhoneNumber')?.dirty||childrensDetails.controls[i].get('childPhoneNumber')?.touched"
+                                [class.invalid]="childrensDetails.controls[i].get('childPhoneNumber')?.invalid && (childrensDetails.controls[i].get('childPhoneNumber')?.dirty || childrensDetails.controls[i].get('childPhoneNumber')?.touched)">
+
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-2">
+                            <div class="form-group">
+                              <input type="checkbox" (click)="childSameAddress($event,i)">
+                              Same As Primary Address
+                            </div>
+                          </div>
+                          <div class="col-lg-3">
+                            <div class="form-group">
+                              <label class="form-control-label" for="input-childCountry">Country</label><br>
+                              <!-- <select  formControlName="childCountry" class="form-control"
+                                (change)="onChangeChildCountry($event)"
+                                [class.valid]="childrensDetails.controls[i].get('childCountry')?.valid &&childrensDetails.controls[i].get('childCountry')?.dirty||childrensDetails.controls[i].get('childCountry')?.touched"
+                                [class.invalid]="childrensDetails.controls[i].get('childCountry')?.invalid && (childrensDetails.controls[i].get('childCountry')?.dirty || childrensDetails.controls[i].get('childCountry')?.touched)">
+                                <option value="">Select country...</option>
+                                <option *ngFor="let country of countries" [value]="country.id">{{country.name}}</option>
+                              </select> -->
+                              <p-dropdown [disabled]="disableChildFlag[i]" [options]="countries" [(ngModel)]="childCountryName" optionLabel="name"
+                                (onChange)="onChangeChildCountry($event)" formControlName="childCountry"
+                                placeholder="Select Country" [showClear]="true" autoWidth="false" [editable]="true" [style]="{'width':'100%'}"
+                                [class.valid]="childrensDetails.controls[i].get('childCountry')?.valid &&childrensDetails.controls[i].get('childCountry')?.dirty||childrensDetails.controls[i].get('childCountry')?.touched"
+                                [class.invalid]="childrensDetails.controls[i].get('childCountry')?.invalid && (childrensDetails.controls[i].get('childCountry')?.dirty || childrensDetails.controls[i].get('childCountry')?.touched)">
+                              </p-dropdown>
+                            </div>
+                          </div>
+                          <div class="col-lg-4">
+                            <div class="form-group">
+                              <label class="form-control-label" for="input-childState">State</label><br>
+                              <!-- <select  formControlName="childState" class="form-control"
+                                (change)="onChangeChildState($event)"
+                                [class.valid]="childrensDetails.controls[i].get('childState')?.valid &&childrensDetails.controls[i].get('childState')?.dirty||childrensDetails.controls[i].get('childState')?.touched"
+                                [class.invalid]="childrensDetails.controls[i].get('childState')?.invalid && (childrensDetails.controls[i].get('childState')?.dirty || childrensDetails.controls[i].get('childState')?.touched)">
+                                <option value="">Select state...</option>
+                                <option *ngFor="let state of childStates" [value]="state.id">{{state.name}}</option>
+                              </select> -->
+                              <p-dropdown [disabled]="disableChildFlag[i]" [options]="childStates" [(ngModel)]="childStateName" optionLabel="name"
+                                (onChange)="onChangeChildState($event)" formControlName="childState"
+                                placeholder="Select State" [showClear]="true" [editable]="true" autoWidth="false" [style]="{'width':'100%'}"
+                                [class.valid]="childrensDetails.controls[i].get('childState')?.valid &&childrensDetails.controls[i].get('childState')?.dirty||childrensDetails.controls[i].get('childState')?.touched"
+                                [class.invalid]="childrensDetails.controls[i].get('childState')?.invalid && (childrensDetails.controls[i].get('childState')?.dirty || childrensDetails.controls[i].get('childState')?.touched)">
+                              </p-dropdown>
+                            </div>
+                          </div>
+                          <div class="col-lg-3">
+                            <div class="form-group">
+                              <label class="form-control-label" for="input-childCity">City</label><br>
+                              <!-- <select  formControlName="childCity" class="form-control"
+                                [class.valid]="childrensDetails.controls[i].get('childCity')?.valid &&childrensDetails.controls[i].get('childCity')?.dirty||childrensDetails.controls[i].get('childCity')?.touched"
+                                [class.invalid]="childrensDetails.controls[i].get('childCity')?.invalid && (childrensDetails.controls[i].get('childCity')?.dirty || childrensDetails.controls[i].get('childCity')?.touched)">
+                                <option value="">Select city...</option>
+                                <option *ngFor="let city of childCities">{{city.name}}</option>
+                              </select> -->
+                              <p-dropdown [disabled]="disableChildFlag[i]" [options]="childCities" [(ngModel)]="childCityName" optionLabel="name"
+                                formControlName="childCity" 
+                                placeholder="Select City"
+                                 [editable]="true" 
+                                 [showClear]="true" 
+                                 autoWidth="false" 
+                                 [style]="{'width':'100%'}"
+                                [class.valid]="childrensDetails.controls[i].get('childCity')?.valid &&childrensDetails.controls[i].get('childCity')?.dirty||childrensDetails.controls[i].get('childCity')?.touched"
+                                [class.invalid]="childrensDetails.controls[i].get('childCity')?.invalid && (childrensDetails.controls[i].get('childCity')?.dirty || childrensDetails.controls[i].get('childCity')?.touched)">
+                              </p-dropdown>
+                            </div>
+                          </div>
+                          <div class="col-lg-3">
+                            <div class="form-group">
+                              <label class="form-control-label" for="input-childDOB">DOB</label>
+                              <input type="date" id="input-childDOB" formControlName="childDOB" class="form-control"
+                                placeholder="DOB"
+                                [class.valid]="childrensDetails.controls[i].get('childDOB')?.valid &&childrensDetails.controls[i].get('childDOB')?.dirty||childrensDetails.controls[i].get('childDOB')?.touched"
+                                [class.invalid]="childrensDetails.controls[i].get('childDOB')?.invalid && (childrensDetails.controls[i].get('childDOB')?.dirty || childrensDetails.controls[i].get('childDOB')?.touched)">
+                            </div>
+                          </div>
+                        </div>
+                        <button style="float: right;" class="btn bg-gradient-danger"
+                          (click)="removeChild(i)">Remove</button>
+                      </div>
+                      <br>
+
+                      <hr class="my-4" />
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+
+              <!-- <div *ngIf="paypalSubmitted" class="row justify-content-center">
+                <div class="col-lg-6 col-md-8">
+                  <div class="card bg-secondary shadow border-0">
+                    <div class="card-body px-lg-5 py-lg-5">
+                      <div class="text-center text-muted mb-4">
+                        <div class="form-group">
+                          <div class="input-group input-group-alternative">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                            </div>
+                            <input class="form-control" formControlName="password" placeholder="Password"
+                              type="password">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+              <br>
+              <div  style="text-align: center;" [hidden]="signUpForm.invalid">
+                <!-- <ngx-paypal [config]="payPalConfig"></ngx-paypal> -->
+                <div   #paypalRef></div>
+                <!-- <button [disabled]="signUpForm.invalid" type="submit" style="width: 20%;float: right;"
+                class="btn btn-info">Save profile</button> -->
+              </div>
+              
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<p-toast></p-toast>
+<p-toast position="bottom-center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+  <ng-template let-message pTemplate="message">
+    <div class="p-flex p-flex-column" style="flex: 1">
+      <div class="p-text-center">
+        <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+        <h4>{{message.summary}}</h4>
+        <p>{{message.detail}}</p>
+      </div>
+      <div class="p-grid p-fluid">
+        <div class="p-col-6">
+          <button type="button" pButton (click)="onConfirm()" label="Yes" class="p-button-success"></button>
+        </div>
+        <div class="p-col-6">
+          <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-toast>
+<ngo-loading-spinner></ngo-loading-spinner>

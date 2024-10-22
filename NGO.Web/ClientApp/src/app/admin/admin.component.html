@@ -1,0 +1,214 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+
+</div>
+<!-- Page content -->
+<br>
+<br>
+
+<div class="container-fluid mt" style="width: 80%;">
+  <div id="block_container">
+    <div id="bloc1">
+      <p-card>
+        <p-dropdown [options]="expiresIn" (onChange)="expireFilter($event)" optionLabel="name" placeholder="Expires In"
+          [showClear]="true" autoWidth="false" [style]="{'width':'20%','text-align':'center'}">
+        </p-dropdown>&nbsp;&nbsp;
+        <p-button (click)="massPaymentRem()" icon="pi pi-external" label="Mass Payment Reminder">
+        </p-button>
+      </p-card>
+    </div>
+  </div>
+  <p-chart type="bar" (onDataSelect)="selectData($event)" [data]="multiAxisData" [options]="multiAxisOptions"></p-chart>
+</div>
+<br>
+<br>
+<br>
+<br><br>
+<br>
+<br>
+
+<div class="container-fluid mt--7">
+
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <h3 class="mb-0"> </h3>
+          <br>
+          <p-table #dt1 [value]="chartBool?filteredChartDetails:userDetail" (onFilter)="onFilter($event, dt1)"
+            dataKey="id" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+            [loading]="loading" styleClass="p-datatable-customers p-datatable-gridlines" [paginator]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [globalFilterFields]="['firstName','homeTown','city','state','orgName.name']">
+            <ng-template pTemplate="caption">
+              <div class="flex">
+                <button pButton label="Reset Filter" class="p-button-outlined" icon="pi pi-filter-slash"
+                  (click)="clear(dt1)"></button>
+                <!-- <span class="p-input-icon-left ml-auto">
+                      <i class="pi pi-search"></i>
+                      <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
+                  </span> -->
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Name
+                    <p-columnFilter type="text" field="firstName" display="menu"></p-columnFilter>
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    Home Town
+                    <p-columnFilter type="text" field="homeTown" display="menu"></p-columnFilter>
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    City
+                    <p-columnFilter type="text" field="city" display="menu"></p-columnFilter>
+                  </div>
+                </th>
+                <th>
+                  <div class="p-d-flex p-jc-between p-ai-center">
+                    State
+                    <p-columnFilter type="text" field="state" display="menu"></p-columnFilter>
+                  </div>
+                </th>
+                <th>
+                  <div class="flex justify-content-center align-items-center">
+                    Oganization
+                    <p-columnFilter field="orgName" matchMode="in" display="menu" [showMatchModes]="false"
+                      [showOperator]="false" [showAddButton]="false">
+                      <ng-template pTemplate="header">
+                        <div class="px-3 pt-3 pb-0">
+                          <span class="font-bold"> Oganization Picker</span>
+                        </div>
+                      </ng-template>
+                      <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                        <p-multiSelect [ngModel]="value" [options]="organizationData" placeholder="Any"
+                          (onChange)="filter($event.value)" optionLabel="name">
+                          <ng-template let-option pTemplate="item">
+                            <div class="p-multiselect-representative-option">
+                              <!-- <img [alt]="option.label" src="assets/showcase/images/demo/avatar/{{option.image}}" width="32" style="vertical-align: middle" /> -->
+                              <span class="ml-1">{{option.name}}</span>
+                            </div>
+                          </ng-template>
+                        </p-multiSelect>
+                      </ng-template>
+                    </p-columnFilter>
+                  </div>
+                </th>
+                <th>Action</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-customer>
+              <tr>
+                <td>
+                  <div class="b" title="{{customer.firstName}}">{{customer.firstName}}</div>
+                </td>
+                <td>
+                  <span class="image-text">{{customer.homeTown}}</span>
+                </td>
+                <td>
+                  <span class="image-text">{{customer.city}}</span>
+                </td>
+                <td>
+                  <span class="image-text">{{customer.state}}</span>
+                </td>
+                <td>
+                  <span class="image-text">{{customer.orgName.name}}</span>
+                </td>
+                <td style="width: 550px;">
+                  <p-button pRipple label="Payment Reminder" class="p-button-raised p-button-info"
+                    (onClick)="paymentReminder(customer.userId)"></p-button>
+                  <p-button (click)="getPaymentDetails(customer.userId)" icon="pi pi-external-link"
+                    label="Reminder List"></p-button>
+                  <p-button (click)="setOrgChapter(customer.userId)" icon="pi pi-external" label="Set Org Chapter">
+                  </p-button>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="7">No customers found.</td>
+              </tr>
+
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<p-toast></p-toast>
+<p-toast position="bottom-center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+  <ng-template let-message pTemplate="message">
+    <div class="p-flex p-flex-column" style="flex: 1">
+      <div class="p-text-center">
+        <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+        <h4>{{message.summary}}</h4>
+        <p>{{message.detail}}</p>
+      </div>
+      <div class="p-grid p-fluid">
+        <div class="p-col-6">
+          <button type="button" pButton (click)="onConfirm()" label="Yes" class="p-button-success"></button>
+        </div>
+        <div class="p-col-6">
+          <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-toast>
+
+
+<p-dialog header="Reminder List" [(visible)]="displayBasic2" [style]="{width: '50vw'}" [baseZIndex]="10000">
+  <div class="container-fluid mt--7">
+    <!-- Table -->
+    <!-- Dark table -->
+    <div class="row mt-5">
+      <div class="col">
+        <div class="card bg-default shadow">
+          <div class="card-header bg-transparent border-0">
+            <!-- <h3 class="text-white mb-0">{{this.userId.name}} Details</h3> -->
+          </div>
+          <div class="table-responsive">
+            <table class="table align-items-center table-dark table-flush">
+              <thead class="thead-white">
+                <tr>
+                  <th scope="col" style="text-align: center;">Reminder Last Dates</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of paymentDetails" style="text-align: center;">
+                  <td>
+                    {{item.paymentDate}}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>
+<p-dialog header="Set Organization Chapter" [(visible)]="displayBasic" [style]="{width: '50vw',height:'25vw'}"
+  [baseZIndex]="10000">
+  <div style=" display: inline-block;">
+    <span style="margin: 10px 10px 0 0; padding: 5px 10px" class="p-float-label">
+      <input type="text" placeholder="Member ID" pInputText disabled [(ngModel)]="memberId"> &nbsp;&nbsp; &nbsp;&nbsp;
+      <p-dropdown [options]="chapterData" [(ngModel)]="selectedChapterData" #dropDownThing placeholder="Chapter ID"
+        optionLabel="name" [showClear]="true"></p-dropdown>&nbsp;&nbsp; &nbsp;&nbsp;
+      <p-dropdown [options]="organizationData" [(ngModel)]="selectedOrganizationData" #dropDownThing1
+        placeholder="Organization Name" optionLabel="name" [showClear]="true"></p-dropdown>
+    </span>
+    <p-button (click)="saveMember()" [style]="{float: 'right',position:'absolute',right:'12px',bottom:'12px'}"
+      icon="pi pi-external-link" label="Save">
+    </p-button>
+  </div>
+</p-dialog>
+<ngo-loading-spinner></ngo-loading-spinner>

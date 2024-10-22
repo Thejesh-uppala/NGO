@@ -1,0 +1,86 @@
+<div *ngIf="!showRegistrationForm" class="header bg-gradient-danger py-7 py-lg-8">
+  <div class="container">
+    <div class="header-body text-center mb-7">
+      <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-6">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="separator separator-bottom separator-skew zindex-100">
+    <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
+    </svg>
+  </div>
+</div>
+<div *ngIf="!showRegistrationForm" class="container mt--8 pb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8">
+      <div class="card bg-secondary shadow border-0">
+        <div class="card-header bg-transparent pb-5">
+          <div class="text-muted text-center mt-2 mb-4" style="font-size: large;"> <b>Welcome to NGO</b></div>
+        </div>
+        <div class="card-body px-lg-5 py-lg-5">
+          <div class="text-center text-muted mb-4">
+
+          </div>
+          <form [formGroup]="registrationForm" (ngSubmit)="signUp()">
+            <div class="form-group">
+              <div class="input-group ">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                </div>
+                <input class="form-control" formControlName="username" placeholder="Name" type="text"
+                  [class.valid]="registrationForm.controls['username'].valid && (registrationForm.controls['username'].dirty || registrationForm.controls['username'].touched)"
+                  [class.invalid]=" registrationForm.controls['username'].invalid && (registrationForm.controls['username'].dirty || registrationForm.controls['username'].touched)">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group ">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                </div>
+                <input class="form-control" formControlName="email" placeholder="Email" [pattern]="emailPattern" type="email"
+                  [class.valid]="registrationForm.controls['email'].valid && (registrationForm.controls['email'].dirty || registrationForm.controls['email'].touched)"
+                  [class.invalid]=" registrationForm.controls['email'].invalid && (registrationForm.controls['email'].dirty || registrationForm.controls['email'].touched)">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group ">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                </div>
+                <input class="form-control" formControlName="phNumber" placeholder="Phone Number" type="text"
+                  [class.valid]="registrationForm.controls['phNumber'].valid && (registrationForm.controls['phNumber'].dirty || registrationForm.controls['phNumber'].touched)"
+                  [class.invalid]=" registrationForm.controls['phNumber'].invalid && (registrationForm.controls['phNumber'].dirty || registrationForm.controls['phNumber'].touched)">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                </div>
+                <input class="form-control" formControlName="password" placeholder="Password" type="password"
+                  [class.valid]="registrationForm.controls['password'].valid && (registrationForm.controls['password'].dirty || registrationForm.controls['password'].touched)"
+                  [class.invalid]=" registrationForm.controls['password'].invalid && (registrationForm.controls['password'].dirty || registrationForm.controls['password'].touched)">
+              </div>
+            </div>
+            <div class="text-right">
+              <button style="float: right;" [disabled]="registrationForm.invalid" type="submit"
+                class="btn btn-primary mt-4">Register
+                Details</button>
+              <button [routerLink]="['/login']" style="float: left;" type="submit" class="btn btn-primary mt-4">Back
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-registration *ngIf="showRegistrationForm" [display]="showRegistrationForm" [email]="email" [phNumber]="phNumber"
+  [password]="password" [userName]="userName">
+
+</app-registration>
+<ngo-loading-spinner></ngo-loading-spinner>

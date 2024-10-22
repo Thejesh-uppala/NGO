@@ -1,0 +1,87 @@
+1/6/2022 09:59:41	This log contains information about the import schema operation into project 'NGO.Database' on computer 'DESKTOP-STVUK5N' by user 'Aykan'.
+1/6/2022 09:59:41	Import of database schema has started.
+1/6/2022 10:00:00	Gathering database credentials
+1/6/2022 10:00:00	Gathering database options
+1/6/2022 10:00:00	Gathering generic database scoped configuration option
+1/6/2022 10:00:00	Gathering users
+1/6/2022 10:00:00	Gathering roles
+1/6/2022 10:00:00	Gathering application roles
+1/6/2022 10:00:00	Gathering role memberships
+1/6/2022 10:00:00	Gathering filegroups
+1/6/2022 10:00:00	Gathering full-text catalogs
+1/6/2022 10:00:00	Gathering assemblies
+1/6/2022 10:00:00	Gathering certificates
+1/6/2022 10:00:00	Gathering asymmetric keys
+1/6/2022 10:00:00	Gathering symmetric keys
+1/6/2022 10:00:00	Gathering encrypted symmetric keys
+1/6/2022 10:00:00	Gathering schemas
+1/6/2022 10:00:00	Gathering XML schema collections
+1/6/2022 10:00:00	Gathering user-defined data types
+1/6/2022 10:00:00	Gathering user-defined types
+1/6/2022 10:00:00	Gathering table types
+1/6/2022 10:00:00	Gathering unique keys for table types
+1/6/2022 10:00:00	Gathering primary keys for table types
+1/6/2022 10:00:00	Gathering indexes for table types
+1/6/2022 10:00:13	Gathering check constraints for table types
+1/6/2022 10:00:13	Gathering default constraints for table types
+1/6/2022 10:00:13	Gathering partition functions
+1/6/2022 10:00:13	Gathering partition schemes
+1/6/2022 10:00:13	Gathering functions
+1/6/2022 10:00:13	Gathering encrypted functions
+1/6/2022 10:00:13	Gathering aggregates
+1/6/2022 10:00:13	Gathering procedures
+1/6/2022 10:00:38	Gathering encrypted procedures
+1/6/2022 10:00:38	Gathering tables
+1/6/2022 10:01:03	Gathering primary keys
+1/6/2022 10:01:03	Gathering unique constraints
+1/6/2022 10:01:03	Gathering foreign keys
+1/6/2022 10:01:03	Gathering default constraints
+1/6/2022 10:01:03	Gathering check constraints
+1/6/2022 10:01:03	Gathering views
+1/6/2022 10:01:03	Gathering encrypted views
+1/6/2022 10:01:03	Gathering indexes
+1/6/2022 10:01:03	Gathering statistics
+1/6/2022 10:01:03	Gathering full-text index stoplists
+1/6/2022 10:01:03	Gathering search property lists
+1/6/2022 10:01:03	Gathering search properties
+1/6/2022 10:01:03	Gathering full-text indexes
+1/6/2022 10:01:03	Gathering column store indexes
+1/6/2022 10:01:03	Gathering spatial indexes
+1/6/2022 10:01:03	Gathering XML indexes
+1/6/2022 10:01:03	Gathering Selective XML indexes
+1/6/2022 10:01:03	Gathering encrypted triggers
+1/6/2022 10:01:03	Gathering triggers
+1/6/2022 10:01:03	Gathering encrypted and clr ddl triggers
+1/6/2022 10:01:52	Gathering ddl triggers
+1/6/2022 10:01:52	Creating edge constraints
+1/6/2022 10:01:52	Gathering synonyms
+1/6/2022 10:01:52	Gathering defaults
+1/6/2022 10:01:52	Gathering data constraint uddt bindings
+1/6/2022 10:01:52	Gathering rules
+1/6/2022 10:01:52	Gathering data constraint uddt bindings
+1/6/2022 10:01:52	Gathering message types
+1/6/2022 10:01:52	Gathering queues
+1/6/2022 10:01:52	Gathering contracts
+1/6/2022 10:01:52	Gathering services
+1/6/2022 10:01:52	Gathering event notifications
+1/6/2022 10:01:52	Gathering remote service bindings
+1/6/2022 10:01:52	Gathering broker priorities
+1/6/2022 10:01:52	Gathering signatures
+1/6/2022 10:01:52	Gathering data compression options
+1/6/2022 10:01:52	Gathering sequence types
+1/6/2022 10:01:52	Gathering security policies
+1/6/2022 10:01:52	Gather column encryption keys
+1/6/2022 10:01:52	Gathering column master keys
+1/6/2022 10:01:52	Gathering external data sources
+1/6/2022 10:01:52	Gathering external file formats
+1/6/2022 10:01:52	Gathering external tables
+1/6/2022 10:01:52	Gathering extended properties
+1/6/2022 10:01:53	Gathering assemblies
+1/6/2022 10:01:55	Gathering credentials
+1/6/2022 10:01:55	Gathering logins
+1/6/2022 10:01:55	Gathering server audits
+1/6/2022 10:01:57	Scanning project for duplicate elements
+1/6/2022 10:01:57	Finished duplicate element processing
+1/6/2022 10:01:58	Finished importing database.
+1/6/2022 10:01:58	A summary of the import was saved to the following location: D:\Aykan\NGO New\NGO\NGO.Database\Import Schema Logs\NGO.Database_20220106042941.log
+1/6/2022 10:01:58	Click Finish to continue...

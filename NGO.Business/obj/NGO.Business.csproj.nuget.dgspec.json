@@ -1,0 +1,377 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/ivoyant/Projects/Community/NGO/NGO.Business/NGO.Business.csproj": {}
+  },
+  "projects": {
+    "/Users/ivoyant/Projects/Community/NGO/NGO.Business/NGO.Business.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/ivoyant/Projects/Community/NGO/NGO.Business/NGO.Business.csproj",
+        "projectName": "NGO.Business",
+        "projectPath": "/Users/ivoyant/Projects/Community/NGO/NGO.Business/NGO.Business.csproj",
+        "packagesPath": "/Users/ivoyant/.nuget/packages/",
+        "outputPath": "/Users/ivoyant/Projects/Community/NGO/NGO.Business/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/ivoyant/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {},
+          "https://packages.paycor.com/nuget/NugetV2": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "/Users/ivoyant/Projects/Community/NGO/NGO.Model/NGO.Model.csproj": {
+                "projectPath": "/Users/ivoyant/Projects/Community/NGO/NGO.Model/NGO.Model.csproj"
+              },
+              "/Users/ivoyant/Projects/Community/NGO/NGO.Repository/NGO.Repository.csproj": {
+                "projectPath": "/Users/ivoyant/Projects/Community/NGO/NGO.Repository/NGO.Repository.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[11.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.31, 6.0.31]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.31, 6.0.31]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.317/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/ivoyant/Projects/Community/NGO/NGO.Common/NGO.Common.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/ivoyant/Projects/Community/NGO/NGO.Common/NGO.Common.csproj",
+        "projectName": "NGO.Common",
+        "projectPath": "/Users/ivoyant/Projects/Community/NGO/NGO.Common/NGO.Common.csproj",
+        "packagesPath": "/Users/ivoyant/.nuget/packages/",
+        "outputPath": "/Users/ivoyant/Projects/Community/NGO/NGO.Common/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/ivoyant/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {},
+          "https://packages.paycor.com/nuget/NugetV2": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.31, 6.0.31]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.31, 6.0.31]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.317/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/ivoyant/Projects/Community/NGO/NGO.Data/NGO.Data.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/ivoyant/Projects/Community/NGO/NGO.Data/NGO.Data.csproj",
+        "projectName": "NGO.Data",
+        "projectPath": "/Users/ivoyant/Projects/Community/NGO/NGO.Data/NGO.Data.csproj",
+        "packagesPath": "/Users/ivoyant/.nuget/packages/",
+        "outputPath": "/Users/ivoyant/Projects/Community/NGO/NGO.Data/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/ivoyant/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {},
+          "https://packages.paycor.com/nuget/NugetV2": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "/Users/ivoyant/Projects/Community/NGO/NGO.Common/NGO.Common.csproj": {
+                "projectPath": "/Users/ivoyant/Projects/Community/NGO/NGO.Common/NGO.Common.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[6.0.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.31, 6.0.31]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.31, 6.0.31]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.317/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/ivoyant/Projects/Community/NGO/NGO.Model/NGO.Model.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/ivoyant/Projects/Community/NGO/NGO.Model/NGO.Model.csproj",
+        "projectName": "NGO.Model",
+        "projectPath": "/Users/ivoyant/Projects/Community/NGO/NGO.Model/NGO.Model.csproj",
+        "packagesPath": "/Users/ivoyant/.nuget/packages/",
+        "outputPath": "/Users/ivoyant/Projects/Community/NGO/NGO.Model/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/ivoyant/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {},
+          "https://packages.paycor.com/nuget/NugetV2": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Http.Features": {
+              "target": "Package",
+              "version": "[5.0.13, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Core": {
+              "target": "Package",
+              "version": "[2.2.5, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.31, 6.0.31]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.31, 6.0.31]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.317/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/ivoyant/Projects/Community/NGO/NGO.Repository/NGO.Repository.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/ivoyant/Projects/Community/NGO/NGO.Repository/NGO.Repository.csproj",
+        "projectName": "NGO.Repository",
+        "projectPath": "/Users/ivoyant/Projects/Community/NGO/NGO.Repository/NGO.Repository.csproj",
+        "packagesPath": "/Users/ivoyant/.nuget/packages/",
+        "outputPath": "/Users/ivoyant/Projects/Community/NGO/NGO.Repository/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/ivoyant/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {},
+          "https://packages.paycor.com/nuget/NugetV2": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "/Users/ivoyant/Projects/Community/NGO/NGO.Common/NGO.Common.csproj": {
+                "projectPath": "/Users/ivoyant/Projects/Community/NGO/NGO.Common/NGO.Common.csproj"
+              },
+              "/Users/ivoyant/Projects/Community/NGO/NGO.Data/NGO.Data.csproj": {
+                "projectPath": "/Users/ivoyant/Projects/Community/NGO/NGO.Data/NGO.Data.csproj"
+              },
+              "/Users/ivoyant/Projects/Community/NGO/NGO.Model/NGO.Model.csproj": {
+                "projectPath": "/Users/ivoyant/Projects/Community/NGO/NGO.Model/NGO.Model.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.31, 6.0.31]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.31, 6.0.31]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.317/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

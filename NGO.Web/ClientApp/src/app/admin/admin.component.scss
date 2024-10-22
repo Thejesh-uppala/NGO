@@ -1,0 +1,15 @@
+#block_container
+{
+    text-align:center;
+    width: "20px";
+}
+#bloc1, #bloc2
+{
+    display:inline;
+}
+div.b{
+    white-space: nowrap; 
+    width: 50px; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+  }

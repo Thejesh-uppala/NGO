@@ -1,0 +1,40 @@
+.spinner-bg {
+  z-index: 10000;
+  height: 100vh;
+  width: 100vw;
+  /*background: #e6e6e6;*/
+  background: #a1999991;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+
+.spinner-bg .spinner-container {
+  align-self: center;
+}
+.spinner-bg .spinner-container .spinner-image {
+  background: #fff url("../../../../assets/img/Iphone-spinner-2.gif")
+    center;
+}
+
+/* .spinner-bg .spinner-container .spinner {
+  border: 14px solid #f3f3f3;
+  border-top: 14px solid #674D87;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+} */
+
+.spinner-bg .spinner-container .spinner-image {
+  width: 100px;
+  height: 100px;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+}
+
+.hidden {
+  display: none;
+}

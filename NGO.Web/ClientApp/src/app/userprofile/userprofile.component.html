@@ -1,0 +1,593 @@
+<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
+  style="min-height: 600px; background-image: url(assets/img/brand/profileG.png); background-size: cover; background-position: center top;">
+  <!-- Mask -->
+
+  <span class="mask bg-gradient-danger opacity-8"
+    style="color: white;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Organization
+    ID:{{userDetail.orgId}}&nbsp;&nbsp;Member ID:{{userDetail.memberId}}</span>
+  <!-- Header container -->
+
+
+  <div class="container-fluid d-flex align-items-center">
+    <div class="row">
+      <div class="col-lg-3 order-lg-6">
+        <h1 class="display-2 text-white">Hello {{currentUser.name}}</h1>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+      <div class="card card-profile shadow">
+        <div class="row justify-content-center">
+          <div class="col-lg-3 order-lg-2">
+            <div class="card-profile-image">
+              <a href="javascript:void(0)">
+                <img [src]='image' style="height: 170px" class="rounded-circle">
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+          <div class="d-flex justify-content-between">
+            <!-- <a href="javascript:void(0)" class="btn btn-sm btn-info mr-4">Connect</a> -->
+            <!-- <a href="javascript:void(0)" class="btn btn-sm btn-default float-right">Message</a> -->
+          </div>
+        </div>
+        <div class="card-body pt-0 pt-md-4">
+          <div class="row">
+            <div class="col">
+              <div class="card-profile-stats d-flex justify-content-center mt-md-5">
+                <div>
+                  <!-- <span class="heading">22</span> -->
+                  <!-- <span class="description">Friends</span> -->
+                </div>
+                <div>
+                  <!-- <span class="heading">10</span> -->
+                  <!-- <span class="description">Photos</span> -->
+                </div>
+                <div>
+                  <!-- <span class="heading">89</span>
+                  <span class="description">Comments</span> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-center">
+            <h3>
+              {{currentUser.name}}<span class="font-weight-light"></span>
+            </h3>
+            <div class="h5 font-weight-300">
+              <i class="ni location_pin mr-2"></i>{{this.userDetail.country}}
+            </div>
+            <div class="h5 mt-4">
+              <i class="ni business_briefcase-24 mr-2"></i>{{this.userDetail.state}}
+            </div>
+            <div>
+              <i class="ni education_hat mr-2"></i>{{this.userDetail.city}}
+            </div>
+            <hr class="my-4" />
+            <!-- <p>Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and records all
+              of his own music.</p> -->
+            <!-- <a href="javascript:void(0)">Show more</a> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-8 order-xl-1">
+      <div class="card bg-secondary shadow">
+        <div class="card-header bg-white border-0">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">My account</h3>
+            </div>
+            <div class="col-4 text-right">
+              <!-- <a href="#!" class="btn btn-sm btn-primary">Settings</a> -->
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="profileForm" (ngSubmit)="updateDetails()">
+            <h6 class="heading-small text-muted mb-4">Primary Personal information</h6>
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-firstName">First Name</label>
+                    <input type="text" id="input-username" formControlName="firstName" class="form-control "
+                      placeholder="First Name"
+                      [class.valid]="profileForm.controls['firstName'].valid && (profileForm.controls['firstName'].dirty || profileForm.controls['firstName'].touched)"
+                      [class.invalid]="profileForm.controls['firstName'].invalid && (profileForm.controls['firstName'].dirty || profileForm.controls['firstName'].touched)">
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-first-name">Last name</label>
+                    <input type="text" id="input-first-name" formControlName="lastName" class="form-control "
+                      placeholder="Last name"
+                      [class.valid]="profileForm.controls['lastName'].valid && (profileForm.controls['lastName'].dirty || profileForm.controls['lastName'].touched)"
+                      [class.invalid]="profileForm.controls['lastName'].invalid && (profileForm.controls['lastName'].dirty || profileForm.controls['lastName'].touched)">
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-familyName">Family name</label>
+                    <input type="text" id="familyName" formControlName="familyName" class="form-control"
+                      placeholder="Family name"
+                      [class.valid]="profileForm.controls['familyName'].valid && (profileForm.controls['familyName'].dirty || profileForm.controls['familyName'].touched)"
+                      [class.invalid]="profileForm.controls['familyName'].invalid && (profileForm.controls['familyName'].dirty || profileForm.controls['familyName'].touched)">
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-email">Email address</label>
+                    <input type="email" id="input-email" formControlName="emailAddress" class="form-control "
+                      placeholder="Email address"
+                      [class.valid]="profileForm.controls['emailAddress'].valid && (profileForm.controls['emailAddress'].dirty || profileForm.controls['emailAddress'].touched)"
+                      [class.invalid]="profileForm.controls['emailAddress'].invalid && (profileForm.controls['emailAddress'].dirty || profileForm.controls['emailAddress'].touched)">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-last-name">Phone Number</label>
+                    <input type="text" id="input-last-name" formControlName="phoneNumber" class="form-control "
+                      placeholder="Phone Number"
+                      [class.valid]="profileForm.controls['phoneNumber'].valid && (profileForm.controls['phoneNumber'].dirty || profileForm.controls['phoneNumber'].touched)"
+                      [class.invalid]="profileForm.controls['phoneNumber'].invalid && (profileForm.controls['phoneNumber'].dirty || profileForm.controls['phoneNumber'].touched)">
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-last-name">DOB</label>
+                    <input type="date" id="input-last-name" formControlName="dOB" class="form-control "
+                      placeholder="DOB"
+                      [(ngModel)]="dateOfBirth"
+                      [class.valid]="profileForm.controls['dOB'].valid && (profileForm.controls['dOB'].dirty || profileForm.controls['dOB'].touched)"
+                      [class.invalid]="profileForm.controls['dOB'].invalid && (profileForm.controls['dOB'].dirty || profileForm.controls['dOB'].touched)">
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-country">Postal Code</label>
+                    <input type="number" id="input-country" formControlName="postalCode" class="form-control"
+                      placeholder="Postal Code"
+                      [class.valid]="profileForm.controls['postalCode'].valid && (profileForm.controls['postalCode'].dirty || profileForm.controls['postalCode'].touched)"
+                      [class.invalid]="profileForm.controls['postalCode'].invalid && (profileForm.controls['postalCode'].dirty || profileForm.controls['postalCode'].touched)">
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                <div class="form-group">
+                  <label class="form-control-label" for="input-whatsAppNumber">whatsApp/Telegram?</label>
+                  <select formControlName="whatsAppNumber" class="form-control" (change)="onChangeState($event)"
+                    [class.valid]="profileForm.controls['whatsAppNumber'].valid && (profileForm.controls['whatsAppNumber'].dirty || profileForm.controls['whatsAppNumber'].touched)"
+                    [class.invalid]="profileForm.controls['whatsAppNumber'].invalid && (profileForm.controls['whatsAppNumber'].dirty || profileForm.controls['whatsAppNumber'].touched)">
+                    <option value="">Add in whatsApp/Telegram?</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+              </div>
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-country">Country</label>
+                    <!-- <select formControlName="country" class="form-control" (change)="onChangeCountry($event)"
+                    [class.valid]="profileForm.controls['country'].valid && (profileForm.controls['country'].dirty || profileForm.controls['country'].touched)"
+                    [class.invalid]="profileForm.controls['country'].invalid && (profileForm.controls['country'].dirty || profileForm.controls['country'].touched)">
+                      <option value="">Select country...</option>
+                      <option *ngFor="let country of countries"[value]="country.id" >{{country.name}}</option>
+                    </select> -->
+                    <p-dropdown [options]="countries" optionLabel="name" (onChange)="onChangeCountry($event)"
+                      formControlName="country" placeholder="Select Country" [showClear]="true" [editable]="true" autoWidth="false"
+                      [style]="{'width':'100%'}"
+                      [class.valid]="profileForm.controls['country'].valid && (profileForm.controls['country'].dirty || profileForm.controls['country'].touched)"
+                      [class.invalid]="profileForm.controls['country'].invalid && (profileForm.controls['country'].dirty || profileForm.controls['country'].touched)">
+                    </p-dropdown>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-city">State</label>
+                    <!-- <select formControlName="state" class="form-control" (change)="onChangeState($event)"
+                    [class.valid]="profileForm.controls['state'].valid && (profileForm.controls['state'].dirty || profileForm.controls['state'].touched)"
+                    [class.invalid]="profileForm.controls['state'].invalid && (profileForm.controls['state'].dirty || profileForm.controls['state'].touched)">
+                      <option value="">Select state...</option>
+                      <option *ngFor="let state of states" [value]="state.id" >{{state.name}}</option>
+                    </select> -->
+                    <p-dropdown [options]="states" optionLabel="name" (onChange)="onChangeState($event)"
+                      formControlName="state" placeholder="Select state" [showClear]="true" [editable]="true" autoWidth="false"
+                      [style]="{'width':'100%'}"
+                      [class.valid]="profileForm.controls['state'].valid && (profileForm.controls['state'].dirty || profileForm.controls['state'].touched)"
+                      [class.invalid]="profileForm.controls['state'].invalid && (profileForm.controls['state'].dirty || profileForm.controls['state'].touched)">
+                    </p-dropdown>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-city">City</label>
+                    <!-- <select formControlName="city" class="form-control" 
+                    [class.valid]="profileForm.controls['city'].valid && (profileForm.controls['city'].dirty || profileForm.controls['city'].touched)"
+                    [class.invalid]="profileForm.controls['city'].invalid && (profileForm.controls['city'].dirty || profileForm.controls['city'].touched)">
+                      <option value="">Select city...</option>
+                      <option *ngFor="let city of cities" >{{city.name}}</option>
+                    </select> -->
+                    <p-dropdown [options]="cities" optionLabel="name" (onChange)="onChangeCity($event)"
+                      formControlName="city" placeholder="Select city" [showClear]="true"  [editable]="true"autoWidth="false"
+                      [style]="{'width':'100%'}"
+                      [class.valid]="profileForm.controls['city'].valid && (profileForm.controls['city'].dirty || profileForm.controls['city'].touched)"
+                      [class.invalid]="profileForm.controls['city'].invalid && (profileForm.controls['city'].dirty || profileForm.controls['city'].touched)">
+                    </p-dropdown>
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-country">Home Town</label>
+                    <input type="text" id="input-country" formControlName="homeTown" class="form-control "
+                      placeholder="Home Town"
+                      [class.valid]="profileForm.controls['homeTown'].valid && (profileForm.controls['homeTown'].dirty || profileForm.controls['homeTown'].touched)"
+                      [class.invalid]="profileForm.controls['homeTown'].invalid && (profileForm.controls['homeTown'].dirty || profileForm.controls['homeTown'].touched)">
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-refference">Reffered By</label>
+                    <input type="text" id="refference" formControlName="refference" class="form-control "
+                      placeholder="Reffered By"
+                      [class.valid]="profileForm.controls['refference'].valid && (profileForm.controls['refference'].dirty || profileForm.controls['refference'].touched)"
+                      [class.invalid]="profileForm.controls['refference'].invalid && (profileForm.controls['refference'].dirty || profileForm.controls['refference'].touched)">
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-address">Address</label>
+                    <input id="input-address" class="form-control " formControlName="address" placeholder="Home Address"
+                      type="text"
+                      [class.valid]="profileForm.controls['address'].valid && (profileForm.controls['address'].dirty || profileForm.controls['address'].touched)"
+                      [class.invalid]="profileForm.controls['address'].invalid && (profileForm.controls['address'].dirty || profileForm.controls['address'].touched)">
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-country">Upload Photo</label>
+                    <input type="file" #imageInput accept="image/*" (change)="processFile($event)"
+                      formControlName="Photo" class="form-control form-control-alternative" placeholder="Upload Photo">
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-reason">Reason</label> <br>
+                    <!-- <select formControlName="reason" class="form-control"
+                      [class.valid]="profileForm.controls['reason'].valid && (profileForm.controls['reason'].dirty || profileForm.controls['reason'].touched)"
+                      [class.invalid]="profileForm.controls['reason'].invalid && (profileForm.controls['reason'].dirty || profileForm.controls['reason'].touched)">
+                      <option value="">Choose Reason</option>
+                      <option value="Annual">Option 1</option>
+                      <option value="Life-Time">Option 2</option>
+                      <option value="Annual">Option 3</option>
+                      <option value="Life-Time">Option 4</option>
+                    </select> -->
+                    <p-dropdown
+                     [options]="reason" 
+                    optionLabel="name" 
+                    formControlName="reason" 
+                    placeholder="Select reason"
+                    [(ngModel)]="selectedReason" 
+                    [showClear]="true" 
+                    autoWidth="false"
+                    [style]="{'width':'100%'}"
+                    [class.valid]="profileForm.controls['reason'].valid && (profileForm.controls['reason'].dirty || profileForm.controls['reason'].touched)"
+                    [class.invalid]="profileForm.controls['reason'].invalid && (profileForm.controls['reason'].dirty || profileForm.controls['reason'].touched)">
+                  </p-dropdown>
+                  </div>
+                </div>
+              </div>
+              <hr class="my-4" />
+              <h6 class="heading-small text-muted mb-4">Spouse Details</h6>
+              <div class="pl-lg-4">
+                <div class="row">
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-spouseFirstName">First Name</label>
+                      <input type="text" id="spouseFirstName" formControlName="spouseFirstName" class="form-control "
+                        placeholder="First Name"
+                        [class.valid]="profileForm.controls['spouseFirstName'].valid && (profileForm.controls['spouseFirstName'].dirty || profileForm.controls['spouseFirstName'].touched)"
+                        [class.invalid]="profileForm.controls['spouseFirstName'].invalid && (profileForm.controls['spouseFirstName'].dirty || profileForm.controls['spouseFirstName'].touched)">
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-spouseEmail">Email address</label>
+                      <input type="email" id="spouseEmail" formControlName="spouseEmail" class="form-control "
+                        placeholder="Email address"
+                        [class.valid]="profileForm.controls['spouseEmail'].valid && (profileForm.controls['spouseEmail'].dirty || profileForm.controls['spouseEmail'].touched)"
+                        [class.invalid]="profileForm.controls['spouseEmail'].invalid && (profileForm.controls['spouseEmail'].dirty || profileForm.controls['spouseEmail'].touched)">
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-spouseLastName">Last name</label>
+                      <input type="text" id="spouseLastName" formControlName="spouseLastName" class="form-control "
+                        placeholder="Last name"
+                        [class.valid]="profileForm.controls['spouseLastName'].valid && (profileForm.controls['spouseLastName'].dirty || profileForm.controls['spouseLastName'].touched)"
+                        [class.invalid]="profileForm.controls['spouseLastName'].invalid && (profileForm.controls['spouseLastName'].dirty || profileForm.controls['spouseLastName'].touched)">
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-spousePhoneNumber">Phone Number</label>
+                      <input type="text" id="spousePhoneNumber" formControlName="spousePhoneNumber"
+                        class="form-control " placeholder="Phone Number"
+                        [class.valid]="profileForm.controls['spousePhoneNumber'].valid && (profileForm.controls['spousePhoneNumber'].dirty || profileForm.controls['spousePhoneNumber'].touched)"
+                        [class.invalid]="profileForm.controls['spousePhoneNumber'].invalid && (profileForm.controls['spousePhoneNumber'].dirty || profileForm.controls['spousePhoneNumber'].touched)">
+                      <small class="text-danger"
+                        *ngIf="f['spousePhoneNumber'].touched && f['spousePhoneNumber'].invalid">
+                        <div *ngIf="f['spousePhoneNumber'].errors?.['pattern']">Please, Enter 10 digit Mobile Number.
+                        </div>
+                      </small>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-2">
+                    <div class="form-group">
+                      <input type="checkbox" (click)="spouseSameAddress($event)">
+                      Same As Primary Address
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-spouseCountry">Country</label>
+                      <!-- <select [attr.disabled]="disableSpouseFlag ? 'disabled' : null"  formControlName="spouseCountry" class="form-control"
+                        (change)="onChangeSpouseCountry($event)"
+                        [class.valid]="profileForm.controls['spouseCountry'].valid && (profileForm.controls['spouseCountry'].dirty || profileForm.controls['spouseCountry'].touched)"
+                        [class.invalid]="profileForm.controls['spouseCountry'].invalid && (profileForm.controls['spouseCountry'].dirty || profileForm.controls['spouseCountry'].touched)">
+                        <option value="">Select country...</option>
+                        <option *ngFor="let country of countries" [value]="country.id">{{country.name}}</option>
+                      </select> -->
+                      <p-dropdown [disabled]="disableSpouseFlag" [options]="countries" [(ngModel)]="countryName"
+                        optionLabel="name" (onChange)="onChangeSpouseCountry($event)" formControlName="spouseCountry"
+                        placeholder="Select Country" [showClear]="true" autoWidth="false" [editable]="true" [style]="{'width':'100%'}"
+                        [class.valid]="profileForm.controls['spouseCountry'].valid && (profileForm.controls['spouseCountry'].dirty || profileForm.controls['spouseCountry'].touched)"
+                        [class.invalid]="profileForm.controls['spouseCountry'].invalid && (profileForm.controls['spouseCountry'].dirty || profileForm.controls['spouseCountry'].touched)">
+                      </p-dropdown>
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-spouseState">State</label>
+                      <!-- <select [attr.disabled]="disableSpouseFlag ? 'disabled' : null" formControlName="spouseState" class="form-control"
+                        (change)="onChangeSpouseState($event)"
+                        [class.valid]="profileForm.controls['spouseState'].valid && (profileForm.controls['spouseState'].dirty || profileForm.controls['spouseState'].touched)"
+                        [class.invalid]="profileForm.controls['spouseState'].invalid && (profileForm.controls['spouseState'].dirty || profileForm.controls['spouseState'].touched)">
+                        <option value="">Select state...</option>
+                        <option *ngFor="let state of spouseStates" [value]="state.id">{{state.name}}</option>
+                      </select> -->
+                      <p-dropdown [disabled]="disableSpouseFlag" [options]="spouseStates" [(ngModel)]="stateName"
+                        optionLabel="name" (onChange)="onChangeSpouseState($event)" formControlName="spouseState"
+                        placeholder="Select State" [showClear]="true" autoWidth="false" [editable]="true" [style]="{'width':'100%'}"
+                        [class.valid]="profileForm.controls['spouseState'].valid && (profileForm.controls['spouseState'].dirty || profileForm.controls['spouseState'].touched)"
+                        [class.invalid]="profileForm.controls['spouseState'].invalid && (profileForm.controls['spouseState'].dirty || profileForm.controls['spouseState'].touched)">
+                      </p-dropdown>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-spouseCity">City</label>
+                      <!-- <select [attr.disabled]="disableSpouseFlag ? 'disabled' : null" formControlName="spouseCity" class="form-control"
+                        [class.valid]="profileForm.controls['spouseCity'].valid && (profileForm.controls['spouseCity'].dirty || profileForm.controls['spouseCity'].touched)"
+                        [class.invalid]="profileForm.controls['spouseCity'].invalid && (profileForm.controls['spouseCity'].dirty || profileForm.controls['spouseCity'].touched)">
+                        <option value="">Select city...</option>
+                        <option *ngFor="let city of spouseCities">{{city.name}}</option>
+                      </select> -->
+                      <p-dropdown [disabled]="disableSpouseFlag" [options]="spouseCities" [(ngModel)]="cityName"
+                        optionLabel="name" formControlName="spouseCity" placeholder="Select City" [showClear]="true" [editable]="true"
+                        autoWidth="false" [style]="{'width':'100%'}"
+                        [class.valid]="profileForm.controls['spouseCity'].valid && (profileForm.controls['spouseCity'].dirty || profileForm.controls['spouseCity'].touched)"
+                        [class.invalid]="profileForm.controls['spouseCity'].invalid && (profileForm.controls['spouseCity'].dirty || profileForm.controls['spouseCity'].touched)">
+                      </p-dropdown>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-spouseDob">DOB</label>
+                      <input type="date" id="spouseDob" formControlName="spouseDob" class="form-control "
+                        placeholder="DOB"
+                        [(ngModel)]="spouseDob"
+                        [class.valid]="profileForm.controls['spouseDob'].valid && (profileForm.controls['spouseDob'].dirty || profileForm.controls['spouseDob'].touched)"
+                        [class.invalid]="profileForm.controls['spouseDob'].invalid && (profileForm.controls['spouseDob'].dirty || profileForm.controls['spouseDob'].touched)">
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-spouseHometown">Home town</label>
+                      <input type="text" id="spouseHometown" formControlName="spouseHometown" class="form-control "
+                        placeholder="Hometown"
+                        [class.valid]="profileForm.controls['spouseHometown'].valid && (profileForm.controls['spouseHometown'].dirty || profileForm.controls['spouseHometown'].touched)"
+                        [class.invalid]="profileForm.controls['spouseHometown'].invalid && (profileForm.controls['spouseHometown'].dirty || profileForm.controls['spouseHometown'].touched)">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr class="my-4" />
+              <p>
+                <button class="btn btn-info" type="button" (click)="addChildrens()">Add Childrens Details</button>
+              </p>
+              <div formArrayName="childrensDetails">
+                <div *ngFor="let skill of childrensDetails.controls; let i=index">
+                  <div [formGroupName]="i">
+                    <div class="pl-lg-4">
+                      <div class="row">
+                        <div class="col-lg-3">
+                          <div class="form-group">
+                            <label class="form-control-label" for="input-childFirstName">First Name</label>
+                            <input type="text" id="childFirstName" formControlName="childFirstName"
+                              class="form-control " placeholder="First Name"
+                              [class.valid]="childrensDetails.controls[i].get('childFirstName')?.valid &&childrensDetails.controls[i].get('childFirstName')?.dirty||childrensDetails.controls[i].get('childFirstName')?.touched"
+                              [class.invalid]="childrensDetails.controls[i].get('childFirstName')?.invalid && (childrensDetails.controls[i].get('childFirstName')?.dirty || childrensDetails.controls[i].get('childFirstName')?.touched)">
+                          </div>
+                        </div>
+                        <div class="col-lg-3">
+                          <div class="form-group">
+                            <label class="form-control-label" for="input-childLastName">Last name</label>
+                            <input type="text" id="input-childLastName" formControlName="childLastName"
+                              class="form-control" placeholder="Last name"
+                              [class.valid]="childrensDetails.controls[i].get('childLastName')?.valid &&childrensDetails.controls[i].get('childLastName')?.dirty||childrensDetails.controls[i].get('childLastName')?.touched"
+                              [class.invalid]="childrensDetails.controls[i].get('childLastName')?.invalid && (childrensDetails.controls[i].get('childLastName')?.dirty || childrensDetails.controls[i].get('childLastName')?.touched)">
+                          </div>
+                        </div>
+                        <div class="col-lg-3">
+                          <div class="form-group">
+                            <label class="form-control-label" for="input-childEmailAddress">Email address</label>
+                            <input type="email" id="childEmailAddress" formControlName="childEmailAddress"
+                              class="form-control" placeholder="Email address"
+                              [class.valid]="childrensDetails.controls[i].get('childEmailAddress')?.valid &&childrensDetails.controls[i].get('childEmailAddress')?.dirty||childrensDetails.controls[i].get('childEmailAddress')?.touched"
+                              [class.invalid]="childrensDetails.controls[i].get('childEmailAddress')?.invalid && (childrensDetails.controls[i].get('childEmailAddress')?.dirty || childrensDetails.controls[i].get('childEmailAddress')?.touched)">
+                          </div>
+                        </div>
+                        <div class="col-lg-3">
+                          <div class="form-group">
+                            <label class="form-control-label" for="input-childPhoneNumber">Phone Number</label>
+                            <input type="text" id="childPhoneNumber" formControlName="childPhoneNumber"
+                              class="form-control " maxlength="10" placeholder="Phone Number"
+                              [class.valid]="childrensDetails.controls[i].get('childPhoneNumber')?.valid &&childrensDetails.controls[i].get('childPhoneNumber')?.dirty||childrensDetails.controls[i].get('childPhoneNumber')?.touched"
+                              [class.invalid]="childrensDetails.controls[i].get('childPhoneNumber')?.invalid && (childrensDetails.controls[i].get('childPhoneNumber')?.dirty || childrensDetails.controls[i].get('childPhoneNumber')?.touched)">
+
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-2">
+                          <div class="form-group">
+                            <input type="checkbox" (click)="childSameAddress($event,i)">
+                            Same As Primary Address
+                          </div>
+                        </div>
+                        <div class="col-lg-3">
+                          <div class="form-group">
+                            <label class="form-control-label" for="input-childCountry">Country</label>
+                            <!-- <select  formControlName="childCountry" class="form-control"
+                              (change)="onChangeChildCountry($event)"
+                              [class.valid]="childrensDetails.controls[i].get('childCountry')?.valid &&childrensDetails.controls[i].get('childCountry')?.dirty||childrensDetails.controls[i].get('childCountry')?.touched"
+                              [class.invalid]="childrensDetails.controls[i].get('childCountry')?.invalid && (childrensDetails.controls[i].get('childCountry')?.dirty || childrensDetails.controls[i].get('childCountry')?.touched)">
+                              <option value="">Select country...</option>
+                              <option *ngFor="let country of countries" [value]="country.id">{{country.name}}</option>
+                            </select> -->
+                            <p-dropdown [disabled]="disableChildFlag[i]" [options]="countries"
+                              [(ngModel)]="childCountryName[i]" optionLabel="name"
+                              (onChange)="onChangeChildCountry($event)" formControlName="childCountry"
+                              placeholder="Select Country" [showClear]="true" [editable]="true" autoWidth="false"
+                              [style]="{'width':'100%'}"
+                              [class.valid]="childrensDetails.controls[i].get('childCountry')?.valid &&childrensDetails.controls[i].get('childCountry')?.dirty||childrensDetails.controls[i].get('childCountry')?.touched"
+                              [class.invalid]="childrensDetails.controls[i].get('childCountry')?.invalid && (childrensDetails.controls[i].get('childCountry')?.dirty || childrensDetails.controls[i].get('childCountry')?.touched)">
+                            </p-dropdown>
+                          </div>
+                        </div>
+                        <div class="col-lg-4">
+                          <div class="form-group">
+                            <label class="form-control-label" for="input-childState">State</label>
+                            <!-- <select  formControlName="childState" class="form-control"
+                            (change)="onChangeChildState($event)"
+                            [class.valid]="childrensDetails.controls[i].get('childState')?.valid &&childrensDetails.controls[i].get('childState')?.dirty||childrensDetails.controls[i].get('childState')?.touched"
+                            [class.invalid]="childrensDetails.controls[i].get('childState')?.invalid && (childrensDetails.controls[i].get('childState')?.dirty || childrensDetails.controls[i].get('childState')?.touched)">
+                            <option value="">Select state...</option>
+                            <option *ngFor="let state of childStates" [value]="state.id">{{state.name}}</option>
+                          </select> -->
+                            <p-dropdown [disabled]="disableChildFlag[i]" [options]="childStates"
+                              [(ngModel)]="childStateName[i]" optionLabel="name" (onChange)="onChangeChildState($event)"
+                              formControlName="childState" placeholder="Select State" [showClear]="true" 
+                              [editable]="true"
+                              autoWidth="false" [style]="{'width':'100%'}"
+                              [class.valid]="childrensDetails.controls[i].get('childState')?.valid &&childrensDetails.controls[i].get('childState')?.dirty||childrensDetails.controls[i].get('childState')?.touched"
+                              [class.invalid]="childrensDetails.controls[i].get('childState')?.invalid && (childrensDetails.controls[i].get('childState')?.dirty || childrensDetails.controls[i].get('childState')?.touched)">
+                            </p-dropdown>
+                          </div>
+                        </div>
+                        <div class="col-lg-3">
+                          <div class="form-group">
+                            <label class="form-control-label" for="input-childCity">City</label>
+                            <!-- <select  formControlName="childCity" class="form-control"
+                              [class.valid]="childrensDetails.controls[i].get('childCity')?.valid &&childrensDetails.controls[i].get('childCity')?.dirty||childrensDetails.controls[i].get('childCity')?.touched"
+                              [class.invalid]="childrensDetails.controls[i].get('childCity')?.invalid && (childrensDetails.controls[i].get('childCity')?.dirty || childrensDetails.controls[i].get('childCity')?.touched)">
+                              <option value="">Select city...</option>
+                              <option *ngFor="let city of childCities">{{city.name}}</option>
+                            </select> -->
+                            <p-dropdown [disabled]="disableChildFlag[i]" [options]="childCities"
+                              [(ngModel)]="childCityName[i]" optionLabel="name" formControlName="childCity"
+                              placeholder="Select City" [showClear]="true" [editable]="true" autoWidth="false" [style]="{'width':'100%'}"
+                              [class.valid]="childrensDetails.controls[i].get('childCity')?.valid &&childrensDetails.controls[i].get('childCity')?.dirty||childrensDetails.controls[i].get('childCity')?.touched"
+                              [class.invalid]="childrensDetails.controls[i].get('childCity')?.invalid && (childrensDetails.controls[i].get('childCity')?.dirty || childrensDetails.controls[i].get('childCity')?.touched)">
+                            </p-dropdown>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-3">
+                          <div class="form-group">
+                            <label class="form-control-label" for="input-childDOB">DOB</label>
+                            <input type="date" id="input-childDOB" formControlName="childDOB" class="form-control"
+                              placeholder="DOB"
+                              [class.valid]="childrensDetails.controls[i].get('childDOB')?.valid &&childrensDetails.controls[i].get('childDOB')?.dirty||childrensDetails.controls[i].get('childDOB')?.touched"
+                              [class.invalid]="childrensDetails.controls[i].get('childDOB')?.invalid && (childrensDetails.controls[i].get('childDOB')?.dirty || childrensDetails.controls[i].get('childDOB')?.touched)">
+                          </div>
+                        </div>
+                      </div>
+                      <button style="float: right;" class="btn bg-gradient-danger"
+                        (click)="removeChild(i)">Remove</button>
+                    </div>
+                    <br>
+
+                    <hr class="my-4" />
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+            <div> <button [disabled]="profileForm.invalid" type="submit" style="width: 97%;" class="btn btn-info">Save
+                profile</button></div>
+            <!-- <hr class="my-4" />
+              <h6 class="heading-small text-muted mb-4">About me</h6>
+              <div class="pl-lg-4">
+                <div class="form-group">
+                  <label>About Me</label>
+                  <textarea rows="4" class="form-control form-control-alternative" placeholder="A few words about you ...">A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</textarea>
+                </div>
+              </div> -->
+          </form>
+          <br>
+          <!-- <ngx-paypal [config]="payPalConfig"></ngx-paypal> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-toast></p-toast>
+<p-toast position="bottom-center" key="c" (onClose)="onReject()" [baseZIndex]="5000">
+  <ng-template let-message pTemplate="message">
+    <div class="p-flex p-flex-column" style="flex: 1">
+      <div class="p-text-center">
+        <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+        <h4>{{message.summary}}</h4>
+        <p>{{message.detail}}</p>
+      </div>
+      <div class="p-grid p-fluid">
+        <div class="p-col-6">
+          <button type="button" pButton (click)="onConfirm()" label="Yes" class="p-button-success"></button>
+        </div>
+        <div class="p-col-6">
+          <button type="button" pButton (click)="onReject()" label="No" class="p-button-secondary"></button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-toast>
+<ngo-loading-spinner></ngo-loading-spinner>

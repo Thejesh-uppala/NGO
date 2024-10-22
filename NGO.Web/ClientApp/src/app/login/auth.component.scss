@@ -1,0 +1,95 @@
+// @import '../../assets/scss/base/colors';
+
+// .login{
+//     display: flex;
+//     background-color: #eee;
+//     height: 100vh;
+
+//     &__l{
+//         display: flex;
+//         flex-flow: column;
+//         justify-content: space-between ;
+//         position: relative;
+//         width: 25vw;
+//         background-image: url('/../../../../assets/images/login/download.jpeg');
+//         padding: 40px;
+//         background-size: cover;
+//         background-repeat: no-repeat;
+
+//         &::before{
+//             content: "";
+//             position: absolute;
+//             top: 0;
+//             bottom: 0;
+//             left: 0;
+//             right: 0;
+//             background-color: rgba(0,0,0,.4);
+//         }
+
+//     }
+
+//     &__r{
+//         display: flex;
+//         align-items: center;
+//         padding: 100px;
+//         background-color: #fff;
+//         width: 75vw;
+//     }
+
+//     &__cont{
+//         display: flex;
+//         flex-flow: column;
+//         width: 70%;
+//     }
+
+//     &__title{
+//         color: $c-primary--dk;
+//         margin: 0 0 30px 0;
+//     }
+
+//     &__forgot{
+//         display: flex;
+//         font-size: 12px;
+//         margin-top: 6px;
+//         color: $c-primary;
+//         text-decoration: none;
+//     }
+
+//     &__signup{
+//         border-top: solid 1px #eee;
+//         margin-top: 40px;
+//         padding-top: 20px;
+
+//         &-txt{
+//             display: inline-block;
+//             font-weight: 700;
+//             padding-right: 20px;
+//             color: $c-primary--dk;
+//         }
+//     }
+
+//     &__logo{
+//         position: relative;
+//     }
+
+//     &__footer{
+//         position: relative;
+//         color: #fff;
+//         font-size: 12px;
+//         text-align: center;
+//         letter-spacing: 2px;
+//     }
+// }
+
+// .alert {
+//     position: relative;
+//     padding: 0.75rem 1.25rem;
+//     margin-bottom: 1rem;
+//     border: 1px solid transparent;
+//     border-radius: 0.25rem;
+//   }
+//   .alert-danger {
+//     color: #721c24;
+//     background-color: #f8d7da;
+//     border-color: #f5c6cb;
+//   }
