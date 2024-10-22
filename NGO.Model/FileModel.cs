@@ -17,7 +17,7 @@ namespace NGO.Model
         }
         public IFormFile? Photo { get; set; }
         public string FirstName { get; set; } = null!;
-        public string? OrgId { get; set; } = null!;
+        public int OrgId { get; set; } 
         public string? MemberId { get; set; } = null!;
         public string? FamilyName { get; set; } = null!;
         public string EmailAddress { get; set; } = null!;

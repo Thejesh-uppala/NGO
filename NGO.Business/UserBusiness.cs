@@ -212,7 +212,7 @@ namespace NGO.Business
             return httpResponseMessage;
         }
 
-        public async Task SaveMember(int userId, string memberId, string chapterId, string organizationId)
+        public async Task SaveMember(int userId, string memberId, int chapterId, int organizationId)
         {
             var userDetail = (await _userDetailRepository.GetByAsync(x => x.UserId == userId)).FirstOrDefault();
             if (userDetail != null)
@@ -283,14 +283,11 @@ namespace NGO.Business
             {
                 Organization organization = null;
                 var payment = (await _paymentRepository.GetByAsync(x => x.UserDetailId == item.UserId)).FirstOrDefault();
-                //if (item.OrgId != null)
-                //{
-                //    organization = (await _orgRepository.GetByAsync(x => x.Id == int.Parse(item.OrgId))).FirstOrDefault();
-                //}
-                if (!string.IsNullOrEmpty(item.OrgId)) // Check for null or empty
+                if (item.OrgId != null)
                 {
                     organization = (await _orgRepository.GetByAsync(x => x.Id == item.OrgId)).FirstOrDefault();
                 }
+
 
                 Random random = new Random();
                 int id = 0;

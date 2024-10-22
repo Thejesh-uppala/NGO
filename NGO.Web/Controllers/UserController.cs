@@ -133,7 +133,7 @@ namespace NGO.Web.Controllers
         }
         [HttpPost]
         [Route("SaveMember")]
-        public async Task<IActionResult> SaveMember(int userId,string memberId,string chapterId,string organizationId)
+        public async Task<IActionResult> SaveMember(int userId,string memberId,int chapterId,int organizationId)
         {
              await _userBusiness.SaveMember(userId, memberId, chapterId,organizationId);
             return Ok();

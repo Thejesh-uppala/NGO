@@ -13,7 +13,7 @@ namespace NGO.Model
     {
         public IFormFile? PhotoData { get; set; }
         public int UserId { get; set; }
-        public string OrgId { get; set; } = null;
+        public int OrgId { get; set; }
         public DropDownModel? OrgName { get; set; } = null;
         public string MemberId { get; set; } = null;
         public string Address { get; set; } = null!;

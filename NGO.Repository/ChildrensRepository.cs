@@ -37,7 +37,7 @@ namespace NGO.Repository
                 // Read user details first
                 if (reader.Read())
                 {
-                    userDetailModel.OrgId = reader.GetString(reader.GetOrdinal("OrgId"));
+                    userDetailModel.OrgId = reader.GetInt32(reader.GetOrdinal("OrgId"));
                     userDetailModel.UserId = reader.GetInt32(reader.GetOrdinal("UserId"));
                     userDetailModel.Address = reader.GetString(reader.GetOrdinal("Address"));
                     userDetailModel.State = reader.GetString(reader.GetOrdinal("State"));
