@@ -597,7 +597,7 @@ namespace NGO.Business
         public async Task UpdatelastLogin(AuthModel authModel)
         {
             var user = (await _userRepository.GetByAsync(x => x.Id == authModel.UserId)).SingleOrDefault();
-            user.LastLogin = DateTime.Now;
+            user.LastLogin = DateTime.UtcNow;
             this._userRepository.Update(user);
             await this._userRepository.SaveAsync();
         }
