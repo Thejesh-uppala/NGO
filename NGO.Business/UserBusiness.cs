@@ -29,11 +29,10 @@ namespace NGO.Business
         private readonly IOrgChapterRepository _orgChapterRepository;
         private readonly IOrgRepository _orgRepository;
         private readonly IPaymentRepository _paymentRepository;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly SMTPEmailProvider _smtpEmailProvider;
         private readonly AppSettings _appsettings;
         private readonly IMapper _mapper;
-        public UserBusiness(IUserRepository userRepository, IUserDetailRepository userDetailRepository, IRoleRepository roleRepository, IUserRolesRepository userRolesRepository, IChildrensRepository childrensRepository, IOrgChapterRepository orgChapterRepository, IOrgRepository orgRepository, IPaymentRepository paymentRepository, IHttpContextAccessor httpContextAccessor, SMTPEmailProvider smtpEmailProvider, IMapper mapper, AppSettings appsettings)
+        public UserBusiness(IUserRepository userRepository, IUserDetailRepository userDetailRepository, IRoleRepository roleRepository, IUserRolesRepository userRolesRepository, IChildrensRepository childrensRepository, IOrgChapterRepository orgChapterRepository, IOrgRepository orgRepository, IPaymentRepository paymentRepository, SMTPEmailProvider smtpEmailProvider, IMapper mapper, AppSettings appsettings)
         {
             _userRepository = userRepository;
             _userDetailRepository = userDetailRepository;
@@ -43,7 +42,6 @@ namespace NGO.Business
             _orgChapterRepository = orgChapterRepository;
             _orgRepository = orgRepository;
             _paymentRepository = paymentRepository;
-            _httpContextAccessor = httpContextAccessor;
             _smtpEmailProvider = smtpEmailProvider;
             _appsettings = appsettings;
             _mapper = mapper;
