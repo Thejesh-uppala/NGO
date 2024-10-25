@@ -144,9 +144,20 @@ app.UseSwaggerUI(c =>
     c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
 });
 
-if (!app.Environment.IsDevelopment())
+//if (!app.Environment.IsDevelopment())
+//{
+//    app.UseSpaStaticFiles();
+//}
+
+if (app.Environment.IsDevelopment())
 {
-    app.UseSpaStaticFiles();
+    app.UseCors("CorsPolicy");
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "NGO API V1");
+        c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
+    });
 }
 
 #region Custom Middlewares
@@ -160,18 +171,19 @@ app.UseEndpoints(endpoints =>
         pattern: "{controller}/{action=Index}/{id?}");
     endpoints.MapControllers();
 });
+app.UseCors("CorsPolicy");
 
 //app.MapFallbackToFile("index.html"); ;
-app.UseSpa(spa =>
-{
-    spa.Options.SourcePath = "ClientApp";
+//app.UseSpa(spa =>
+//{
+//    spa.Options.SourcePath = "ClientApp";
 
-    if (app.Environment.IsDevelopment())
-    {
-        spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
+//    if (app.Environment.IsDevelopment())
+//    {
+//        spa.UseProxyToSpaDevelopmentServer("http://localhost:7079");
 
-        // NOTE: Disable above line and enable below line to trigger angular from dev server.
-        //spa.UseAngularCliServer(npmScript: "start");
-    }
-});
+//        // NOTE: Disable above line and enable below line to trigger angular from dev server.
+//        //spa.UseAngularCliServer(npmScript: "start");
+//    }
+//});
 app.Run();
