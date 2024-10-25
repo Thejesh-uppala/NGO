@@ -3,16 +3,14 @@ FROM --platform=linux/amd64 mcr.microsoft.com/dotnet/sdk:6.0 AS build
 
 # Set the working directory inside the container
 WORKDIR /app
+COPY . .
 
-# Copy only the .csproj and solution files
+# Copy the solution file and restore dependencies
 COPY *.sln ./
 COPY NGO.Web/*.csproj ./NGO.Web/
-
-# Restore dependencies
 RUN dotnet restore
 
 # Copy the entire application and build it
-COPY . .
 WORKDIR /app/NGO.Web
 RUN dotnet publish -c Release -o out
 
