@@ -1,20 +1,23 @@
 # Use the official .NET SDK image for building the application
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM --platform=linux/amd64 mcr.microsoft.com/dotnet/sdk:6.0 AS build
 
 # Set the working directory inside the container
 WORKDIR /app
-COPY . .
-# Copy the solution file and restore dependencies
+
+# Copy only the .csproj and solution files
 COPY *.sln ./
 COPY NGO.Web/*.csproj ./NGO.Web/
+
+# Restore dependencies
 RUN dotnet restore
 
 # Copy the entire application and build it
+COPY . .
 WORKDIR /app/NGO.Web
 RUN dotnet publish -c Release -o out
 
 # Use the official ASP.NET Core runtime image for the final stage
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS runtime
+FROM --platform=linux/amd64 mcr.microsoft.com/dotnet/aspnet:6.0 AS runtime
 
 # Set the working directory inside the container
 WORKDIR /app
