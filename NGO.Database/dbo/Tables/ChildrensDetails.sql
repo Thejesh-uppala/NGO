@@ -3,7 +3,7 @@
     [UserDetailId]    INT           NOT NULL,
     [FirstName]       NVARCHAR (50) NOT NULL,
     [LastName]        NVARCHAR (50) NOT NULL,
-    [EmialId]         NVARCHAR (50) NOT NULL,
+    [EmailId]         NVARCHAR (50) NOT NULL,
     [PhoneNo]         VARCHAR (15)  NOT NULL,
     [DOB]             DATE          NOT NULL,
     [Resident]        BIT           NOT NULL,
