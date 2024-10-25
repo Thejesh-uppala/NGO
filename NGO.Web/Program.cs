@@ -32,7 +32,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: "CorsPolicy",
                       builder =>
                       {
-                          builder.WithOrigins("http://localhost:7079/").
+                          builder.WithOrigins("http://localhost:4200/").
                                               AllowAnyMethod().
                                               AllowAnyHeader().
                                               AllowCredentials();
@@ -168,10 +168,10 @@ app.UseSpa(spa =>
 
     if (app.Environment.IsDevelopment())
     {
-        //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
+        spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
 
         // NOTE: Disable above line and enable below line to trigger angular from dev server.
-        spa.UseAngularCliServer(npmScript: "start");
+        //spa.UseAngularCliServer(npmScript: "start");
     }
 });
 app.Run();

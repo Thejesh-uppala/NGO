@@ -17,7 +17,7 @@ namespace NGO.Common.Helpers
 
         protected override Expression VisitParameter(ParameterExpression p)
         {
-            ParameterExpression replacement;
+            ParameterExpression? replacement;
             if (_map.TryGetValue(p, out replacement))
             {
                 p = replacement;
