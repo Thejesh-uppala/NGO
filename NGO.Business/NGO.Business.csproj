@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.36.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="6.0.29" />
   </ItemGroup>
 
   <ItemGroup>
