@@ -12,7 +12,7 @@ namespace NGO.Repository.NGO.Sql.Infrastructure
         {
             serviceCollection.AddDbContext<NGOContext>(options =>
             {
-                options.UseSqlServer(appsettings.ConnectionString);
+                options.UseNpgsql(appsettings.ConnectionString);
             });
             serviceCollection.AddTransient<IUserRepository, UserRepository>();
             serviceCollection.AddTransient<IUserDetailRepository, UserDetailRepository>();

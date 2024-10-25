@@ -7,6 +7,8 @@ using NGO.Web.Infrastructure;
 using System.Text;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using NGO.Repository;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager ConfigurationManager = builder.Configuration;
@@ -19,6 +21,10 @@ ConfigurationManager.Bind(configRoot);
 
 // Add services to the container.
 
+builder.Services.AddDbContext<NGOContext>(options =>
+    options.UseNpgsql(builder.Configuration["AppSettings:ConnectionString"]));
+
+
 builder.Services.RegisterDependency(configRoot.AppSettings);
 builder.Services.AddControllers();
 builder.Services.AddCors(options =>
@@ -26,7 +32,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: "CorsPolicy",
                       builder =>
                       {
-                          builder.WithOrigins("http://localhost:7079/").
+                          builder.WithOrigins("http://localhost:4200/").
                                               AllowAnyMethod().
                                               AllowAnyHeader().
                                               AllowCredentials();
@@ -162,10 +168,10 @@ app.UseSpa(spa =>
 
     if (app.Environment.IsDevelopment())
     {
-        //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
+        spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
 
         // NOTE: Disable above line and enable below line to trigger angular from dev server.
-        spa.UseAngularCliServer(npmScript: "start");
+        //spa.UseAngularCliServer(npmScript: "start");
     }
 });
 app.Run();

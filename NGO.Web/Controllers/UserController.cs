@@ -46,6 +46,7 @@ namespace NGO.Web.Controllers
             await _userBusiness.ForgotPassword(emailId, newPassword);
             return Ok();
         }
+        [AllowAnonymous]
         [HttpGet]
         [Route("GetAllUser")]
         public async Task<JsonResult> GetAllUser()
@@ -53,6 +54,8 @@ namespace NGO.Web.Controllers
             var userslist = await _userBusiness.GetAllUser();
             return new JsonResult(new { userslist });
         }
+
+        [AllowAnonymous]
         [HttpGet]
         [Route("GetCurrentUserDetails")]
         public async Task<IActionResult> GetCurrentUserDetails(int userId)
@@ -61,6 +64,7 @@ namespace NGO.Web.Controllers
             return new JsonResult(new { userslist });
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("GetAllChapters")]
         public async Task<IActionResult> GetAllChapters()
@@ -69,6 +73,7 @@ namespace NGO.Web.Controllers
             return Ok(response);
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("GetAllOrganizations")]
         public async Task<IActionResult> GetAllOrganizations()
@@ -128,7 +133,7 @@ namespace NGO.Web.Controllers
         }
         [HttpPost]
         [Route("SaveMember")]
-        public async Task<IActionResult> SaveMember(int userId,string memberId,string chapterId,string organizationId)
+        public async Task<IActionResult> SaveMember(int userId,string memberId,int chapterId,int organizationId)
         {
              await _userBusiness.SaveMember(userId, memberId, chapterId,organizationId);
             return Ok();
