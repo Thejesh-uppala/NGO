@@ -1,10 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace NGO.Model
 {
@@ -56,7 +51,7 @@ namespace NGO.Model
             public string ChildState { get; set; } = null!;
             public string ChildPhoneNumber { get; set; } = null!;
             public DateTime ChildDOB { get; set; }
-            public string ChildLastName { get; set; }
+            public string? ChildLastName { get; set; }
             public string ChildEmailAddress { get; set; } = null!;
             public string ChildFirstName { get; set; } = null!;
         }
