@@ -10,7 +10,4 @@
     <Folder Include="ViewModel\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Abstractions" Version="2.2.0" />
-  </ItemGroup>
 </Project>
