@@ -33,8 +33,11 @@ namespace NGO.Repository
 
             if (!optionsBuilder.IsConfigured)
             {
+                string connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
+                Console.WriteLine($"Database Connection String issssssssss: {connectionString}");
+
                 // Use PostgreSQL provider
-                optionsBuilder.UseNpgsql("Host=TTTTTTep-bitter-block-a8b9ny27-pooler.eastus2.azure.neon.tech;Port=5432;Username=TTTTTTTNGO_owner;Password=TTTTTTpe03oSuDQNrf;Database=Community;Ssl Mode=Require;Trust Server Certificate=true;Pooling=true;MaxPoolSize=100;", npgsqlOptions =>
+                optionsBuilder.UseNpgsql(connectionString, npgsqlOptions =>
                 {
                     npgsqlOptions.CommandTimeout(60); // Set command timeout to 60 seconds
                 }
@@ -42,7 +45,7 @@ namespace NGO.Repository
                 );
                 
 
-                //optionsBuilder.UseNpgsql("postgresql://NGO_owner:pe03oSuDQNrf@ep-bitter-block-a8b9ny27-pooler.eastus2.azure.neon.tech/NGO?sslmode=require");
+                //optionsBuilder.UseNpgsql("postgresql://NGOTTTTTTT_owner:TTTTTTTpe03oSuDQNrf@ep-bitter-block-a8b9ny27-pooler.eastus2.azure.neon.tech/NGO?sslmode=require");
             }
         }
 

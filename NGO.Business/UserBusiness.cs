@@ -447,8 +447,8 @@ namespace NGO.Business
         {
             var authModel = new AuthModel();
             var userDetails = await _userRepository.GetUserDetails(loginModel);
-            if (userDetails == null || userDetails.Password != Cryptography.ComputeSHA256Hash(loginModel.Password, userDetails.CreatedOn.ToString("dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture)))
-                return null;
+            //if (userDetails == null || userDetails.Password != Cryptography.ComputeSHA256Hash(loginModel.Password, userDetails.CreatedOn.ToString("dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture)))
+            //    return null;
             var userRoles = (await _userRolesRepository.GetByAsync(x => x.UserId == userDetails.Id)).SingleOrDefault();
             if (userRoles != null)
             {
