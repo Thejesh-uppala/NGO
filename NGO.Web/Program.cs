@@ -34,7 +34,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: "CorsPolicy",
                       builder =>
                       {
-                          builder.WithOrigins("http://localhost:4200/").
+                          builder.WithOrigins("https://community-ngo.vercel.app/").
                                               AllowAnyMethod().
                                               AllowAnyHeader().
                                               AllowCredentials();

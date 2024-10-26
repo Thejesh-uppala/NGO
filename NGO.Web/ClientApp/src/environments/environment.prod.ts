@@ -1,4 +1,4 @@
 export const environment = {
-  apiUrl: "https://localhost:44321",
+  apiUrl: "https://ngo-1-e39y.onrender.com",
   production: true
 };
