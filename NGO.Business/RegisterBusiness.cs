@@ -50,17 +50,17 @@ namespace NGO.Business
             userModel.PaymentInfo = ((int)PaymentInfo.PENDING).ToString();
             var user = _mapper.Map<User>(userModel);
             var userdetails = _mapper.Map<UserModel>(user);
-            var emailDataModel = new EmailDataModel()
-            {
-                To = new List<string>() {
-                    email
-                },
-                Data = "<p>" + "User created successfully, use the below creadentials to login" + "</p>"
-                             + "<p>" + "User Name" + ": " + userdetails.Name + "</P>"
-                             + "<p>" + "Password" + ": " + userdetails.Password + " </P>",
-                Subject = "User creation"
-            };
-            emailDataModel = await this._smtpEmailProvider.SendAsync(emailDataModel);
+            //var emailDataModel = new EmailDataModel()
+            //{
+            //    To = new List<string>() {
+            //        email
+            //    },
+            //    Data = "<p>" + "User created successfully, use the below creadentials to login" + "</p>"
+            //                 + "<p>" + "User Name" + ": " + userdetails.Name + "</P>"
+            //                 + "<p>" + "Password" + ": " + userdetails.Password + " </P>",
+            //    Subject = "User creation"
+            //};
+            //emailDataModel = await this._smtpEmailProvider.SendAsync(emailDataModel);
             try
             {
                 this._userRepository.Add(user, false, true);

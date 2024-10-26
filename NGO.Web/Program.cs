@@ -20,9 +20,11 @@ var configRoot = new
 ConfigurationManager.Bind(configRoot);
 
 // Add services to the container.
+string connectionString = System.Environment.GetEnvironmentVariable("DATABASE_URL")
+                          ?? builder.Configuration["AppSettings:ConnectionString"];
 
 builder.Services.AddDbContext<NGOContext>(options =>
-    options.UseNpgsql(builder.Configuration["AppSettings:ConnectionString"]));
+    options.UseNpgsql(connectionString));
 
 
 builder.Services.RegisterDependency(configRoot.AppSettings);
