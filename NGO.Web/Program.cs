@@ -6,7 +6,6 @@ using NGO.Common;
 using NGO.Web.Infrastructure;
 using System.Text;
 using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
 using NGO.Repository;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,7 +24,6 @@ string connectionString = System.Environment.GetEnvironmentVariable("DATABASE_UR
 
 builder.Services.AddDbContext<NGOContext>(options =>
     options.UseNpgsql(connectionString));
-
 
 builder.Services.RegisterDependency(configRoot.AppSettings);
 builder.Services.AddControllers();
@@ -146,20 +144,9 @@ app.UseSwaggerUI(c =>
     c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
 });
 
-//if (!app.Environment.IsDevelopment())
-//{
-//    app.UseSpaStaticFiles();
-//}
-
-if (app.Environment.IsDevelopment())
+if (!app.Environment.IsDevelopment())
 {
-    app.UseCors("CorsPolicy");
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "NGO API V1");
-        c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
-    });
+    app.UseSpaStaticFiles();
 }
 
 #region Custom Middlewares
@@ -173,19 +160,18 @@ app.UseEndpoints(endpoints =>
         pattern: "{controller}/{action=Index}/{id?}");
     endpoints.MapControllers();
 });
-app.UseCors("CorsPolicy");
 
 //app.MapFallbackToFile("index.html"); ;
-//app.UseSpa(spa =>
-//{
-//    spa.Options.SourcePath = "ClientApp";
+app.UseSpa(spa =>
+{
+    spa.Options.SourcePath = "ClientApp";
 
-//    if (app.Environment.IsDevelopment())
-//    {
-//        spa.UseProxyToSpaDevelopmentServer("http://localhost:7079");
+    if (app.Environment.IsDevelopment())
+    {
+        spa.UseProxyToSpaDevelopmentServer("https://community-ngo.vercel.app/");
 
-//        // NOTE: Disable above line and enable below line to trigger angular from dev server.
-//        //spa.UseAngularCliServer(npmScript: "start");
-//    }
-//});
+        // NOTE: Disable above line and enable below line to trigger angular from dev server.
+        //spa.UseAngularCliServer(npmScript: "start");
+    }
+});
 app.Run();

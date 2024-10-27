@@ -1,3 +1,4 @@
+//admin.component.ts
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MessageService, SelectItem } from 'primeng/api';
 import { Dropdown } from 'primeng/dropdown';
@@ -5,6 +6,7 @@ import { Table } from 'primeng/table';
 import { Subscription } from 'rxjs';
 import { PaymentModel, UserDetailModel } from '../userprofile/models/UpdateUserModel';
 import { AdminService } from './services/admin.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 interface DropDownData {
   name: string,
   code: string
@@ -77,7 +79,7 @@ export class AdminComponent implements OnInit {
   expiresIn: any;
   newData: ChartValue[] = [];
   barchartColors:any
-  constructor(private adminService: AdminService, private messageService: MessageService) { }
+  constructor(private adminService: AdminService, private messageService: MessageService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.GetAllUsers();
@@ -173,9 +175,12 @@ export class AdminComponent implements OnInit {
   viewReminder(id: any) {
 
   }
-  showModalDialog() {
+ 
+  showModalDialog(content: any) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
     this.displayModal = true;
   }
+
   onFilter(event: any, dt: any) {
     event.filteredValue.forEach((element: { userId: UserDetailModel }) => {
       this.paymentData.push(element?.userId.toString())
