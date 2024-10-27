@@ -40,7 +40,7 @@ import { environment } from '../environments/environment';
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [
-    AppComponent, 
+    AppComponent
   ]
 })
 export class AppModule { }
