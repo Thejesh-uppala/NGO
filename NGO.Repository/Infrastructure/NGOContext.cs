@@ -34,7 +34,6 @@ namespace NGO.Repository
             if (!optionsBuilder.IsConfigured)
             {
                 string connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
-                Console.WriteLine($"Database Connection String issssssssss: {connectionString}");
 
                 // Use PostgreSQL provider
                 optionsBuilder.UseNpgsql(connectionString, npgsqlOptions =>

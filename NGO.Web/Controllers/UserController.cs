@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
@@ -22,6 +23,7 @@ namespace NGO.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
+           
             var authModel = await _userBusiness.GetUserDetails(loginModel);
             if (authModel.Error == null)
             {
