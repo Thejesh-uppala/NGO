@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  apiUrl: "https://ngo-1-e39y.onrender.com",
+  apiUrl: "https://localhost:7079",
   production: false
 };
 
