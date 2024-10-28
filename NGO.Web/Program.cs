@@ -107,7 +107,7 @@ builder.Services.AddAuthentication(x =>
 // In production, the Angular files will be served from this directory
 builder.Services.AddSpaStaticFiles(configuration =>
 {
-    configuration.RootPath = "ClientApp/dist/NGO";
+    configuration.RootPath = "ClientApp/dist/ClientApp";
 });
 builder.Services.Configure<FormOptions>(o =>
 {
@@ -173,6 +173,11 @@ app.UseSpa(spa =>
 
         // NOTE: Disable above line and enable below line to trigger angular from dev server.
         spa.UseAngularCliServer(npmScript: "start");
+    }
+     else
+    {
+        // In production, ensure the default document is set to index.html
+        spa.Options.DefaultPage = "/index.html"; // Ensures the app serves the index.html file
     }
 });
 app.Run();

@@ -34,13 +34,11 @@ WORKDIR /app
 COPY --from=build /app/NGO.Web/out .
  
 # Copy the Angular build output to the wwwroot folder
-COPY --from=ng-builder /app/ClientApp/dist/ClientApp ./wwwroot
- 
+COPY --from=ng-builder /app/NGO.Web/ClientApp/dist/ClientApp ./wwwroot
+
 # Expose the port your application runs on
 EXPOSE 80
  
-# Health check (optional)
-HEALTHCHECK CMD curl --fail http://localhost:80/health || exit 1
- 
+
 # Specify the entry point for the container
 CMD ["dotnet", "NGO.Web.dll"]
