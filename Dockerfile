@@ -6,7 +6,7 @@ WORKDIR /app/NGO.Web/ClientApp
 COPY ./NGO.Web/ClientApp/package*.json ./
 RUN npm install
 COPY ./NGO.Web/ClientApp .
-RUN npm run build --prod
+RUN npm run build 
  
 # Step 2: Build the .NET application
 FROM --platform=linux/amd64 mcr.microsoft.com/dotnet/sdk:6.0 AS build
