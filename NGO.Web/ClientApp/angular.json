@@ -21,7 +21,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ClientApp",
+            "outputPath": "../wwwroot/ClientApp",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -37,10 +37,12 @@
               "node_modules/primeflex/primeflex.css",
               "node_modules/primeicons/primeicons.css",
               "src/styles.scss",
-              "src/assets/scss/argon.scss"
+              "src/assets/scss/argon.scss",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "scripts": [
-              "node_modules/clipboard/dist/clipboard.min.js"
+              "node_modules/clipboard/dist/clipboard.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
             ],
             "serviceWorker": false,
             "ngswConfigPath": "ngsw-config.json"
