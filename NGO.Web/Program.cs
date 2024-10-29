@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http.Features;
 using NGO.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager ConfigurationManager = builder.Configuration;
@@ -145,10 +146,20 @@ app.UseSwaggerUI(c =>
     c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
 });
 
+//if (!app.Environment.IsDevelopment())
+//{
+//    app.UseSpaStaticFiles();
+//}
+
 if (!app.Environment.IsDevelopment())
 {
-    app.UseSpaStaticFiles();
+    app.UseSpaStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "ClientApp", "dist", "ClientApp"))
+    });
 }
+
+
 
 #region Custom Middlewares
 app.UseApplicationMiddleware();
@@ -162,22 +173,38 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllers();
 });
 
-//app.MapFallbackToFile("index.html"); ;
 app.UseSpa(spa =>
 {
     spa.Options.SourcePath = "ClientApp";
-
     if (app.Environment.IsDevelopment())
     {
-        //spa.UseProxyToSpaDevelopmentServer("https://community-ngo.vercel.app/");
-
-        // NOTE: Disable above line and enable below line to trigger angular from dev server.
         spa.UseAngularCliServer(npmScript: "start");
     }
-     else
+    else
     {
-        // In production, ensure the default document is set to index.html
-        spa.Options.DefaultPage = "/index.html"; // Ensures the app serves the index.html file
+        spa.Options.DefaultPageStaticFileOptions = new StaticFileOptions
+        {
+            FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "ClientApp", "dist", "ClientApp"))
+        };
     }
 });
+
+//app.MapFallbackToFile("index.html"); ;
+//app.UseSpa(spa =>
+//{
+//    spa.Options.SourcePath = "ClientApp";
+
+//    if (app.Environment.IsDevelopment())
+//    {
+//        //spa.UseProxyToSpaDevelopmentServer("https://community-ngo.vercel.app/");
+
+//        // NOTE: Disable above line and enable below line to trigger angular from dev server.
+//        spa.UseAngularCliServer(npmScript: "start");
+//    }
+//     else
+//    {
+//        // In production, ensure the default document is set to index.html
+//        spa.Options.DefaultPage = "/index.html"; // Ensures the app serves the index.html file
+//    }
+//});
 app.Run();
