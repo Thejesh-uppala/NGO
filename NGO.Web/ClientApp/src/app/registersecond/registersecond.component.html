@@ -1,35 +1,148 @@
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-    Launch static backdrop modal
-  </button>
-  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-dialog modal-lg">
-    Launch static backdrop modal test
-  </button>
+<section style="background-color: #F5F5F5;">
 
-  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="modal-dialog modal-lg">
-    Launch static backdrop modal test2
-  </button>
-<div class="modal-dialog modal-lg"><h1>gjgdjgdhg</h1></div>
+<header class="header">
+    <div class="company-logo">COMPANY LOGO</div>
+    <nav class="nav-container">
+      <ul class="nav-links">
+        <li><a href="#" class="nav-link-active">Home</a></li>
+        <li><a href="#">Jobs</a></li>
+        <li><a href="#">Companies</a></li>
+        <li><a href="#">Services</a></li>
+      </ul>
+      <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/9088a7aa7dc3fe7c8c1c9ea834a2a100fdd132b73be5f429036c503d87d335d8?placeholderIfAbsent=true&apiKey=9e16588387084fb2a9a51a1b99489136" class="profile-image" alt="User profile" />
+    </nav>
+  </header>
 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+
+
+
+
+<aside class="sidebar">
+    <div class="user-info">
+      <div class="user-avatar">N</div>
+      <div class="user-name">Natalya</div>
+    </div>
+    
+    <nav>
+      <h2 class="menu-label">Menu</h2>
+      
+      <ul>
+        <li class="dashboard-item">
+          <div class="dashboard-icon">
+            <div class="icon-grid">
+              <div class="icon-dot"></div>
+              <div class="icon-dot"></div>
+              <div class="icon-dot"></div>
+              <div class="icon-dot"></div>
+            </div>
+          </div>
+          <span class="dashboard-text">Dashboard</span>
+          <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/66c6ebf52aae9ec37f9ceef0fdafa0ae4e9add26466b5640bb3f8678bac8cf7a?placeholderIfAbsent=true&apiKey=9e16588387084fb2a9a51a1b99489136" alt="" class="menu-arrow" width="8" height="42" />
+        </li>
+        
+        <li class="menu-item">
+          <div class="menu-icon notification-icon"></div>
+          <span>Notification</span>
+        </li>
+        
+        <li class="menu-item">
+          <div class="menu-icon jobs-icon"></div>
+          <span>Jobs</span>
+        </li>
+        
+        <li class="menu-item">
+          <div class="menu-icon jobs-applies-icon"></div>
+          <span>Jobs applies</span>
+        </li>
+        
+        <li class="menu-item">
+          <div class="menu-icon updated-jobs-icon"></div>
+          <span>Updated Jobs</span>
+        </li>
+        
+        <li class="menu-item">
+          <div class="menu-icon schedule-icon"></div>
+          <span>Schedule</span>
+        </li>
+        
+        <li class="menu-item">
+          <div class="menu-icon chatting-icon"></div>
+          <span>Chatting</span>
+        </li>
+        
+        <li class="menu-item">
+          <div class="menu-icon setting-icon"></div>
+          <span>Setting</span>
+        </li>
+      </ul>
+    </nav>
+    
+    <section class="profile-completion">
+      <h3 class="profile-title">Complete Profile</h3>
+      <div class="progress-bar">
+        <div class="progress-fill"></div>
+      </div>
+      <p class="profile-status">Your profile was done with 20%</p>
+      <p class="profile-action">Complete your profile now</p>
+    </section>
+</aside>
+
+
+
+
+
+
+
+<section class="search-bar-container">
+    <form class="search-input-wrapper" role="search">
+      <label for="search-input" class="visually-hidden">Search keywords, jobs, sales</label>
+      <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/3210d1913965940e6b4e8e84c62fa10d143c5e576221ebe4b49ead27ca5af006?placeholderIfAbsent=true&apiKey=9e16588387084fb2a9a51a1b99489136" alt="" class="search-icon" />
+      <input type="text" id="search-input" class="search-placeholder" placeholder="Search keywords, jobs, sales" aria-label="Search keywords, jobs, sales" />
+    </form>
+    <div class="action-buttons-wrapper">
+      <div class="vertical-divider" role="separator" aria-hidden="true"></div>
+      <button class="action-button" aria-label="Filter">
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/284016fbdc7d307b66c39fb8be816588c6584ff3132a6ca447834558184941d5?placeholderIfAbsent=true&apiKey=9e16588387084fb2a9a51a1b99489136" alt="" />
+      </button>
+      <button class="action-button" aria-label="Notifications">
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/f4446ef996af489bab1b26722ed43ef989ca572f9a9d8c7a2510697a7ec97b8c?placeholderIfAbsent=true&apiKey=9e16588387084fb2a9a51a1b99489136" alt="" />
+      </button>
+      <button class="action-button" aria-label="User profile">
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/b19a5a8d7b38022b3ce2a9c1b216315db76c7c76756dbcbb9f69689cb4e5383d?placeholderIfAbsent=true&apiKey=9e16588387084fb2a9a51a1b99489136" alt="" />
+      </button>
+    </div>
+  </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<button type="button" class="btn btn-primary" (click)="openModal(content)">
     Launch demo modal
   </button>
   
   <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Modal title</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
-  </div>
+    <div class="modal-body">
+      Modal body content goes here.
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modal.close('Save click')">Close</button>
+      <button type="button" class="btn btn-primary">Save changes</button>
+    </div>
+  </ng-template>
+  </section>
+  

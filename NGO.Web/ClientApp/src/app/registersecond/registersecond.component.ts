@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-registersecond',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrl: './registersecond.component.css'
 })
 export class RegistersecondComponent {
+  constructor(private modalService: NgbModal) {}
+
+  openModal(content: any) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+  }
+  
 
 }
