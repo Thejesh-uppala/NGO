@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using NGO.Common;
 using NGO.Common.Helpers;
 using NGO.Data;
@@ -30,9 +31,10 @@ namespace NGO.Business
         private readonly IOrgRepository _orgRepository;
         private readonly IPaymentRepository _paymentRepository;
         private readonly SMTPEmailProvider _smtpEmailProvider;
+        private readonly PasswordHandler _passwordHandler; 
         private readonly AppSettings _appsettings;
         private readonly IMapper _mapper;
-        public UserBusiness(IUserRepository userRepository, IUserDetailRepository userDetailRepository, IRoleRepository roleRepository, IUserRolesRepository userRolesRepository, IChildrensRepository childrensRepository, IOrgChapterRepository orgChapterRepository, IOrgRepository orgRepository, IPaymentRepository paymentRepository, SMTPEmailProvider smtpEmailProvider, IMapper mapper, AppSettings appsettings)
+        public UserBusiness(IUserRepository userRepository, IUserDetailRepository userDetailRepository, IRoleRepository roleRepository, IUserRolesRepository userRolesRepository, IChildrensRepository childrensRepository, IOrgChapterRepository orgChapterRepository, IOrgRepository orgRepository, IPaymentRepository paymentRepository, SMTPEmailProvider smtpEmailProvider, PasswordHandler passwordHandler, IMapper mapper, AppSettings appsettings)
         {
             _userRepository = userRepository;
             _userDetailRepository = userDetailRepository;
@@ -43,6 +45,7 @@ namespace NGO.Business
             _orgRepository = orgRepository;
             _paymentRepository = paymentRepository;
             _smtpEmailProvider = smtpEmailProvider;
+            _passwordHandler=passwordHandler;
             _appsettings = appsettings;
             _mapper = mapper;
         }
@@ -446,9 +449,24 @@ namespace NGO.Business
         public async Task<AuthModel> GetUserDetails(LoginModel loginModel)
         {
             var authModel = new AuthModel();
+
+            // Attempt to retrieve user details by email
             var userDetails = await _userRepository.GetUserDetails(loginModel);
-            //if (userDetails == null || userDetails.Password != Cryptography.ComputeSHA256Hash(loginModel.Password, userDetails.CreatedOn.ToString("dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture)))
-            //    return null;
+            if (userDetails == null)
+            {
+                authModel.Error = "User does not exist.";
+                return authModel;
+            }
+
+            // Verify the password
+            var isPasswordValid = _passwordHandler.VerifyPassword(loginModel.Password, userDetails.Password);
+            if (!isPasswordValid)
+            {
+                authModel.Error = "Invalid password.";
+                return authModel;
+            }
+
+            // Retrieve the user role
             var userRoles = (await _userRolesRepository.GetByAsync(x => x.UserId == userDetails.Id)).SingleOrDefault();
             if (userRoles != null)
             {
@@ -456,11 +474,20 @@ namespace NGO.Business
                 authModel.UserId = userDetails.Id;
                 authModel.Name = userDetails.Name;
                 authModel.Email = userDetails.Email;
-                authModel.UserRole = role.Name;
-                authModel.PayMentInfo = userDetails.PaymentInfo;
+
+
+                //commented below to just avoid error currently fsced, need a fix ------------------------------------------------
+                //authModel.UserRole = role.Name;   
+                authModel.PaymentInfo = userDetails.PaymentInfo;
             }
+            else
+            {
+                authModel.Error = "User role not assigned.";
+            }
+
             return authModel;
         }
+
 
         public async Task<UserDetailModel> GetCurrentUserDetails(int Id)
         {
@@ -604,13 +631,20 @@ namespace NGO.Business
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appsettings.Secret);
+
+            // Serialize complex data into JSON for storing in claims
+            var organizationsJson = JsonConvert.SerializeObject(authModel.Organizations);
+            var userRolesJson = JsonConvert.SerializeObject(authModel.UserRoles);
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                        new Claim(ClaimTypes.NameIdentifier, authModel.UserId.ToString()),
-                        new Claim(ClaimTypes.Email, authModel.Email.ToString()),
-                        new Claim(ClaimTypes.Name, authModel.Name.ToString())
+            new Claim(ClaimTypes.UserData, authModel.UserId.ToString()),
+            new Claim(ClaimTypes.Email, authModel.Email),
+            new Claim(ClaimTypes.Name, authModel.Name),
+            new Claim("Organizations", organizationsJson), // Custom claim for organizations
+            new Claim("UserRoles", userRolesJson)          // Custom claim for roles
                 }),
                 Expires = authModel.TokenExpiryDate = DateTime.UtcNow.AddMinutes(_appsettings.TokenSettings.SessionExpiryInMinutes),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
@@ -619,5 +653,9 @@ namespace NGO.Business
             var token = tokenHandler.CreateToken(tokenDescriptor);
             authModel.Token = tokenHandler.WriteToken(token);
         }
+
+
     }
 }
+
+

@@ -30,4 +30,13 @@ namespace NGO.Common
         [Display(Name = "Pending")]
         PENDING = 0,
     }
+    public enum RoleNames
+    {
+        [Display(Name = "Member")]
+        PAID = 1,
+
+        [Display(Name = "Admin")]
+        PENDING = 0,
+    }
 }
+

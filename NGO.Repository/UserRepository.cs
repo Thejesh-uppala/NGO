@@ -15,6 +15,14 @@ namespace NGO.Repository
         {
             _nGOContext = nGOContext;
         }
+        public async Task<List<User>> GetUserByEmailAndOrg(string email, int orgId)
+        {
+            return await _nGOContext.Users
+                .Include(u => u.UserOrganizations) 
+                .Where(u => u.Email == email &&
+                            u.UserOrganizations.Any(o => o.OrganizationId == orgId))
+                .ToListAsync();
+        }
 
         public async Task<User> GetUserDetails(LoginModel loginModel)
         {

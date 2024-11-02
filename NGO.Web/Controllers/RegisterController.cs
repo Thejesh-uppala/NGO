@@ -28,9 +28,10 @@ namespace NGO.Web.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("SignUp")]
-        public async Task<IActionResult> SignUp(string userName,string email, string password, string phNumber)
+        public async Task<IActionResult> SignUp([FromQuery] int orgId, string userName,string email, string password, string phNumber)
         {
-            var user=await _registerBusiness.SignUp(userName, email, password, phNumber);
+          
+            var user=await _registerBusiness.SignUp(userName, email, password, phNumber, orgId);
             return Ok(user);
         }
         [AllowAnonymous]

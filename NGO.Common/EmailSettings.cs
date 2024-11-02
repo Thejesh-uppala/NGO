@@ -8,6 +8,5 @@
         public string? EmailDefaultId { get; set; }
         public string? EmailPassword { get; set; }
         public int EmailTimeOut { get; set; }
-        public string? ApiKey { get; set; }
     }
 }
