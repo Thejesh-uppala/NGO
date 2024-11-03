@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NGO.Data.NGO.Entites;
 
 namespace NGO.Data
 {
@@ -8,6 +9,9 @@ namespace NGO.Data
         public Organization()
         {
             OrganizationChapters = new HashSet<OrganizationChapter>();
+            UserDetails = new HashSet<UserDetail>();
+            UserOrganizations = new HashSet<UserOrganization>();
+            UserRoles = new HashSet<UserRole>();
         }
 
         public int Id { get; set; }
@@ -18,6 +22,8 @@ namespace NGO.Data
 
         public virtual ICollection<OrganizationChapter> OrganizationChapters { get; set; }
         public virtual ICollection<UserDetail> UserDetails { get; set; }
+        public virtual ICollection<UserOrganization> UserOrganizations { get; set; } // Junction table collection
+        public virtual ICollection<UserRole> UserRoles { get; set; } // Junction table collection
 
     }
 }
