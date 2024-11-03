@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Newtonsoft.Json;
 using NGO.Business;
+using NGO.Common;
 using NGO.Model;
 
 namespace NGO.Web.Controllers
@@ -14,6 +16,7 @@ namespace NGO.Web.Controllers
     {
         private readonly UserBusiness _userBusiness;
 
+
         public UserController(UserBusiness userBusiness)
         {
             _userBusiness = userBusiness;
@@ -22,6 +25,7 @@ namespace NGO.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
+           
             var authModel = await _userBusiness.GetUserDetails(loginModel);
             if (authModel.Error == null)
             {
@@ -46,6 +50,7 @@ namespace NGO.Web.Controllers
             await _userBusiness.ForgotPassword(emailId, newPassword);
             return Ok();
         }
+        [AllowAnonymous]
         [HttpGet]
         [Route("GetAllUser")]
         public async Task<JsonResult> GetAllUser()
@@ -53,6 +58,8 @@ namespace NGO.Web.Controllers
             var userslist = await _userBusiness.GetAllUser();
             return new JsonResult(new { userslist });
         }
+
+        [AllowAnonymous]
         [HttpGet]
         [Route("GetCurrentUserDetails")]
         public async Task<IActionResult> GetCurrentUserDetails(int userId)
@@ -61,6 +68,7 @@ namespace NGO.Web.Controllers
             return new JsonResult(new { userslist });
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("GetAllChapters")]
         public async Task<IActionResult> GetAllChapters()
@@ -69,6 +77,7 @@ namespace NGO.Web.Controllers
             return Ok(response);
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("GetAllOrganizations")]
         public async Task<IActionResult> GetAllOrganizations()
@@ -128,7 +137,7 @@ namespace NGO.Web.Controllers
         }
         [HttpPost]
         [Route("SaveMember")]
-        public async Task<IActionResult> SaveMember(int userId,string memberId,string chapterId,string organizationId)
+        public async Task<IActionResult> SaveMember(int userId,string memberId,int chapterId,int organizationId)
         {
              await _userBusiness.SaveMember(userId, memberId, chapterId,organizationId);
             return Ok();
@@ -140,6 +149,55 @@ namespace NGO.Web.Controllers
             var response = await _userBusiness.MassPaymentRem(filterMassPaymentModels);
             return response;
         }
+        [HttpPost("refresh-token")]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenModel refreshTokenRequest)
+        {
+            return null;
+        //    // Check if the provided refresh token exists and is valid for the user
+        //    var userEntity = await _userBusiness.GetUserByIdAsync(refreshTokenRequest.UserId);
+        //    if (userEntity == null || userEntity.RefreshToken != refreshTokenRequest.RefreshToken)
+        //    {
+        //        return Unauthorized(new { Message = "Invalid refresh token or user ID." });
+        //    }
+
+            //    // Optional: Validate expiration of the refresh token if applicable
+            //    if (userEntity.TokenExpiryDate <= DateTime.UtcNow)
+            //    {
+            //        return Unauthorized(new { Message = "Refresh token has expired." });
+            //    }
+
+            //    // Map to AuthModel and generate a new access token
+            //    var authModel = new AuthModel
+            //    {
+            //        UserId = userEntity.Id,
+            //        Name = userEntity.Name,
+            //        Email = userEntity.Email,
+            //        UserRoles = userEntity.UserRoles.Select(role => new UserRoleModel
+            //        {
+            //            Id = role.Id,
+            //            RoleName = role.RoleName
+            //        }).ToList(),
+            //        Organizations = userEntity.UserOrganizations.Select(org => new OrganizationModel
+            //        {
+            //            OrganizationId = org.OrganizationId,
+            //            OrganizationName = org.OrganizationName
+            //        }).ToList()
+            //    };
+
+            //    // Generate new token
+            //    await PopulateJwtTokenAsync(authModel);
+
+            //    // Update user's last login or refresh token expiry if needed
+            //    await _userBusiness.UpdatelastLogin(authModel);
+
+            //    // Return new access token
+            //    return Ok(new
+            //    {
+            //        AccessToken = authModel.Token,
+            //        ExpiresIn = _appsettings.TokenSettings.SessionExpiryInMinutes * 60
+            //    });
+        }
+
 
     }
 }

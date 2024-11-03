@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using NGO.Common;
 using NGO.Common.Helpers;
 using NGO.Data;
@@ -13,6 +14,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Mail;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using static NGO.Model.FileModel;
 
@@ -28,11 +30,11 @@ namespace NGO.Business
         private readonly IOrgChapterRepository _orgChapterRepository;
         private readonly IOrgRepository _orgRepository;
         private readonly IPaymentRepository _paymentRepository;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly SMTPEmailProvider _smtpEmailProvider;
+        private readonly PasswordHandler _passwordHandler; 
         private readonly AppSettings _appsettings;
         private readonly IMapper _mapper;
-        public UserBusiness(IUserRepository userRepository, IUserDetailRepository userDetailRepository, IRoleRepository roleRepository, IUserRolesRepository userRolesRepository, IChildrensRepository childrensRepository, IOrgChapterRepository orgChapterRepository, IOrgRepository orgRepository, IPaymentRepository paymentRepository, IHttpContextAccessor httpContextAccessor, SMTPEmailProvider smtpEmailProvider, IMapper mapper, AppSettings appsettings)
+        public UserBusiness(IUserRepository userRepository, IUserDetailRepository userDetailRepository, IRoleRepository roleRepository, IUserRolesRepository userRolesRepository, IChildrensRepository childrensRepository, IOrgChapterRepository orgChapterRepository, IOrgRepository orgRepository, IPaymentRepository paymentRepository, SMTPEmailProvider smtpEmailProvider, PasswordHandler passwordHandler, IMapper mapper, AppSettings appsettings)
         {
             _userRepository = userRepository;
             _userDetailRepository = userDetailRepository;
@@ -42,8 +44,8 @@ namespace NGO.Business
             _orgChapterRepository = orgChapterRepository;
             _orgRepository = orgRepository;
             _paymentRepository = paymentRepository;
-            _httpContextAccessor = httpContextAccessor;
             _smtpEmailProvider = smtpEmailProvider;
+            _passwordHandler=passwordHandler;
             _appsettings = appsettings;
             _mapper = mapper;
         }
@@ -100,7 +102,7 @@ namespace NGO.Business
                         children[i].ChildCity = item.ResidentCity;
                         children[i].ChildCountry = item.ResidentCountry;
                         children[i].ChildDOB = item.Dob;
-                        children[i].ChildEmailAddress = item.EmialId;
+                        children[i].ChildEmailAddress = item.EmailId;
                         children[i].ChildFirstName = item.FirstName;
                         children[i].ChildLastName = item.LastName;
                         children[i].ChildPhoneNumber = item.PhoneNo;
@@ -211,7 +213,7 @@ namespace NGO.Business
             return httpResponseMessage;
         }
 
-        public async Task SaveMember(int userId, string memberId, string chapterId, string organizationId)
+        public async Task SaveMember(int userId, string memberId, int chapterId, int organizationId)
         {
             var userDetail = (await _userDetailRepository.GetByAsync(x => x.UserId == userId)).FirstOrDefault();
             if (userDetail != null)
@@ -284,8 +286,10 @@ namespace NGO.Business
                 var payment = (await _paymentRepository.GetByAsync(x => x.UserDetailId == item.UserId)).FirstOrDefault();
                 if (item.OrgId != null)
                 {
-                    organization = (await _orgRepository.GetByAsync(x => x.Id == int.Parse(item.OrgId))).FirstOrDefault();
+                    organization = (await _orgRepository.GetByAsync(x => x.Id == item.OrgId)).FirstOrDefault();
                 }
+
+
                 Random random = new Random();
                 int id = 0;
                 id = random.Next(100000, 999999);
@@ -445,9 +449,24 @@ namespace NGO.Business
         public async Task<AuthModel> GetUserDetails(LoginModel loginModel)
         {
             var authModel = new AuthModel();
+
+            // Attempt to retrieve user details by email
             var userDetails = await _userRepository.GetUserDetails(loginModel);
-            if (userDetails == null || userDetails.Password != Cryptography.ComputeSHA256Hash(loginModel.Password, userDetails.CreatedOn.ToString("dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture)))
-                return null;
+            if (userDetails == null)
+            {
+                authModel.Error = "User does not exist.";
+                return authModel;
+            }
+
+            // Verify the password
+            var isPasswordValid = _passwordHandler.VerifyPassword(loginModel.Password, userDetails.Password);
+            if (!isPasswordValid)
+            {
+                authModel.Error = "Invalid password.";
+                return authModel;
+            }
+
+            // Retrieve the user role
             var userRoles = (await _userRolesRepository.GetByAsync(x => x.UserId == userDetails.Id)).SingleOrDefault();
             if (userRoles != null)
             {
@@ -455,11 +474,20 @@ namespace NGO.Business
                 authModel.UserId = userDetails.Id;
                 authModel.Name = userDetails.Name;
                 authModel.Email = userDetails.Email;
-                authModel.UserRole = role.Name;
-                authModel.PayMentInfo = userDetails.PaymentInfo;
+
+
+                //commented below to just avoid error currently fsced, need a fix ------------------------------------------------
+                //authModel.UserRole = role.Name;   
+                authModel.PaymentInfo = userDetails.PaymentInfo;
             }
+            else
+            {
+                authModel.Error = "User role not assigned.";
+            }
+
             return authModel;
         }
+
 
         public async Task<UserDetailModel> GetCurrentUserDetails(int Id)
         {
@@ -541,7 +569,7 @@ namespace NGO.Business
                             {
                                 item.FirstName = userDetailModel.ChildrensDetails[i].ChildFirstName;
                                 item.LastName = userDetailModel.ChildrensDetails[i].ChildLastName;
-                                item.EmialId = userDetailModel.ChildrensDetails[i].ChildEmailAddress;
+                                item.EmailId = userDetailModel.ChildrensDetails[i].ChildEmailAddress;
                                 item.PhoneNo = userDetailModel.ChildrensDetails[i].ChildPhoneNumber;
                                 item.Dob = userDetailModel.ChildrensDetails[i].ChildDOB;
                                 item.ResidentCity = userDetailModel.ChildrensDetails[i].ChildCity;
@@ -566,7 +594,7 @@ namespace NGO.Business
                                 childrensDetailsModel[j].ResidentState = userDetailModel.ChildrensDetails[i].ChildState;
                                 childrensDetailsModel[j].ResidentCity = userDetailModel.ChildrensDetails[i].ChildCity;
                                 childrensDetailsModel[j].ResidentCountry = userDetailModel.ChildrensDetails[i].ChildCountry;
-                                childrensDetailsModel[j].EmialId = userDetailModel.ChildrensDetails[i].ChildEmailAddress;
+                                childrensDetailsModel[j].EmailId = userDetailModel.ChildrensDetails[i].ChildEmailAddress;
                                 childrensDetailsModel[j].PhoneNo = userDetailModel.ChildrensDetails[i].ChildPhoneNumber;
                                 j++;
                             }
@@ -594,7 +622,7 @@ namespace NGO.Business
         public async Task UpdatelastLogin(AuthModel authModel)
         {
             var user = (await _userRepository.GetByAsync(x => x.Id == authModel.UserId)).SingleOrDefault();
-            user.LastLogin = DateTime.Now;
+            user.LastLogin = DateTime.UtcNow;
             this._userRepository.Update(user);
             await this._userRepository.SaveAsync();
         }
@@ -603,13 +631,20 @@ namespace NGO.Business
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appsettings.Secret);
+
+            // Serialize complex data into JSON for storing in claims
+            var organizationsJson = JsonConvert.SerializeObject(authModel.Organizations);
+            var userRolesJson = JsonConvert.SerializeObject(authModel.UserRoles);
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                        new Claim(ClaimTypes.NameIdentifier, authModel.UserId.ToString()),
-                        new Claim(ClaimTypes.Email, authModel.Email.ToString()),
-                        new Claim(ClaimTypes.Name, authModel.Name.ToString())
+            new Claim(ClaimTypes.UserData, authModel.UserId.ToString()),
+            new Claim(ClaimTypes.Email, authModel.Email),
+            new Claim(ClaimTypes.Name, authModel.Name),
+            new Claim("Organizations", organizationsJson), // Custom claim for organizations
+            new Claim("UserRoles", userRolesJson)          // Custom claim for roles
                 }),
                 Expires = authModel.TokenExpiryDate = DateTime.UtcNow.AddMinutes(_appsettings.TokenSettings.SessionExpiryInMinutes),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
@@ -618,5 +653,9 @@ namespace NGO.Business
             var token = tokenHandler.CreateToken(tokenDescriptor);
             authModel.Token = tokenHandler.WriteToken(token);
         }
+
+
     }
 }
+
+

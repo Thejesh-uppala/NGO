@@ -93,6 +93,8 @@ $slack:         #3aaf85 !default;
 $dribbble:      #ea4c89 !default;
 $github:        #222222 !default;
 
+
+
 $theme-colors: () !default;
 $theme-colors: map-merge((
   "default":      $default,
@@ -808,7 +810,7 @@ $close-font-size:                   $font-size-base * 1.5 !default;
 $close-font-weight:                 $font-weight-bold !default;
 $close-bg:                          transparent !default;
 $close-hover-bg:                    transparent !default;
-$close-color:                       rgba(0, 0, 0, .6) !default !default;
+$close-color:                       rgba(0, 0, 0, .6) !default;
 $close-hover-color:                 rgba(0, 0, 0, .9) !default;
 $close-text-shadow:                 none !default;
 
@@ -980,4 +982,4 @@ $footer-heading-font-size: $font-size-sm !default;
 
 // Import Bootstrap variable defaults
 
-@import "~bootstrap/scss/variables";
+@import "bootstrap/scss/variables";

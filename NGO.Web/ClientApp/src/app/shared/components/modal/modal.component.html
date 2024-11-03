@@ -1,15 +1,21 @@
-<div class="modal fade bd-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Large Modal</h5>
-          <button type="button" class="close" (click)="modalService.cancel()" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <div></div>
-        </div>
-      </div>
-    </div>
+<ng-template #myModal let-modal>
+  <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Large Modal</h5>
+      <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+      </button>
   </div>
+  <div class="modal-body">
+      <div>
+          <!-- Modal content here -->
+          User Details: {{ user?.name }}
+      </div>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Close click')">Close</button>
+      <button type="button" class="btn btn-primary" (click)="save()">Save changes</button>
+  </div>
+</ng-template>
+
+<!-- Button to open the modal -->
+<button type="button" class="btn btn-lg btn-outline-primary" (click)="open(myModal)">Launch large modal</button>

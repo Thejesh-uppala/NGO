@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
- 
-import { BootstrapNgModalService } from 'bootstrap-ng-modal';
- 
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 @Component({
     selector: 'app-modal',
     templateUrl: './modal.component.html',
@@ -11,9 +10,12 @@ export class ModalOneComponent implements OnInit {
  
     @Input() user: any;
  
-    constructor(public modalService: BootstrapNgModalService) { }
+    constructor(private modalService: NgbModal) { }
  
     ngOnInit() {
     }
- 
+
+    open(content: any) {
+        this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+    }
 }

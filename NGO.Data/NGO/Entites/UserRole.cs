@@ -8,7 +8,12 @@ namespace NGO.Data
         public int Id { get; set; }
         public int UserId { get; set; }
         public int RoleId { get; set; }
+        public int OrgId { get; set; }
 
-        public virtual Role Role { get; set; } = null!;
+        public virtual User User { get; set; } = null!;    // Navigation property to User
+        public virtual Role Role { get; set; } = null!;    // Navigation property to Role
+        public virtual Organization Organization { get; set; } = null!; // Navigation property to Organization (add this line)
+
+
     }
 }

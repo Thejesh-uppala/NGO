@@ -10,7 +10,7 @@ namespace NGO.Data
         public int UserDetailId { get; set; }
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;
-        public string EmialId { get; set; } = null!;
+        public string EmailId { get; set; } = null!;
         public string PhoneNo { get; set; } = null!;
         public DateTime Dob { get; set; }
         public bool Resident { get; set; }
@@ -21,3 +21,4 @@ namespace NGO.Data
         public virtual UserDetail UserDetail { get; set; } = null!;
     }
 }
+

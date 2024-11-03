@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using Aykan.SRM.Model;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using NGO.Data;
+using NGO.Data.NGO.Entites;
 using NGO.Model;
 
 namespace NGO.Repository
@@ -29,7 +28,26 @@ namespace NGO.Repository
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<UserDetail> UserDetails { get; set; } = null!;
         public virtual DbSet<UserRole> UserRoles { get; set; } = null!;
-        public virtual DbSet<UspUserReturnModel> UspUserReturnModels { get; set; } = null!;
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+
+            if (!optionsBuilder.IsConfigured)
+            {
+                string connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
+
+                // Use PostgreSQL provider
+                optionsBuilder.UseNpgsql(connectionString, npgsqlOptions =>
+                {
+                    npgsqlOptions.CommandTimeout(60); // Set command timeout to 60 seconds
+                }
+
+                );
+                
+
+                //optionsBuilder.UseNpgsql("postgresql://NGOTTTTTTT_owner:TTTTTTTpe03oSuDQNrf@ep-bitter-block-a8b9ny27-pooler.eastus2.azure.neon.tech/NGO?sslmode=require");
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -39,9 +57,9 @@ namespace NGO.Repository
 
                 entity.Property(e => e.Dob)
                     .HasColumnType("date")
-                    .HasColumnName("DOB");
+                    .HasColumnName("Dob");
 
-                entity.Property(e => e.EmialId).HasMaxLength(50);
+                entity.Property(e => e.EmailId).HasMaxLength(50);
 
                 entity.Property(e => e.FirstName).HasMaxLength(50);
 
@@ -60,9 +78,9 @@ namespace NGO.Repository
                 entity.HasOne(d => d.UserDetail)
                     .WithMany(p => p.ChildrensDetails)
                     .HasForeignKey(d => d.UserDetailId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ChildrensDetails_ChildrensDetails");
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
+
 
             modelBuilder.Entity<MemberShipType>(entity =>
             {
@@ -74,15 +92,14 @@ namespace NGO.Repository
                 entity.HasOne(d => d.UserDetail)
                     .WithMany(p => p.MemberShipTypes)
                     .HasForeignKey(d => d.UserDetailId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_MemberShipTypes_UserDetails");
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<Organization>(entity =>
             {
                 entity.ToTable("Organization");
 
-                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+                entity.Property(e => e.CreatedDate).HasColumnType("timestamptz");
 
                 entity.Property(e => e.OrgName)
                     .HasMaxLength(50)
@@ -91,6 +108,23 @@ namespace NGO.Repository
                 entity.Property(e => e.OrgWelMsg).IsUnicode(false);
 
                 entity.Property(e => e.PayPalKey).IsUnicode(false);
+
+
+            });
+
+            modelBuilder.Entity<UserOrganization>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.OrganizationId }); 
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserOrganizations)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+
+                entity.HasOne(d => d.Organization)
+                    .WithMany(p => p.UserOrganizations)
+                    .HasForeignKey(d => d.OrganizationId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<OrganizationChapter>(entity =>
@@ -114,8 +148,7 @@ namespace NGO.Repository
                 entity.HasOne(d => d.Org)
                     .WithMany(p => p.OrganizationChapters)
                     .HasForeignKey(d => d.OrgId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_OrganizationChapter_OrganizationChapter");
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<Payment>(entity =>
@@ -124,7 +157,7 @@ namespace NGO.Repository
 
                 entity.Property(e => e.PayPalKey).IsUnicode(false);
 
-                entity.Property(e => e.PaymentDate).HasColumnType("datetime");
+                entity.Property(e => e.PaymentDate).HasColumnType("timestamptz");
 
                 entity.Property(e => e.PaymentId)
                     .HasMaxLength(50)
@@ -133,8 +166,7 @@ namespace NGO.Repository
                 entity.HasOne(d => d.UserDetail)
                     .WithMany(p => p.Payments)
                     .HasForeignKey(d => d.UserDetailId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Payment_Payment");
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<Role>(entity =>
@@ -144,17 +176,14 @@ namespace NGO.Repository
 
             modelBuilder.Entity<RolePermission>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.CreatedOn).HasColumnType("timestamptz");
 
-                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
-
-                entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
+                entity.Property(e => e.UpdatedOn).HasColumnType("timestamptz");
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.RolePermissions)
                     .HasForeignKey(d => d.RoleId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_RolePermissions_Roles");
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -163,11 +192,11 @@ namespace NGO.Repository
                     .HasMaxLength(15)
                     .IsUnicode(false);
 
-                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+                entity.Property(e => e.CreatedOn).HasColumnType("timestamptz");
 
                 entity.Property(e => e.Email).HasMaxLength(150);
 
-                entity.Property(e => e.LastLogin).HasColumnType("datetime");
+                entity.Property(e => e.LastLogin).HasColumnType("timestamptz");
 
                 entity.Property(e => e.Name).IsUnicode(false);
 
@@ -175,38 +204,26 @@ namespace NGO.Repository
 
                 entity.Property(e => e.PaymentInfo).IsUnicode(false);
 
-                entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
+                entity.Property(e => e.UpdatedOn).HasColumnType("timestamptz");
             });
 
             modelBuilder.Entity<UserDetail>(entity =>
             {
                 entity.Property(e => e.Address).IsUnicode(false);
 
-                entity.Property(e => e.ChapterId)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.City).HasMaxLength(50);
 
                 entity.Property(e => e.Country).HasMaxLength(50);
 
-                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+                entity.Property(e => e.CreatedOn).HasColumnType("timestamptz");
 
                 entity.Property(e => e.Dob)
-                    .HasColumnType("datetime")
-                    .HasColumnName("DOB");
-
-                entity.Property(e => e.FamilyName).IsUnicode(false);
+                    .HasColumnType("timestamptz")
+                    .HasColumnName("Dob");
 
                 entity.Property(e => e.FirstName).IsUnicode(false);
 
-                entity.Property(e => e.HomeTown).HasMaxLength(50);
-
                 entity.Property(e => e.LastName)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.OrgId)
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
@@ -214,78 +231,37 @@ namespace NGO.Repository
                     .HasMaxLength(10)
                     .IsUnicode(false);
 
-                entity.Property(e => e.PostalCode)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.PreferredBy).HasMaxLength(250);
-
-                entity.Property(e => e.SocialMedia).HasMaxLength(15);
-
-                entity.Property(e => e.SpouseCity)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.SpouseCountry)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.SpouseDob)
-                    .HasColumnType("datetime")
-                    .HasColumnName("SpouseDOB");
-
-                entity.Property(e => e.SpouseEmail).IsUnicode(false);
-
-                entity.Property(e => e.SpouseFirstName)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.SpouseHometown)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.SpouseLastName)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.SpousePhoneNumber)
-                    .HasMaxLength(10)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.SpouseState)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.State)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.UniqueId)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("uniqueId");
-
-                entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
-
-                entity.Property(e => e.WhatsAppNumber)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.Property(e => e.UpdatedOn).HasColumnType("timestamptz");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.UserDetails)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UserDetails_Users");
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+
+
+                entity.HasOne(d => d.Organization)
+               .WithMany(p => p.UserDetails)  
+               .HasForeignKey(d => d.OrgId)
+               .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<UserRole>(entity =>
             {
+                entity.HasKey(e => new { e.UserId, e.OrgId, e.RoleId }); // Adjusted to include OrgId in the key
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserRoles)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.UserRoles)
                     .HasForeignKey(d => d.RoleId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UserRoles_Users");
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+                entity.HasOne(d => d.Organization) // Ensure you have this navigation property defined in UserRole
+                    .WithMany(p => p.UserRoles) // Ensure the reverse navigation property in Organization exists
+                    .HasForeignKey(d => d.OrgId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
+
 
             OnModelCreatingPartial(modelBuilder);
         }

@@ -15,8 +15,8 @@ namespace NGO.Data
         public int Id { get; set; }
         public string? UniqueId { get; set; }
         public int UserId { get; set; }
-        public string? OrgId { get; set; }
-        public string? ChapterId { get; set; }
+        public int OrgId { get; set; }
+        public int ChapterId { get; set; }
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;
         public string? FamilyName { get; set; }
@@ -48,9 +48,11 @@ namespace NGO.Data
         public DateTime UpdatedOn { get; set; }
         public bool IsDeleted { get; set; }
 
+        public virtual Organization Organization { get; set; } = null!;  
         public virtual User User { get; set; } = null!;
         public virtual ICollection<ChildrensDetail> ChildrensDetails { get; set; }
         public virtual ICollection<MemberShipType> MemberShipTypes { get; set; }
         public virtual ICollection<Payment> Payments { get; set; }
     }
 }
+

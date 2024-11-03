@@ -14,5 +14,7 @@ namespace NGO.Model
         public string? PayPalKey { get; set; }
         public DateTime? CreatedDate { get; set; }
         public List<OrganizationChapterModel> OrganizationChapters { get; set; }
+        public List<UserDetailModel> userDetailModels { get; set; }
+
     }
 }

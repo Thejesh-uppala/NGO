@@ -1,10 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace NGO.Model
 {
@@ -17,7 +12,7 @@ namespace NGO.Model
         }
         public IFormFile? Photo { get; set; }
         public string FirstName { get; set; } = null!;
-        public string? OrgId { get; set; } = null!;
+        public int OrgId { get; set; } 
         public string? MemberId { get; set; } = null!;
         public string? FamilyName { get; set; } = null!;
         public string EmailAddress { get; set; } = null!;
@@ -56,7 +51,7 @@ namespace NGO.Model
             public string ChildState { get; set; } = null!;
             public string ChildPhoneNumber { get; set; } = null!;
             public DateTime ChildDOB { get; set; }
-            public string ChildLastName { get; set; }
+            public string? ChildLastName { get; set; }
             public string ChildEmailAddress { get; set; } = null!;
             public string ChildFirstName { get; set; } = null!;
         }
