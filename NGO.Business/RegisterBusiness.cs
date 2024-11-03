@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using NGO.Common;
 using NGO.Common.Helpers;
 using NGO.Data;
+using NGO.Data.NGO.Entites;
 using NGO.Model;
 using NGO.Repository;
 using NGO.Repository.Contracts;
@@ -16,66 +17,152 @@ namespace NGO.Business
         private readonly AppSettings _appsettings;
         private readonly IMapper _mapper;
         private readonly IUserRolesRepository _userRolesRepository;
+        private readonly IOrgRepository _organizationRepository;
         private readonly IUserDetailRepository _userDetailRepository;
         private readonly IMemberShipTypesRepository _memberShipTypesRepository;
         private readonly IChildrensRepository _childrensRepository;
         private readonly IRoleRepository _roleRepository;
         private readonly IPaymentRepository _paymentRepository;
         private readonly SMTPEmailProvider _smtpEmailProvider;
+        private readonly PasswordHandler _passwordHandler;
+        private readonly UserBusiness _userBusiness;
 
-        public RegisterBusiness(IUserRepository userRepository, AppSettings appsettings, IMapper mapper, IUserRolesRepository userRolesRepository, IUserDetailRepository userDetailRepository, IMemberShipTypesRepository memberShipTypesRepository, IChildrensRepository childrensRepository, IRoleRepository roleRepository, IPaymentRepository paymentRepository, SMTPEmailProvider sMTPEmailProvider)
+        public RegisterBusiness(IUserRepository userRepository, AppSettings appsettings, IMapper mapper, IUserRolesRepository userRolesRepository, IOrgRepository organizationRepository, IUserDetailRepository userDetailRepository, IMemberShipTypesRepository memberShipTypesRepository, IChildrensRepository childrensRepository, IRoleRepository roleRepository, IPaymentRepository paymentRepository, SMTPEmailProvider sMTPEmailProvider, PasswordHandler passwordHandler, UserBusiness userBusiness)
         {
             _userRepository = userRepository;
             _appsettings = appsettings;
             _mapper = mapper;
             _userRolesRepository = userRolesRepository;
+            _organizationRepository = organizationRepository;
             _userDetailRepository = userDetailRepository;
             _memberShipTypesRepository = memberShipTypesRepository;
             _childrensRepository = childrensRepository;
             _roleRepository = roleRepository;
             _paymentRepository = paymentRepository;
             _smtpEmailProvider = sMTPEmailProvider;
+            _passwordHandler = passwordHandler;
+            _userBusiness = userBusiness;
+
 
         }
 
-        public async Task<UserModel> SignUp(string userName, string email, string password, string phNumber)
+        public async Task<AuthModel> SignUp(string userName, string email, string password, string phNumber, int orgId)
         {
-            UserModel userModel = new UserModel();
-            userModel.Status = (int)Common.EnumLookUp.Active;
-            userModel.ContactNumber = phNumber;
-            userModel.Name = userName;
-            userModel.Email = email;
-            userModel.CreatedOn = DateTime.UtcNow;
-            userModel.Password = Cryptography.ComputeSHA256Hash(password, userModel.CreatedOn.ToString("dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture));
-            userModel.PaymentInfo = ((int)PaymentInfo.PENDING).ToString();
-            var user = _mapper.Map<User>(userModel);
-            var userdetails = _mapper.Map<UserModel>(user);
-            var emailDataModel = new EmailDataModel()
+            var userModel = new UserModel
             {
-                To = new List<string>() {
-                    email
-                },
-                Data = "<p>" + "User created successfully, use the below creadentials to login" + "</p>"
-                             + "<p>" + "User Name" + ": " + userdetails.Name + "</P>"
-                             + "<p>" + "Password" + ": " + userdetails.Password + " </P>",
-                Subject = "User creation"
+                Status = (int)Common.EnumLookUp.Active,
+                ContactNumber = phNumber,
+                Name = userName,
+                Email = email,
+                CreatedOn = DateTime.UtcNow,
+                PaymentInfo = ((int)PaymentInfo.PENDING).ToString(),
             };
-            emailDataModel = await this._smtpEmailProvider.SendAsync(emailDataModel);
+
+            // Encrypt password using Argon2Id hashing algorithm
+            userModel.Password = _passwordHandler.HashPassword(password);
+
+            // Check if user already exists for the specified orgId
+            var existingUser = await _userRepository.GetUserByEmailAndOrg(email, orgId);
+            if (existingUser.Any())
+            {
+                throw new InvalidOperationException("User already registered with this organization.");
+            }
+
+            var organization = await _organizationRepository.GetByIdAsync(orgId); // Assuming _organizationRepository exists and has a GetByIdAsync method
+            if (organization == null)
+            {
+                throw new InvalidOperationException("Organization is not registered.");
+            }
+
+            // Map user model to user entity and add to the repository
+            var userEntity = _mapper.Map<User>(userModel);
+            _userRepository.Add(userEntity, false, true);
+
             try
             {
-                this._userRepository.Add(user, false, true);
-                await this._userRepository.SaveAsync();
+                
+                await _userRepository.SaveAsync();
+               
+                // Add organization relationship to the user
+                userEntity.UserOrganizations = new List<UserOrganization>
+                {
+                    new UserOrganization { UserId = userEntity.Id, OrganizationId = orgId }
+                };
+
+                await _userRepository.SaveAsync();
 
 
             }
             catch (Exception ex)
             {
+                throw new Exception("Error occurred during signup.", ex);
+            }
+            try
+            {
+                var memberRole = await _roleRepository.GetRoleByNameAsync("Member");
+                if (memberRole == null)
+                {
+                    throw new Exception("Default 'Member' role is not found in the database.");
+                }
 
-                throw;
+                // Assign the "Member" role to the user
+                var userRole = new UserRole
+                {
+                    UserId = userEntity.Id, // Use the user ID after it's generated
+                    RoleId = memberRole.Id,
+                    OrgId = orgId
+                };
+                _userRolesRepository.Add(userRole);
+                await _userRepository.SaveAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error occurred during Role assigning.", ex);
             }
 
-            return userdetails;
+            // Send confirmation email
+            var emailDataModel = new EmailDataModel
+            {
+                To = new List<string> { email },
+                Data = "<p>User created successfully, use the below credentials to login</p>"
+                        + $"<p>Username: {userModel.Email}</p>"
+                        + $"<p>Password: {password}</p>",  // Password as plain text is generally discouraged; consider a custom message instead.
+                Subject = "User Account Creation"
+            };
+
+            await _smtpEmailProvider.SendAsync(emailDataModel);
+
+
+            var authModel = new AuthModel
+                {
+                    UserId = userEntity.Id, // Map Id to UserId
+                    Name = userEntity.Name,
+                    Email = userEntity.Email,
+                    PaymentInfo = userEntity.PaymentInfo,
+                    Token = string.Empty, // Set a default or empty token
+                    TokenExpiryDate = DateTime.UtcNow.AddHours(1), // Example token expiry logic
+                    RefreshToken = Guid.NewGuid(), // Generate a new RefreshToken
+                    UserRoles = userEntity.UserRoles.Select(ur => new UserRoleModel
+                    {
+                        RoleId = ur.RoleId,
+                        RoleName = "Member"
+                    }).ToList(),
+                    Organizations = userEntity.UserOrganizations.Select(uo => new OrganizationModel
+                    {
+                         Id = uo.OrganizationId, // Assuming UserOrganization has OrganizationId
+                        OrgName = organization.OrgName // Assuming UserOrganization has OrganizationName
+                    }).ToList(),
+                    Error = null, // Set any default error message if needed
+                };
+
+            await _userBusiness.PopulateJwtTokenAsync(authModel);
+            await _userBusiness.UpdatelastLogin(authModel);
+
+            return authModel;
+
         }
+
+
         public async Task UploadPhoto(IFormFile photo, string userId)
         {
             var userData = (await this._userDetailRepository.GetByAsync(x => x.UserId == int.Parse(userId))).FirstOrDefault();
@@ -97,6 +184,8 @@ namespace NGO.Business
             }
             
         }
+
+
         public async Task<string> RegisterUser(RegistrationModel registrationModel)
         {
             UserModel userModel = new UserModel();

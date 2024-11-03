@@ -2,6 +2,7 @@
 using Aykan.SRM.Model;
 using Microsoft.EntityFrameworkCore;
 using NGO.Data;
+using NGO.Data.NGO.Entites;
 using NGO.Model;
 
 namespace NGO.Repository
@@ -33,8 +34,10 @@ namespace NGO.Repository
 
             if (!optionsBuilder.IsConfigured)
             {
+                string connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
+
                 // Use PostgreSQL provider
-                optionsBuilder.UseNpgsql("Host=TTTTTTep-bitter-block-a8b9ny27-pooler.eastus2.azure.neon.tech;Port=5432;Username=TTTTTTTNGO_owner;Password=TTTTTTpe03oSuDQNrf;Database=Community;Ssl Mode=Require;Trust Server Certificate=true;Pooling=true;MaxPoolSize=100;", npgsqlOptions =>
+                optionsBuilder.UseNpgsql(connectionString, npgsqlOptions =>
                 {
                     npgsqlOptions.CommandTimeout(60); // Set command timeout to 60 seconds
                 }
@@ -42,7 +45,7 @@ namespace NGO.Repository
                 );
                 
 
-                //optionsBuilder.UseNpgsql("postgresql://NGO_owner:pe03oSuDQNrf@ep-bitter-block-a8b9ny27-pooler.eastus2.azure.neon.tech/NGO?sslmode=require");
+                //optionsBuilder.UseNpgsql("postgresql://NGOTTTTTTT_owner:TTTTTTTpe03oSuDQNrf@ep-bitter-block-a8b9ny27-pooler.eastus2.azure.neon.tech/NGO?sslmode=require");
             }
         }
 
@@ -78,6 +81,7 @@ namespace NGO.Repository
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
+
             modelBuilder.Entity<MemberShipType>(entity =>
             {
                 entity.Property(e => e.MemberShipType1)
@@ -106,6 +110,21 @@ namespace NGO.Repository
                 entity.Property(e => e.PayPalKey).IsUnicode(false);
 
 
+            });
+
+            modelBuilder.Entity<UserOrganization>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.OrganizationId }); 
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserOrganizations)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+
+                entity.HasOne(d => d.Organization)
+                    .WithMany(p => p.UserOrganizations)
+                    .HasForeignKey(d => d.OrganizationId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<OrganizationChapter>(entity =>
@@ -228,11 +247,21 @@ namespace NGO.Repository
 
             modelBuilder.Entity<UserRole>(entity =>
             {
+                entity.HasKey(e => new { e.UserId, e.OrgId, e.RoleId }); // Adjusted to include OrgId in the key
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserRoles)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.UserRoles)
                     .HasForeignKey(d => d.RoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
+                entity.HasOne(d => d.Organization) // Ensure you have this navigation property defined in UserRole
+                    .WithMany(p => p.UserRoles) // Ensure the reverse navigation property in Organization exists
+                    .HasForeignKey(d => d.OrgId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
+
 
             OnModelCreatingPartial(modelBuilder);
         }

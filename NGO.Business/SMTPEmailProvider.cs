@@ -12,6 +12,7 @@ namespace NGO.Business
         public SMTPEmailProvider(EmailSettings emailSettings)
         {
             this._emailSettings = emailSettings;
+
         }
 
         public async Task<EmailDataModel> SendAsync(EmailDataModel emailDataModel)
