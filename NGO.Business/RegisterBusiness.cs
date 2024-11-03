@@ -157,6 +157,7 @@ namespace NGO.Business
 
             await _userBusiness.PopulateJwtTokenAsync(authModel);
             await _userBusiness.UpdatelastLogin(authModel);
+            await _userBusiness.UpdateRefreshToken(authModel);
 
             return authModel;
 

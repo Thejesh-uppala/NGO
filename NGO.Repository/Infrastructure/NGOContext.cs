@@ -205,6 +205,17 @@ namespace NGO.Repository
                 entity.Property(e => e.PaymentInfo).IsUnicode(false);
 
                 entity.Property(e => e.UpdatedOn).HasColumnType("timestamptz");
+
+                entity.Property(e => e.RefreshToken).HasColumnType("uuid");
+                entity.Property(e => e.Status).IsRequired(); // Add Status configuration
+                entity.Property(e => e.UnsuccessfulLoginAttempts); // Add UnsuccessfulLoginAttempts configuration
+                entity.Property(e => e.CreatedBy).IsRequired(); // Add CreatedBy configuration
+                entity.Property(e => e.UpdatedBy).IsRequired(); // Add UpdatedBy configuration
+                entity.Property(e => e.IsDeleted).IsRequired(); // Add IsDeleted configuration
+
+
+
+
             });
 
             modelBuilder.Entity<UserDetail>(entity =>

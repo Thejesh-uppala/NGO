@@ -31,5 +31,6 @@ namespace NGO.Data
         public virtual ICollection<UserRole> UserRoles { get; set; }
         public virtual ICollection<UserOrganization> UserOrganizations { get; set; } // Junction table collection
         public virtual ICollection<UserDetail> UserDetails { get; set; }
+        public Guid? RefreshToken { get; set; }
     }
 }

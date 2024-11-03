@@ -23,16 +23,19 @@ namespace NGO.Web.Controllers
         }
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Login(LoginModel loginModel)
+        public async Task<IActionResult> Login([FromQuery] int orgId,LoginModel loginModel)
         {
-           
-            var authModel = await _userBusiness.GetUserDetails(loginModel);
-            if (authModel.Error == null)
+
+
+
+            var authModel = await _userBusiness.GetUserDetails(orgId, loginModel);
+            if (authModel.Error != null)
             {
-                await _userBusiness.PopulateJwtTokenAsync(authModel);
-                await _userBusiness.UpdatelastLogin(authModel);
+                return Unauthorized(new { message = authModel.Error });
             }
+
             return Ok(authModel);
+
         }
         [AllowAnonymous]
         [HttpPost]
@@ -149,54 +152,23 @@ namespace NGO.Web.Controllers
             var response = await _userBusiness.MassPaymentRem(filterMassPaymentModels);
             return response;
         }
-        [HttpPost("refresh-token")]
-        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenModel refreshTokenRequest)
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("RefreshToken")]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequestModel request)
         {
-            return null;
-        //    // Check if the provided refresh token exists and is valid for the user
-        //    var userEntity = await _userBusiness.GetUserByIdAsync(refreshTokenRequest.UserId);
-        //    if (userEntity == null || userEntity.RefreshToken != refreshTokenRequest.RefreshToken)
-        //    {
-        //        return Unauthorized(new { Message = "Invalid refresh token or user ID." });
-        //    }
+            var authModel = await _userBusiness.GenerateNewAccessTokenAsync(request.UserId, request.RefreshToken);
 
-            //    // Optional: Validate expiration of the refresh token if applicable
-            //    if (userEntity.TokenExpiryDate <= DateTime.UtcNow)
-            //    {
-            //        return Unauthorized(new { Message = "Refresh token has expired." });
-            //    }
+            if (authModel == null)
+            {
+                return Unauthorized(new { message = "Invalid or expired refresh token." });
+            }
 
-            //    // Map to AuthModel and generate a new access token
-            //    var authModel = new AuthModel
-            //    {
-            //        UserId = userEntity.Id,
-            //        Name = userEntity.Name,
-            //        Email = userEntity.Email,
-            //        UserRoles = userEntity.UserRoles.Select(role => new UserRoleModel
-            //        {
-            //            Id = role.Id,
-            //            RoleName = role.RoleName
-            //        }).ToList(),
-            //        Organizations = userEntity.UserOrganizations.Select(org => new OrganizationModel
-            //        {
-            //            OrganizationId = org.OrganizationId,
-            //            OrganizationName = org.OrganizationName
-            //        }).ToList()
-            //    };
-
-            //    // Generate new token
-            //    await PopulateJwtTokenAsync(authModel);
-
-            //    // Update user's last login or refresh token expiry if needed
-            //    await _userBusiness.UpdatelastLogin(authModel);
-
-            //    // Return new access token
-            //    return Ok(new
-            //    {
-            //        AccessToken = authModel.Token,
-            //        ExpiresIn = _appsettings.TokenSettings.SessionExpiryInMinutes * 60
-            //    });
+            return Ok(authModel);
         }
+
+
 
 
     }

@@ -16,6 +16,7 @@
         public int UpdatedBy { get; set; }
         public DateTime UpdatedOn { get; set; }
         public bool IsDeleted { get; set; }
+        public Guid? RefreshToken { get; set; }
 
         public List<UserDetailModel> UserDetails { get; set; }
         public List<UserRoleModel> UserRoles { get; set; } = new List<UserRoleModel>();
