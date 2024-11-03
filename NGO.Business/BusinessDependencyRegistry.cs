@@ -12,6 +12,7 @@ namespace NGO.Business
             services.AddTransient<UserBusiness>();
             services.AddTransient<RegisterBusiness>();
             services.AddTransient<ContactUsBusiness>();
+            services.AddTransient<PasswordHandler>();
             services.AddTransient<SMTPEmailProvider>(sp => new SMTPEmailProvider(appSettings.SMTPEmailSettings));
         }
     }

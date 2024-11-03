@@ -1,4 +1,5 @@
-﻿using NGO.Common.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using NGO.Common.Models;
 using NGO.Data;
 using NGO.Repository.Contracts;
 using NGO.Repository.Infrastructure;
@@ -11,6 +12,12 @@ namespace NGO.Repository
         public OrgRepository(NGOContext nGOContext, ApplicationContext applicationContext) : base(nGOContext, applicationContext)
         {
             _nGOContext = nGOContext;
+        }
+
+        public async Task<Organization> GetByIdAsync(int orgId)
+        {
+            return await _nGOContext.Organizations
+                .FirstOrDefaultAsync(o => o.Id == orgId);
         }
     }
 }

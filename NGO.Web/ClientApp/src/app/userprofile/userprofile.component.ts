@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { DropdownModule } from 'primeng/dropdown';
+import { ToastModule } from 'primeng/toast';
 import { ICreateOrderRequest, IPayPalConfig } from 'ngx-paypal';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
@@ -21,7 +23,7 @@ interface Reason {
 })
 export class UserprofileComponent implements OnInit {
   profileForm!: FormGroup;
-  returnUrl: string = '';;
+  returnUrl: string = '';
   currentUser: any;
   subscriptions: Subscription[] = [];
   selectedFile!: File;
@@ -185,7 +187,7 @@ export class UserprofileComponent implements OnInit {
     });
   }
   setExistingChild(child: any): FormArray {
-    const formArray = new FormArray([]);
+    const formArray = new FormArray<FormGroup>([]);
     child.forEach((s:any) => {
       //this.childCountryName= s.childCountry;
       formArray.push(this.formBuilder.group({
