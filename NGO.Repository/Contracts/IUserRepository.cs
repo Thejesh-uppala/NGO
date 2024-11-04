@@ -9,5 +9,6 @@ namespace NGO.Repository
         Task<User> CreateUser(string userName, string email, string password);
         Task<List<User>> GetUserByEmailAndOrg(string email, int orgId);
         Task<User?> GetUserByRefreshTokenAndUserId(Guid refreshToken, int userId);
+        Task<User> GetUserByIdAndOrg(int userId, int orgId);
     }
 }

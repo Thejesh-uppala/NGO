@@ -45,14 +45,9 @@ namespace NGO.Web.Controllers
             var response = await _userBusiness.ForGotPasswordSendOTP(emailId);
             return response;
         }
-        [AllowAnonymous]
-        [HttpPost]
-        [Route("ForgotPassword")]
-        public async Task<IActionResult> ForgotPassword(string emailId, string newPassword)
-        {
-            await _userBusiness.ForgotPassword(emailId, newPassword);
-            return Ok();
-        }
+
+      
+
         [AllowAnonymous]
         [HttpGet]
         [Route("GetAllUser")]
@@ -123,14 +118,21 @@ namespace NGO.Web.Controllers
             await _userBusiness.UserContactEmailRem(userId, currentUserId);
             return Ok();
         }
-       
+        [AllowAnonymous]
         [HttpPost]
         [Route("ChangePassWord")]
-        public async Task<HttpResponseMessage> ChangePassWord(ResetPasswordModel resetPasswordModel)
+        public async Task<IActionResult> ChangePassword(int orgId, [FromBody] ResetPasswordModel model)
         {
-            var response = await _userBusiness.ChangePassWord(resetPasswordModel);
-            return response;
+            var result = await _userBusiness.ChangePasswordAsync(orgId, model);
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(result.StatusCode, new { Error = result.Error });
+            }
+
+            return Ok(new { Message = "Password updated successfully." });
         }
+
         [HttpPost]
         [Route("PaymentReminder")]
         public async Task<HttpResponseMessage> PaymentReminder(int userId)

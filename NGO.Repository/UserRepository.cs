@@ -29,15 +29,13 @@ namespace NGO.Repository
             
 
         }
+        public async Task<User> GetUserByIdAndOrg(int userId, int orgId)
+        {
+            return await _nGOContext.Users
+                .Include(u => u.UserOrganizations)
+                .FirstOrDefaultAsync(u => u.Id == userId && u.UserOrganizations.Any(o => o.OrganizationId == orgId));
+        }
 
-        //public async Task<List<User>> GetUserByEmailAndOrg(string email, int orgId)
-        //{
-        //    return await _nGOContext.Users
-        //        .Include(u => u.UserOrganizations) 
-        //        .Where(u => u.Email == email &&
-        //                    u.UserOrganizations.Any(o => o.OrganizationId == orgId))
-        //        .ToListAsync();
-        //}
         public async Task<List<User>> GetUserByEmailAndOrg(string email, int orgId)
         {
             return await _nGOContext.Users

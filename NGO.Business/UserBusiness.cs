@@ -319,52 +319,7 @@ namespace NGO.Business
             return userDetailModels;
         }
 
-        public async Task<HttpResponseMessage> ChangePassWord(ResetPasswordModel resetPasswordModel)
-        {
-            HttpResponseMessage response = new HttpResponseMessage();
-            var userpassword = (await _userRepository.GetByAsync(x => x.Email == resetPasswordModel.UserName)).FirstOrDefault();
-            if (userpassword == null)
-            {
-                response.StatusCode = HttpStatusCode.Conflict;
-                response.ReasonPhrase = "Please Provide Valid UserName!";
-            }
-            else if (!string.IsNullOrEmpty(resetPasswordModel.OldPassword))
-            {
-
-                var oldPassword = Cryptography.ComputeSHA256Hash(resetPasswordModel.OldPassword, userpassword.CreatedOn.ToString("dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture));
-                if (userpassword.Password != oldPassword)
-                {
-                    response.StatusCode = HttpStatusCode.Conflict;
-                    response.ReasonPhrase = "Old Password is Incorrect!";
-                }
-                else
-                {
-                    resetPasswordModel.Password = Cryptography.ComputeSHA256Hash(resetPasswordModel.Password, userpassword.CreatedOn.ToString("dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture));
-                    userpassword.Password = resetPasswordModel.Password;
-                    if (userpassword.Status == (int)Common.EnumLookUp.Suspended)
-                    {
-                        userpassword.Status = (int)Common.EnumLookUp.Active;
-                    }
-                    await _userRepository.SaveAsync();
-                    response.StatusCode = HttpStatusCode.OK;
-                }
-            }
-            else
-            {
-                resetPasswordModel.Password = Cryptography.ComputeSHA256Hash(resetPasswordModel.Password, userpassword.CreatedOn.ToString("dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture));
-                userpassword.Password = resetPasswordModel.Password;
-                if (userpassword.Status == (int)Common.EnumLookUp.Suspended)
-                {
-                    userpassword.Status = (int)Common.EnumLookUp.Active;
-                }
-                await _userRepository.SaveAsync();
-                response.StatusCode = HttpStatusCode.OK;
-
-            }
-            return response;
-
-        }
-
+      
         public async Task ForgotPassword(string emailId, string newPassword)
         {
             var currentUser = (await _userRepository.GetByAsync(x => x.Email == emailId)).FirstOrDefault();
@@ -410,6 +365,66 @@ namespace NGO.Business
                 throw ex;
             }
         }
+
+        public async Task<ResultModel> ChangePasswordAsync(int orgId, ResetPasswordModel model)
+        {
+            // Fetch the user based on orgId and model.UserId
+            var user = await _userRepository.GetUserByIdAndOrg(model.UserId, orgId);
+            if (user == null)
+            {
+                return new ResultModel
+                {
+                    IsSuccess = false,
+                    StatusCode = 404,
+                    Error = "User not found or not associated with the provided organization."
+                };
+            }
+
+            // Verify the old password
+            var isOldPasswordValid = _passwordHandler.VerifyPassword(model.OldPassword, user.Password);
+            if (!isOldPasswordValid)
+            {
+                return new ResultModel
+                {
+                    IsSuccess = false,
+                    StatusCode = 400,
+                    Error = "The old password is incorrect."
+                };
+            }
+
+            // Hash the new password
+            user.Password = _passwordHandler.HashPassword(model.Password);
+
+            try
+            {
+                // Update the password in the database
+                await _userRepository.SaveAsync();
+                var emailDataModel = new EmailDataModel
+                {
+                    To = new List<string> { user.Email },
+                    Data = "<p>Password Rest is successful , use the below credentials to login</p>"
+                       + $"<p>Username: {user.Email}</p>"
+                       + $"<p>Password: {model.Password}</p>",  // Password as plain text is generally discouraged; consider a custom message instead.
+                    Subject = "User Account Creation"
+                };
+
+                await _smtpEmailProvider.SendAsync(emailDataModel);
+
+            }
+            catch (Exception ex)
+            {
+                return new ResultModel
+                {
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Error = "An error occurred while updating the password.",
+                    Details = ex.Message
+                };
+            }
+
+            return new ResultModel { IsSuccess = true, StatusCode = 200 };
+        }
+
         public async Task<HttpResponseMessage> ForGotPasswordSendOTP(string emailId)
         {
             HttpResponseMessage httpResponseMessage = new HttpResponseMessage();
