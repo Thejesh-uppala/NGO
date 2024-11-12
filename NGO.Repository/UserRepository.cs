@@ -15,19 +15,39 @@ namespace NGO.Repository
         {
             _nGOContext = nGOContext;
         }
+
+        public async Task<User?> GetUserByRefreshTokenAndUserId(Guid refreshToken, int userId)
+        {
+            //return await _nGOContext.Users
+            //    .Include(u => u.UserOrganizations)
+            //    .Where(u => u.RefreshToken == refreshToken && u.Id == userId)
+            //    .SingleOrDefaultAsync();
+           
+                return await _nGOContext.Users
+                    .Where(u => u.RefreshToken == refreshToken && u.Id == userId)
+                    .SingleOrDefaultAsync();
+            
+
+        }
+        public async Task<User> GetUserByIdAndOrg(int userId, int orgId)
+        {
+            return await _nGOContext.Users
+                .Include(u => u.UserOrganizations)
+                .FirstOrDefaultAsync(u => u.Id == userId && u.UserOrganizations.Any(o => o.OrganizationId == orgId));
+        }
+
         public async Task<List<User>> GetUserByEmailAndOrg(string email, int orgId)
         {
             return await _nGOContext.Users
-                .Include(u => u.UserOrganizations) 
+                .Include(u => u.UserOrganizations) // Load the organizations the user is associated with
+                .Include(u => u.UserRoles)          // Load the user's roles
+                    .ThenInclude(ur => ur.Role)     // Load each role's details for the user's roles
                 .Where(u => u.Email == email &&
                             u.UserOrganizations.Any(o => o.OrganizationId == orgId))
                 .ToListAsync();
         }
 
-        public async Task<User> GetUserDetails(LoginModel loginModel)
-        {
-            return await _nGOContext.Users.FirstOrDefaultAsync(u => u.Email == loginModel.UserName);
-        }
+
         public async Task<User> CreateUser(string userName, string email, string password)
         {
             var createdDate = DateTime.Now;

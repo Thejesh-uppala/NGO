@@ -1,148 +1,220 @@
 <section style="background-color: #F5F5F5;">
-
-<header class="header">
-    <div class="company-logo">COMPANY LOGO</div>
-    <nav class="nav-container">
-      <ul class="nav-links">
-        <li><a href="#" class="nav-link-active">Home</a></li>
-        <li><a href="#">Jobs</a></li>
-        <li><a href="#">Companies</a></li>
-        <li><a href="#">Services</a></li>
-      </ul>
-      <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/9088a7aa7dc3fe7c8c1c9ea834a2a100fdd132b73be5f429036c503d87d335d8?placeholderIfAbsent=true&apiKey=9e16588387084fb2a9a51a1b99489136" class="profile-image" alt="User profile" />
-    </nav>
-  </header>
-
-
-
-
-
-<aside class="sidebar">
-    <div class="user-info">
-      <div class="user-avatar">N</div>
-      <div class="user-name">Natalya</div>
-    </div>
+    <!-- Navbar -->
+    <div class="nav-bar-header-section">
+        <div class="nav-bar-left-section">COMPANY LOGO</div>
+        <div class="nav-bar-right-section">
+          <div class="nav-bar-button-section">
+            <p-button label="Home"  [text]="true" [plain]="true"/>
+            <p-button label="Jobs" [text]="true" [plain]="true"/>
+            <p-button label="Companies" [text]="true" [plain]="true" />
+            <p-button label="Services" [text]="true" [plain]="true" />
+          </div>
+          <div class="nav-bar-image-section">
+            <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/9088a7aa7dc3fe7c8c1c9ea834a2a100fdd132b73be5f429036c503d87d335d8?placeholderIfAbsent=true&apiKey=9e16588387084fb2a9a51a1b99489136" class="profile-image" alt="User profile" />
+          </div>
+         
+        </div>
+      </div>
     
-    <nav>
-      <h2 class="menu-label">Menu</h2>
-      
-      <ul>
-        <li class="dashboard-item">
-          <div class="dashboard-icon">
-            <div class="icon-grid">
-              <div class="icon-dot"></div>
-              <div class="icon-dot"></div>
-              <div class="icon-dot"></div>
-              <div class="icon-dot"></div>
+    <div class="dashboard-parent-component">
+      <div class="dashboard-left-section">
+        <div class="dashboard-left-section-contents">
+          <div class="user-info">
+            <div class="user-avatar">N</div>
+            <div class="user-name">Natalya</div>
+          </div>
+          <div class="menu-text">Menu</div>
+          <div class="app-sidebar-icon-label">
+            <div>
+              <app-dashboard-icon></app-dashboard-icon>
+            </div>
+            <div>
+              Dashboard
             </div>
           </div>
-          <span class="dashboard-text">Dashboard</span>
-          <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/66c6ebf52aae9ec37f9ceef0fdafa0ae4e9add26466b5640bb3f8678bac8cf7a?placeholderIfAbsent=true&apiKey=9e16588387084fb2a9a51a1b99489136" alt="" class="menu-arrow" width="8" height="42" />
-        </li>
+          <div class="app-sidebar-icon-label">
+            <div>
+              <app-notification-icon></app-notification-icon>
+            </div>
+            <div>
+              Notification
+            </div>
+          </div>
+          <div class="app-sidebar-icon-label">
+            <div>
+              <app-matrimony-icon></app-matrimony-icon>
+            </div>
+            <div>
+              Matrimony
+            </div>
+          </div>
+          <div class="app-sidebar-icon-label">
+            <div>
+              <app-events-icon></app-events-icon>
+            </div>
+            <div>
+              Events
+            </div>
+          </div>
+          <div class="app-sidebar-icon-label">
+            <div>
+              <app-membership-icon></app-membership-icon>
+            </div>
+            <div>
+              Membership
+            </div>
+          </div>
+          <div class="app-sidebar-icon-label">
+            <div>
+              <app-dashboard-icon></app-dashboard-icon>
+            </div>
+            <div>
+              Help Desk
+            </div>
+          </div>
+          <div class="app-sidebar-icon-label">
+            <div>
+              <app-dashboard-icon></app-dashboard-icon>
+            </div>
+            <div>
+              Chatting
+            </div>
+          </div>
+          <div class="app-sidebar-icon-label">
+            <div>
+              <app-dashboard-icon></app-dashboard-icon>
+            </div>
+            <div>
+              Settings
+            </div>
+          </div>
+        </div>
         
-        <li class="menu-item">
-          <div class="menu-icon notification-icon"></div>
-          <span>Notification</span>
-        </li>
         
-        <li class="menu-item">
-          <div class="menu-icon jobs-icon"></div>
-          <span>Jobs</span>
-        </li>
-        
-        <li class="menu-item">
-          <div class="menu-icon jobs-applies-icon"></div>
-          <span>Jobs applies</span>
-        </li>
-        
-        <li class="menu-item">
-          <div class="menu-icon updated-jobs-icon"></div>
-          <span>Updated Jobs</span>
-        </li>
-        
-        <li class="menu-item">
-          <div class="menu-icon schedule-icon"></div>
-          <span>Schedule</span>
-        </li>
-        
-        <li class="menu-item">
-          <div class="menu-icon chatting-icon"></div>
-          <span>Chatting</span>
-        </li>
-        
-        <li class="menu-item">
-          <div class="menu-icon setting-icon"></div>
-          <span>Setting</span>
-        </li>
-      </ul>
-    </nav>
+        <section class="profile-completion">
+          <h3 class="profile-title">Complete Profile</h3>
+          <div class="progress-bar">
+            <div class="progress-fill"></div>
+          </div>
+          <p class="profile-status">Your profile was done with 20%</p>
+          <p class="profile-action">Complete your profile now</p>
+        </section>
+        </div>
+        <div class="dashboard-right-section">
+          <div class="dashboard-right-section-header-content">
+            <div class="search-container">
+                <label for="search-input" class="visually-hidden">Search keywords, jobs, sales</label>
+                <div class="search-icon-wrapper">
+                  <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/3210d1913965940e6b4e8e84c62fa10d143c5e576221ebe4b49ead27ca5af006?placeholderIfAbsent=true&apiKey=9e16588387084fb2a9a51a1b99489136" alt="" class="search-icon" />
+                </div>
+                <div class="search-input-wrapper">
+                  <input type="text" id="search-input" class="search-placeholder" placeholder="Search keywords, jobs, sales" aria-label="Search keywords, jobs, sales" />
+                </div>
+            </div>        
+            <div class="action-buttons-wrapper">
+              <div class="vertical-divider" role="separator" aria-hidden="true"></div>
+          </div>
     
-    <section class="profile-completion">
-      <h3 class="profile-title">Complete Profile</h3>
-      <div class="progress-bar">
-        <div class="progress-fill"></div>
-      </div>
-      <p class="profile-status">Your profile was done with 20%</p>
-      <p class="profile-action">Complete your profile now</p>
-    </section>
-</aside>
-
-
-
-
-
-
-
-<section class="search-bar-container">
-    <form class="search-input-wrapper" role="search">
-      <label for="search-input" class="visually-hidden">Search keywords, jobs, sales</label>
-      <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/3210d1913965940e6b4e8e84c62fa10d143c5e576221ebe4b49ead27ca5af006?placeholderIfAbsent=true&apiKey=9e16588387084fb2a9a51a1b99489136" alt="" class="search-icon" />
-      <input type="text" id="search-input" class="search-placeholder" placeholder="Search keywords, jobs, sales" aria-label="Search keywords, jobs, sales" />
-    </form>
-    <div class="action-buttons-wrapper">
-      <div class="vertical-divider" role="separator" aria-hidden="true"></div>
-      <button class="action-button" aria-label="Filter">
-        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/284016fbdc7d307b66c39fb8be816588c6584ff3132a6ca447834558184941d5?placeholderIfAbsent=true&apiKey=9e16588387084fb2a9a51a1b99489136" alt="" />
+        </div>
+        <div class="overview-text">Overview</div>
+        <div class="user-payment-manage">
+          <div class="user-payment">
+            <div class="user-payment-div">
+              Users
+           
+               </div>
+               <div class="user-payment-div">
+                 Payment
+              
+                  </div>
+           </div>
+        <div class="manage-user-div">
+          <div>Manage Users</div>
+          <p-table class="table">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Name</th>
+                    <th>Membership Expiry Date</th>
+                    <th>Email</th>
+                    <th>Current Plan</th>
+                    <th>Status</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body">
+                <tr *ngFor="let member of members">
+                    <td>{{ member.name }}</td>
+                    <td>{{ member.membershipExpiryDate }}</td>
+                    <td>{{ member.email }}</td>
+                    <td>{{ member.currentPlan }}</td>
+                    <td>{{ member.status }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+        
+        </div>
+        </div>
+     
+     
+    
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <!-- <section class="search-bar-container">
+        <form class="search-input-wrapper" role="search">
+          <label for="search-input" class="visually-hidden">Search keywords, jobs, sales</label>
+          <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/3210d1913965940e6b4e8e84c62fa10d143c5e576221ebe4b49ead27ca5af006?placeholderIfAbsent=true&apiKey=9e16588387084fb2a9a51a1b99489136" alt="" class="search-icon" />
+          <input type="text" id="search-input" class="search-placeholder" placeholder="Search keywords, jobs, sales" aria-label="Search keywords, jobs, sales" />
+        </form>
+        <div class="action-buttons-wrapper">
+          <div class="vertical-divider" role="separator" aria-hidden="true"></div>
+          <button class="action-button" aria-label="Filter">
+            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/284016fbdc7d307b66c39fb8be816588c6584ff3132a6ca447834558184941d5?placeholderIfAbsent=true&apiKey=9e16588387084fb2a9a51a1b99489136" alt="" />
+          </button>
+          <button class="action-button" aria-label="Notifications">
+            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/f4446ef996af489bab1b26722ed43ef989ca572f9a9d8c7a2510697a7ec97b8c?placeholderIfAbsent=true&apiKey=9e16588387084fb2a9a51a1b99489136" alt="" />
+          </button>
+          <button class="action-button" aria-label="User profile">
+            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/b19a5a8d7b38022b3ce2a9c1b216315db76c7c76756dbcbb9f69689cb4e5383d?placeholderIfAbsent=true&apiKey=9e16588387084fb2a9a51a1b99489136" alt="" />
+          </button>
+        </div>
+      </section> -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <!-- <button type="button" class="btn btn-primary" (click)="openModal(content)">
+        Launch demo modal
       </button>
-      <button class="action-button" aria-label="Notifications">
-        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/f4446ef996af489bab1b26722ed43ef989ca572f9a9d8c7a2510697a7ec97b8c?placeholderIfAbsent=true&apiKey=9e16588387084fb2a9a51a1b99489136" alt="" />
-      </button>
-      <button class="action-button" aria-label="User profile">
-        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/b19a5a8d7b38022b3ce2a9c1b216315db76c7c76756dbcbb9f69689cb4e5383d?placeholderIfAbsent=true&apiKey=9e16588387084fb2a9a51a1b99489136" alt="" />
-      </button>
-    </div>
-  </section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<button type="button" class="btn btn-primary" (click)="openModal(content)">
-    Launch demo modal
-  </button>
-  
-  <!-- Modal -->
-  <ng-template #content let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Modal title</h4>
-      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-    </div>
-    <div class="modal-body">
-      Modal body content goes here.
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" (click)="modal.close('Save click')">Close</button>
-      <button type="button" class="btn btn-primary">Save changes</button>
-    </div>
-  </ng-template>
-  </section>
-  
+      
+      Modal -->
+      <!-- <ng-template #content let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Modal title</h4>
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+          Modal body content goes here.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="modal.close('Save click')">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </ng-template>
+      </section>  -->

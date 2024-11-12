@@ -30,11 +30,12 @@ namespace NGO.Business
         private readonly IOrgChapterRepository _orgChapterRepository;
         private readonly IOrgRepository _orgRepository;
         private readonly IPaymentRepository _paymentRepository;
+        private readonly IOrgRepository _organizationRepository;
         private readonly SMTPEmailProvider _smtpEmailProvider;
         private readonly PasswordHandler _passwordHandler; 
         private readonly AppSettings _appsettings;
         private readonly IMapper _mapper;
-        public UserBusiness(IUserRepository userRepository, IUserDetailRepository userDetailRepository, IRoleRepository roleRepository, IUserRolesRepository userRolesRepository, IChildrensRepository childrensRepository, IOrgChapterRepository orgChapterRepository, IOrgRepository orgRepository, IPaymentRepository paymentRepository, SMTPEmailProvider smtpEmailProvider, PasswordHandler passwordHandler, IMapper mapper, AppSettings appsettings)
+        public UserBusiness(IUserRepository userRepository, IUserDetailRepository userDetailRepository, IRoleRepository roleRepository, IUserRolesRepository userRolesRepository, IChildrensRepository childrensRepository, IOrgChapterRepository orgChapterRepository, IOrgRepository orgRepository, IPaymentRepository paymentRepository, SMTPEmailProvider smtpEmailProvider, PasswordHandler passwordHandler, IMapper mapper, AppSettings appsettings, IOrgRepository organizationRepository)
         {
             _userRepository = userRepository;
             _userDetailRepository = userDetailRepository;
@@ -47,6 +48,7 @@ namespace NGO.Business
             _smtpEmailProvider = smtpEmailProvider;
             _passwordHandler=passwordHandler;
             _appsettings = appsettings;
+            _organizationRepository = organizationRepository;
             _mapper = mapper;
         }
 
@@ -317,52 +319,7 @@ namespace NGO.Business
             return userDetailModels;
         }
 
-        public async Task<HttpResponseMessage> ChangePassWord(ResetPasswordModel resetPasswordModel)
-        {
-            HttpResponseMessage response = new HttpResponseMessage();
-            var userpassword = (await _userRepository.GetByAsync(x => x.Email == resetPasswordModel.UserName)).FirstOrDefault();
-            if (userpassword == null)
-            {
-                response.StatusCode = HttpStatusCode.Conflict;
-                response.ReasonPhrase = "Please Provide Valid UserName!";
-            }
-            else if (!string.IsNullOrEmpty(resetPasswordModel.OldPassword))
-            {
-
-                var oldPassword = Cryptography.ComputeSHA256Hash(resetPasswordModel.OldPassword, userpassword.CreatedOn.ToString("dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture));
-                if (userpassword.Password != oldPassword)
-                {
-                    response.StatusCode = HttpStatusCode.Conflict;
-                    response.ReasonPhrase = "Old Password is Incorrect!";
-                }
-                else
-                {
-                    resetPasswordModel.Password = Cryptography.ComputeSHA256Hash(resetPasswordModel.Password, userpassword.CreatedOn.ToString("dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture));
-                    userpassword.Password = resetPasswordModel.Password;
-                    if (userpassword.Status == (int)Common.EnumLookUp.Suspended)
-                    {
-                        userpassword.Status = (int)Common.EnumLookUp.Active;
-                    }
-                    await _userRepository.SaveAsync();
-                    response.StatusCode = HttpStatusCode.OK;
-                }
-            }
-            else
-            {
-                resetPasswordModel.Password = Cryptography.ComputeSHA256Hash(resetPasswordModel.Password, userpassword.CreatedOn.ToString("dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture));
-                userpassword.Password = resetPasswordModel.Password;
-                if (userpassword.Status == (int)Common.EnumLookUp.Suspended)
-                {
-                    userpassword.Status = (int)Common.EnumLookUp.Active;
-                }
-                await _userRepository.SaveAsync();
-                response.StatusCode = HttpStatusCode.OK;
-
-            }
-            return response;
-
-        }
-
+      
         public async Task ForgotPassword(string emailId, string newPassword)
         {
             var currentUser = (await _userRepository.GetByAsync(x => x.Email == emailId)).FirstOrDefault();
@@ -408,6 +365,66 @@ namespace NGO.Business
                 throw ex;
             }
         }
+
+        public async Task<ResultModel> ChangePasswordAsync(int orgId, ResetPasswordModel model)
+        {
+            // Fetch the user based on orgId and model.UserId
+            var user = await _userRepository.GetUserByIdAndOrg(model.UserId, orgId);
+            if (user == null)
+            {
+                return new ResultModel
+                {
+                    IsSuccess = false,
+                    StatusCode = 404,
+                    Error = "User not found or not associated with the provided organization."
+                };
+            }
+
+            // Verify the old password
+            var isOldPasswordValid = _passwordHandler.VerifyPassword(model.OldPassword, user.Password);
+            if (!isOldPasswordValid)
+            {
+                return new ResultModel
+                {
+                    IsSuccess = false,
+                    StatusCode = 400,
+                    Error = "The old password is incorrect."
+                };
+            }
+
+            // Hash the new password
+            user.Password = _passwordHandler.HashPassword(model.Password);
+
+            try
+            {
+                // Update the password in the database
+                await _userRepository.SaveAsync();
+                var emailDataModel = new EmailDataModel
+                {
+                    To = new List<string> { user.Email },
+                    Data = "<p>Password Rest is successful , use the below credentials to login</p>"
+                       + $"<p>Username: {user.Email}</p>"
+                       + $"<p>Password: {model.Password}</p>",  // Password as plain text is generally discouraged; consider a custom message instead.
+                    Subject = "User Account Creation"
+                };
+
+                await _smtpEmailProvider.SendAsync(emailDataModel);
+
+            }
+            catch (Exception ex)
+            {
+                return new ResultModel
+                {
+                    IsSuccess = false,
+                    StatusCode = 500,
+                    Error = "An error occurred while updating the password.",
+                    Details = ex.Message
+                };
+            }
+
+            return new ResultModel { IsSuccess = true, StatusCode = 200 };
+        }
+
         public async Task<HttpResponseMessage> ForGotPasswordSendOTP(string emailId)
         {
             HttpResponseMessage httpResponseMessage = new HttpResponseMessage();
@@ -446,48 +463,60 @@ namespace NGO.Business
 
         }
 
-        public async Task<AuthModel> GetUserDetails(LoginModel loginModel)
+        public async Task<AuthModel> GetUserDetails(int orgId, LoginModel loginModel)
         {
             var authModel = new AuthModel();
 
-            // Attempt to retrieve user details by email
-            var userDetails = await _userRepository.GetUserDetails(loginModel);
-            if (userDetails == null)
+            // Retrieve user details by email
+            var userDetails = await _userRepository.GetUserByEmailAndOrg(loginModel.UserName, orgId);
+            if (userDetails == null || !userDetails.Any())
             {
-                authModel.Error = "User does not exist.";
+                authModel.Error = "User does not exist or is not associated with the provided organization.";
                 return authModel;
             }
 
+            var userEntity = userDetails.First();
+
             // Verify the password
-            var isPasswordValid = _passwordHandler.VerifyPassword(loginModel.Password, userDetails.Password);
+            var isPasswordValid = _passwordHandler.VerifyPassword(loginModel.Password, userEntity.Password);
             if (!isPasswordValid)
             {
                 authModel.Error = "Invalid password.";
                 return authModel;
             }
 
-            // Retrieve the user role
-            var userRoles = (await _userRolesRepository.GetByAsync(x => x.UserId == userDetails.Id)).SingleOrDefault();
-            if (userRoles != null)
+            // Populate authModel with user details
+            authModel.UserId = userEntity.Id;
+            authModel.Name = userEntity.Name;
+            authModel.Email = userEntity.Email;
+            authModel.PaymentInfo = userEntity.PaymentInfo;
+            authModel.RefreshToken = userEntity.RefreshToken;
+            // Retrieve user roles and organizations
+            authModel.UserRoles = userEntity.UserRoles.Select(ur => new UserRoleModel
             {
-                var role = (await _roleRepository.GetByAsync(x => x.Id == userRoles.RoleId)).SingleOrDefault();
-                authModel.UserId = userDetails.Id;
-                authModel.Name = userDetails.Name;
-                authModel.Email = userDetails.Email;
+                RoleId = ur.RoleId,
+                RoleName = ur.Role.Name
+            }).ToList();
 
 
-                //commented below to just avoid error currently fsced, need a fix ------------------------------------------------
-                //authModel.UserRole = role.Name;   
-                authModel.PaymentInfo = userDetails.PaymentInfo;
-            }
-            else
+            var organization = await _organizationRepository.GetByIdAsync(orgId); // Assuming _organizationRepository exists and has a GetByIdAsync method
+            if (organization == null)
             {
-                authModel.Error = "User role not assigned.";
+                throw new InvalidOperationException("Organization is not registered.");
             }
+
+            authModel.Organizations = userEntity.UserOrganizations.Select(uo => new OrganizationModel
+            {
+                Id = uo.OrganizationId,
+                OrgName = organization.OrgName
+            }).ToList();
+
+            // Generate JWT Token for the authenticated user
+            await PopulateJwtTokenAsync(authModel);
+            await UpdatelastLogin(authModel);
 
             return authModel;
         }
-
 
         public async Task<UserDetailModel> GetCurrentUserDetails(int Id)
         {
@@ -621,8 +650,18 @@ namespace NGO.Business
 
         public async Task UpdatelastLogin(AuthModel authModel)
         {
+            //needs update based on userid and orgid
             var user = (await _userRepository.GetByAsync(x => x.Id == authModel.UserId)).SingleOrDefault();
             user.LastLogin = DateTime.UtcNow;
+            this._userRepository.Update(user);
+            await this._userRepository.SaveAsync();
+
+        }
+        public async Task UpdateRefreshToken(AuthModel authModel)
+        {
+            //needs update based on userid and orgid
+            var user = (await _userRepository.GetByAsync(x => x.Id == authModel.UserId)).SingleOrDefault();
+            user.RefreshToken = authModel.RefreshToken;
             this._userRepository.Update(user);
             await this._userRepository.SaveAsync();
         }
@@ -652,6 +691,41 @@ namespace NGO.Business
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
             authModel.Token = tokenHandler.WriteToken(token);
+        }
+
+        public async Task<AuthModel?> GenerateNewAccessTokenAsync(int userId, Guid refreshToken)
+        {
+            // Retrieve the user by refresh token and user ID
+            var userEntity = await _userRepository.GetUserByRefreshTokenAndUserId(refreshToken, userId);
+
+            //if (userEntity == null || userEntity.RefreshTokenExpiryDate <= DateTime.UtcNow)
+            if (userEntity == null)
+
+                return null;
+
+            // Create AuthModel for token generation
+            var authModel = new AuthModel
+            {
+                UserId = userEntity.Id,
+                Name = userEntity.Name,
+                Email = userEntity.Email,
+                PaymentInfo = userEntity.PaymentInfo,
+                UserRoles = userEntity.UserRoles.Select(ur => new UserRoleModel
+                {
+                    RoleId = ur.RoleId,
+                    RoleName = ur.Role.Name // Assuming role entity has a name property
+                }).ToList(),
+                Organizations = userEntity.UserOrganizations.Select(uo => new OrganizationModel
+                {
+                    Id = uo.OrganizationId,
+                    OrgName = uo.Organization.OrgName // Assuming Organization entity has OrgName property
+                }).ToList()
+            };
+
+            // Generate a new JWT token
+            await PopulateJwtTokenAsync(authModel);
+
+            return authModel;
         }
 
 
