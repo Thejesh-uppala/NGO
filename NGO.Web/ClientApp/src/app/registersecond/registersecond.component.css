@@ -12,6 +12,11 @@
     justify-content: space-between;
     padding: 24px 74px ;
   }
+
+  .nav-search{
+    display: flex;
+
+  }
   
   @media (max-width: 991px) {
     .nav-bar-header-section {
@@ -68,16 +73,21 @@
 
 .dashboard-parent-component
 {
-  padding: 22px;
+  padding: 16px;
   width: 100%;
-  height: 100%;
+  height: max-content;
   display: flex;
   gap: 20px;
+  background-color: #837a7a;
   flex-direction: row;
 }
 
 .dashboard-left-section
-{
+{  
+    display: flex;
+    flex-direction: column;
+      margin-top: 24px;
+    height: max-content;
   background-color: #FFFFFF;
   width: 19%;
   padding: 12px;
@@ -160,6 +170,8 @@
 .setting-icon { background-color: #000; }
 
 .profile-completion {
+    display: flex;
+    flex-direction: column;
   margin-top: 51px;
   margin-left: .8rem;
 }
@@ -202,7 +214,9 @@
 
 .dashboard-right-section
 {
-  width: 70%;
+    display: flex;
+  width: 100%;
+  flex-direction: column;
 }
 
 .dashboard-right-section-header-content {
@@ -210,9 +224,11 @@
     background-color: #fff;
     box-shadow: -3px -1px 20px rgba(0, 0, 0, 0.09);
     display: flex;
-    width: 80rem;
+    width: 30rem;
+    height: 4rem;
     gap: 20px;
     flex-wrap: wrap;
+    align-content: center;
     justify-content: space-between;
     padding: 19px 29px;
   }
@@ -264,15 +280,13 @@
     color: #000000;
     font-size: 26px;
   }
-  .user-payment-manage
-  {
-    width: 50rem;
-  }
+  
   .user-payment
   {
     display: flex;
     flex-direction: row;
     gap: 10px;
+    justify-content:space-between;
   }
   .user-payment-div
   {
@@ -316,3 +330,12 @@
     align-self: stretch;
     margin: auto 0;
   }
+
+
+
+
+  :host ::ng-deep .p-dialog .product-image {
+    width: 150px;
+    margin: 0 auto 2rem auto;
+    display: block;
+}

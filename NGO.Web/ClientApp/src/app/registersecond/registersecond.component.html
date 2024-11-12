@@ -1,7 +1,22 @@
-<section style="background-color: #F5F5F5;">
+<section style="background-color: #F5F5F5; display: flex; flex-direction: column;">
     <!-- Navbar -->
     <div class="nav-bar-header-section">
         <div class="nav-bar-left-section">COMPANY LOGO</div>
+        <div class="nav-search"> 
+            <div class="dashboard-right-section-header-content">
+            <div class="search-container">
+                <label for="search-input" class="visually-hidden">Search keywords, jobs, sales</label>
+                <div class="search-icon-wrapper">
+                  <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/3210d1913965940e6b4e8e84c62fa10d143c5e576221ebe4b49ead27ca5af006?placeholderIfAbsent=true&apiKey=9e16588387084fb2a9a51a1b99489136" alt="" class="search-icon" />
+                </div>
+                <div class="search-input-wrapper">
+                  <input type="text" id="search-input" class="search-placeholder" placeholder="Search keywords, jobs, sales" aria-label="Search keywords, jobs, sales" />
+                </div>
+            </div>        
+          
+        </div>
+       
+
         <div class="nav-bar-right-section">
           <div class="nav-bar-button-section">
             <p-button label="Home"  [text]="true" [plain]="true"/>
@@ -15,7 +30,12 @@
          
         </div>
       </div>
-    
+    </div>
+
+
+
+
+
     <div class="dashboard-parent-component">
       <div class="dashboard-left-section">
         <div class="dashboard-left-section-contents">
@@ -100,63 +120,320 @@
           <p class="profile-action">Complete your profile now</p>
         </section>
         </div>
+
+
+
         <div class="dashboard-right-section">
-          <div class="dashboard-right-section-header-content">
-            <div class="search-container">
-                <label for="search-input" class="visually-hidden">Search keywords, jobs, sales</label>
-                <div class="search-icon-wrapper">
-                  <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/3210d1913965940e6b4e8e84c62fa10d143c5e576221ebe4b49ead27ca5af006?placeholderIfAbsent=true&apiKey=9e16588387084fb2a9a51a1b99489136" alt="" class="search-icon" />
-                </div>
-                <div class="search-input-wrapper">
-                  <input type="text" id="search-input" class="search-placeholder" placeholder="Search keywords, jobs, sales" aria-label="Search keywords, jobs, sales" />
-                </div>
-            </div>        
-            <div class="action-buttons-wrapper">
-              <div class="vertical-divider" role="separator" aria-hidden="true"></div>
-          </div>
-    
-        </div>
+          
         <div class="overview-text">Overview</div>
         <div class="user-payment-manage">
           <div class="user-payment">
             <div class="user-payment-div">
-              Users
-           
-               </div>
-               <div class="user-payment-div">
-                 Payment
-              
-                  </div>
+                Users
+            </div>
+            <div class="user-payment-div">
+                Payment
+            </div>
+            <div class="user-payment-div">
+                Transactions
+            </div>
            </div>
+
+
+
+
+
+
+
         <div class="manage-user-div">
           <div>Manage Users</div>
-          <p-table class="table">
-            <ng-template pTemplate="header">
-                <tr>
-                    <th>Name</th>
-                    <th>Membership Expiry Date</th>
-                    <th>Email</th>
-                    <th>Current Plan</th>
-                    <th>Status</th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body">
-                <tr *ngFor="let member of members">
-                    <td>{{ member.name }}</td>
-                    <td>{{ member.membershipExpiryDate }}</td>
-                    <td>{{ member.email }}</td>
-                    <td>{{ member.currentPlan }}</td>
-                    <td>{{ member.status }}</td>
-                </tr>
-            </ng-template>
-        </p-table>
+          <div class="card">
+            <p-toast />
+            <p-toolbar styleClass="mb-4 gap-2">
+                <ng-template pTemplate="left">
+                    <p-button
+                        severity="success" 
+                        label="New" 
+                        icon="pi pi-plus" 
+                        class="mr-2" 
+                        (onClick)="openNew()" />
+                    <p-button
+                        severity="danger" 
+                        label="Delete" 
+                        icon="pi pi-trash" 
+                        (onClick)="deleteSelectedProducts()" 
+                        [disabled]="!selectedProducts || !selectedProducts.length" />
+                </ng-template>
+        
+                <ng-template pTemplate="right">
+                    <p-fileUpload 
+                        mode="basic" 
+                        accept="image/*" 
+                        [maxFileSize]="1000000" 
+                        label="Import" 
+                        chooseLabel="Import" 
+                        class="mr-2 inline-block" />
+                    <p-button
+                        severity="help" 
+                        label="Export" 
+                        icon="pi pi-upload" />
+                </ng-template>
+            </p-toolbar>
+        
+            <p-table
+                #dt
+                [value]="products"
+                [rows]="10"
+                [paginator]="true"
+                [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
+                [tableStyle]="{ 'min-width': '75rem' }"
+                [(selection)]="selectedProducts"
+                [rowHover]="true"
+                dataKey="id"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [showCurrentPageReport]="true"
+            >
+                <ng-template pTemplate="caption">
+                    <div class="flex align-items-center justify-content-between">
+                        <h5 class="m-0">Manage Products</h5>
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input 
+                                pInputText 
+                                type="text" 
+                                (input)="filterGlobal($event)"
+                                placeholder="Search..." />
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 4rem">
+                            <p-tableHeaderCheckbox />
+                        </th>
+                        <th pSortableColumn="name" style="min-width:15rem">
+                            Name <p-sortIcon field="name" />
+                        </th>
+                        <th>
+                            Image
+                        </th>
+                        <th pSortableColumn="price">
+                            Price <p-sortIcon field="price" />
+                        </th>
+                        <th pSortableColumn="category" style="min-width:10rem">
+                            Category <p-sortIcon field="category" />
+                        </th>
+                        <th pSortableColumn="rating">
+                            Reviews <p-sortIcon field="rating" />
+                        </th>
+                        <th pSortableColumn="inventoryStatus" style="min-width:10rem">
+                            Status <p-sortIcon field="inventoryStatus" />
+                        </th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-product>
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="product" />
+                        </td>
+                        <td>
+                            {{ product.name }}
+                        </td>
+                        <td>
+                        <img 
+                            [src]="'https://primefaces.org/cdn/primeng/images/demo/product/' + product.image" 
+                            [alt]="product.name" 
+                            width="50" 
+                            class="shadow-4" />
+                        </td>
+                        <td>
+                            {{ product.price | currency : 'USD' }}
+                        </td>
+                        <td>
+                            {{ product.category }}
+                        </td>
+                        <td>
+                            <p-rating 
+                                [(ngModel)]="product.rating" 
+                                [readonly]="true" 
+                                [cancel]="false" />
+                        </td>
+                        <td>
+                            <p-tag 
+                                [value]="product.inventoryStatus" 
+                                [severity]="getSeverity(product.inventoryStatus)" />
+                        </td>
+                        <td>
+                            <p-button 
+                                icon="pi pi-pencil" 
+                                class="mr-2" 
+                                [rounded]="true" 
+                                [outlined]="true" 
+                                severity="success" 
+                                (onClick)="editProduct(product)" />
+                            <p-button 
+                                icon="pi pi-trash" 
+                                severity="danger" 
+                                [rounded]="true" 
+                                [outlined]="true" 
+                                (onClick)="deleteProduct(product)" />
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="summary">
+                    <div class="flex align-items-center justify-content-between">
+                        In total there are {{ products ? products.length : 0 }} products.
+                    </div>
+                </ng-template>
+            </p-table>
+        
+            <p-dialog 
+                [(visible)]="productDialog" 
+                [style]="{ width: '450px' }" 
+                header="Product Details" 
+                [modal]="true" 
+                styleClass="p-fluid">
+                    <ng-template pTemplate="content">
+                        <img 
+                            [src]="'https://primefaces.org/cdn/primeng/images/demo/product/' + product.image" 
+                            [alt]="product.image" 
+                            class="block m-auto pb-3" 
+                            *ngIf="product.image" />
+                        <div class="field">
+                            <label for="name">Name</label>
+                            <input 
+                                type="text" 
+                                pInputText 
+                                id="name" 
+                                [(ngModel)]="product.name" 
+                                required 
+                                autofocus />
+                            <small class="p-error" *ngIf="submitted && !product.name">
+                                Name is required.
+                            </small>
+                        </div>
+                        <div class="field">
+                            <label for="description">Description</label>
+                            <textarea 
+                                id="description" 
+                                pInputTextarea 
+                                [(ngModel)]="product.description" 
+                                required 
+                                rows="3" 
+                                cols="20">
+                            </textarea>
+                        </div>
+        
+                        <div class="field">
+                            <label for="inventoryStatus">Inventory Status</label>
+                            <p-dropdown 
+                                [(ngModel)]="product.inventoryStatus" 
+                                inputId="inventoryStatus" 
+                                [options]="statuses">
+                                    <ng-template pTemplate="selectedItem">
+                                        <p-tag 
+                                            [value]="product.inventoryStatus?.toUpperCase()"
+                                            [severity]="getSeverity(product.inventoryStatus?.toUpperCase())" />
+                                    </ng-template>
+                                    <ng-template let-option pTemplate="item">
+                                        <p-tag 
+                                            [value]="option.label" 
+                                            [severity]="getSeverity(option.label)" />
+                                    </ng-template>
+                            </p-dropdown>
+                        </div>
+        
+                        <div class="field">
+                            <label class="mb-3">Category</label>
+                            <div class="formgrid grid">
+                                <div class="field-radiobutton col-6">
+                                    <p-radioButton 
+                                        id="category1" 
+                                        name="category" 
+                                        value="Accessories" 
+                                        [(ngModel)]="product.category" />
+                                    <label for="category1">Accessories</label>
+                                </div>
+                                <div class="field-radiobutton col-6">
+                                    <p-radioButton 
+                                        id="category2" 
+                                        name="category" 
+                                        value="Clothing" 
+                                        [(ngModel)]="product.category" />
+                                    <label for="category2">Clothing</label>
+                                </div>
+                                <div class="field-radiobutton col-6">
+                                    <p-radioButton 
+                                        id="category3" 
+                                        name="category" 
+                                        value="Electronics" 
+                                        [(ngModel)]="product.category" />
+                                    <label for="category3">Electronics</label>
+                                </div>
+                                <div class="field-radiobutton col-6">
+                                    <p-radioButton 
+                                        id="category4" 
+                                        name="category" 
+                                        value="Fitness" 
+                                        [(ngModel)]="product.category" />
+                                    <label for="category4">Fitness</label>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div class="formgrid grid">
+                            <div class="field col">
+                                <label for="price">Price</label>
+                                <p-inputNumber 
+                                    id="price" 
+                                    [(ngModel)]="product.price" 
+                                    mode="currency" 
+                                    currency="USD" 
+                                    locale="en-US" />
+                            </div>
+                            <div class="field col">
+                                <label for="quantity">Quantity</label>
+                                <p-inputNumber 
+                                    id="quantity" 
+                                    [(ngModel)]="product.quantity" />
+                            </div>
+                        </div>
+                    </ng-template>
+        
+                    <ng-template pTemplate="footer">
+                        <p-button 
+                            label="Cancel" 
+                            icon="pi pi-times" 
+                            [text]="true" 
+                            (onClick)="hideDialog()" />
+                        <p-button
+                            label="Save" 
+                            icon="pi pi-check" 
+                            [text]="true" 
+                            (onClick)="saveProduct()" />
+                    </ng-template>
+            </p-dialog>
+        
+            <p-confirmDialog [style]="{ width: '450px' }" />
+        </div>
         
         </div>
-        </div>
+
+
+
+
+
+
+
+
+        
+
+    </div>
      
      
     
-    </div>
+    
     
     
     
