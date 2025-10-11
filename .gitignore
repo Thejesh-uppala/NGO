@@ -42,6 +42,13 @@ NGO.Common/obj/
 NGO.Data/obj/
 NGO.Repository/obj/
 NGO.Model/obj/
+
+NGO.Business/bin/
+NGO.Web/bin/
+NGO.Common/bin/
+NGO.Data/bin/
+NGO.Repository/bin/
+NGO.Model/bin/
 .vs/NGO/
 
 # ASP.NET Core
