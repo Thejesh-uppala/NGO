@@ -1,0 +1,90 @@
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace NGO.Data
+{
+    public partial class MatrimonialData
+    {
+        public MatrimonialData()
+        {
+            MatrimonialDataPhotos = new HashSet<MatrimonialDataPhoto>();
+
+        }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        public int OrgId { get; set; }
+        public string RecordStatus { get; set; }
+        public int AssociatedWithUserId { get; set; }
+        public string RegisteringFor { get; set; }
+        public string ProfileFor { get; set; }
+        public string AuthPrimaryPersonFName { get; set; }
+        public string? AuthPrimaryPersonLName { get; set; }
+        public string AuthPrimaryPersonEmail { get; set; }
+        public string AuthPrimaryPersonPhoneNo { get; set; }
+        public bool AuthPrimaryContactCanBeShared { get; set; }
+        public string? AuthPrimaryContactPref { get; set; }
+        public string BrideOrGroomFName { get; set; }
+        public string? BrideOrGroomLName { get; set; }
+        public string BrideOrGroomEmail { get; set; }
+        public string BrideGroomDOB { get; set; }
+        public string BrideGroomTimeOfBirth { get; set; }
+        public string BrideGroomPlaceOfBirth { get; set; }
+        public bool BrideGroomAccessToCommunication { get; set; }
+        public string BrideGroomCurrentLocation { get; set; }
+        public string BrideGroomCurrentCity { get; set; }
+        public string BrideGroomCurrentState { get; set; }
+        public string BrideGroomCurrentCountry { get; set; }
+        [Column(TypeName = "decimal(5,2)")]
+        public decimal? BrideGroomHeight { get; set; }
+        public string BrideGroomGothra { get; set; }
+        public string BrideGroomPravara { get; set; }
+        public string BrideGroomNakshatra { get; set; }
+        public string BrideGroomRashi { get; set; }
+        public string BrideGroomEducation { get; set; }
+        public string BrideGroomEducationDegree { get; set; }
+        public string BrideGroomUniversity { get; set; }
+        public string BrideGroomEmploymentInfo { get; set; }
+        public string? BrideGroomCanRealocate { get; set; }
+        public string? BrideGroomPrevMarried { get; set; }
+        public string BrideGroomNativePlace { get; set; }
+        public string? BrideGroomLegalStatus { get; set; }
+        public string BrideGroomGrownUpCountryandPlace { get; set; }
+        public string? BrideGroomDiet { get; set; }
+        public string PartnersPref { get; set; }
+        public string? PartnersLegalStayPref { get; set; }
+        public string OrgReFName { get; set; }
+        public string OrgRefPhoneno { get; set; }
+        public string FatherFName { get; set; }
+        public string? FatherEmail { get; set; }
+        public string? FatherPhoneNo { get; set; }
+        public string? FatherNativePlace { get; set; }
+        public string? FatherOccupation { get; set; }
+        public string MotherFName { get; set; }
+        public string? MotherEmail { get; set; }
+        public string? MotherPhoneNo { get; set; }
+        public string? MotherPlaceIndia { get; set; }
+        public string? MotherOccupation { get; set; }
+        public string? ParentLocation { get; set; }
+        public string SiblingsInformation { get; set; }
+        public string? AdditionalInformation { get; set; }
+        public string BrideOrGroomPhoneNumber { get; set; }
+        public string Gender { get; set; }
+        public string? ContactPref { get; set; }
+        public string Status { get; set; }
+        public DateTimeOffset? ExpiringOn { get; set; }
+        public DateTimeOffset CreatedDate { get; set; }
+        public bool? ConsentsAgree { get; set; }
+        public int? ApprovedBy { get; set; }
+        public DateTimeOffset? ApprovedDate { get; set; }
+
+        public virtual User user { get; set; } = null!;
+        public virtual Organization Organization { get; set; } = null!;
+        [ForeignKey("ApprovedBy")]
+        public virtual UserDetail? Approver { get; set; }
+        public virtual ICollection<MatrimonialDataPhoto> MatrimonialDataPhotos { get; set; } = new List<MatrimonialDataPhoto>();
+
+    }
+
+}
+
+
+

@@ -1,0 +1,196 @@
+<app-navbar></app-navbar>
+<div class="table-container mt-top-lg">
+  <div class="flex justify-content-between">
+    <p
+      class="back-btn flex justify-content-center align-items-center"
+      (click)="goBack()"
+      style="cursor: pointer; width: 3rem"
+    >
+      <i class="pi pi-arrow-left"></i>
+    </p>
+    <button
+      pButton
+      type="button"
+      label="Export to Excel"
+      icon="pi pi-file-excel"
+      (click)="exportExcel()"
+      class="p-button-success mb-3 flex justify-content-end ml-auto"
+    ></button>
+  </div>
+
+  <p-table #dt [value]="response?.registeredUsers" dataKey="RegisteredUserName" class="responsive-text table-content">
+    <ng-template pTemplate="header">
+      <tr class="responsive-text">
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Tickets</th>
+        <th style="text-align: center" *ngIf="hasPaidUsers">Payment Status</th>
+        <th style="text-align: center" *ngIf="hasPaidUsers">Guest Details</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+      <tr class="responsive-text">
+        <td>{{ user.registeredUserName }}</td>
+        <td>{{ user.registeredUserEmail }}</td>
+        <td>{{ user.registeredUserPhone }}</td>
+        <td>{{ getRegisteredUserTypes(user.registeredUserType) }}</td>
+        <td style="text-align: center" *ngIf="!isFreeEvent(user)">
+          <div class="flex flex-column align-items-center">
+            <p-tag
+              [severity]="user.paymentInfo ? 'success' : 'warning'"
+              [value]="user.paymentInfo ? 'Paid' : 'Unpaid'"
+              class="mb-2 responsive-text"
+            ></p-tag>
+            <button
+              pButton
+              type="button"
+              (click)="togglePaymentDetails(user)"
+              [icon]="expandedPaymentRows[user.userID] ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"
+              [disabled]="!user.paymentInfo"
+              pTooltip="{{ !user.paymentInfo ? 'No payment information available' : 'View payment details' }}"
+              tooltipPosition="top"
+              class="p-button-text p-button-sm"
+            ></button>
+          </div>
+        </td>
+        <td style="text-align: center" *ngIf="!isFreeEvent(user)">
+          <span
+            class="expand-collapse-btn"
+            pTooltip="{{ !user.guestUsers || user.guestUsers.length === 0 ? 'No guest registered' : '' }}"
+            tooltipPosition="top"
+          >
+            <button
+              pButton
+              type="button"
+              (click)="toggleRow(user)"
+              [icon]="expandedRows[user.userID] ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"
+              [disabled]="!user.guestUsers || user.guestUsers.length === 0"
+            ></button>
+          </span>
+        </td>
+      </tr>
+      <!-- Payment Details Row -->
+      <tr *ngIf="expandedPaymentRows[user.userID] && user.paymentInfo" class="responsive-text">
+        <td colspan="6" class="p-0">
+          <div class="payment-details-container">
+            <div class="payment-card">
+              <div class="payment-header">
+                <i class="pi pi-credit-card mr-2"></i>
+                Payment Details
+              </div>
+              <div class="payment-content">
+                <div class="payment-info-grid">
+                  <div class="payment-info-item">
+                    <div class="info-label">
+                      <i class="pi pi-wallet mr-2"></i>
+                      Payment Method
+                    </div>
+                    <div class="info-value">{{ user.paymentInfo.paymentMethod }}</div>
+                  </div>
+
+                  <div class="payment-info-item">
+                    <div class="info-label">
+                      <i class="pi pi-dollar mr-2"></i>
+                      Total Amount
+                    </div>
+                    <div class="info-value highlight">{{ formatAmount(user.paymentInfo.totalCost) }}</div>
+                  </div>
+
+                  <div class="payment-info-item" *ngIf="user.paymentInfo.paymentDate">
+                    <div class="info-label">
+                      <i class="pi pi-calendar mr-2"></i>
+                      Payment Date
+                    </div>
+                    <div class="info-value">{{ formatPaymentDate(user.paymentInfo.paymentDate) }}</div>
+                  </div>
+
+                  <!-- Check-specific details -->
+                  <ng-container *ngIf="user.paymentInfo.paymentMethod?.toLowerCase() === 'check'">
+                    <div class="payment-info-item">
+                      <div class="info-label">
+                        <i class="pi pi-id-card mr-2"></i>
+                        Check Number
+                      </div>
+                      <div class="info-value">{{ user.paymentInfo.checkNumber }}</div>
+                    </div>
+
+                    <div class="payment-info-item">
+                      <div class="info-label">
+                        <i class="pi pi-building mr-2"></i>
+                        Bank Name
+                      </div>
+                      <div class="info-value">{{ user.paymentInfo.bankName }}</div>
+                    </div>
+
+                    <div class="payment-info-item">
+                      <div class="info-label">
+                        <i class="pi pi-calendar mr-2"></i>
+                        Check Date
+                      </div>
+                      <div class="info-value">{{ formatPaymentDate(user.paymentInfo.checkDate) }}</div>
+                    </div>
+                  </ng-container>
+
+                  <!-- Transaction ID for electronic payments -->
+                  <div class="payment-info-item" *ngIf="user.paymentInfo.transactionId">
+                    <div class="info-label">
+                      <i class="pi pi-hashtag mr-2"></i>
+                      Transaction ID
+                    </div>
+                    <div class="info-value">{{ user.paymentInfo.transactionId }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+
+      <!-- Guest Details Row -->
+      <tr *ngIf="expandedRows[user.userID]" class="responsive-text mt-2">
+        <td colspan="6">
+          <div class="payment-card">
+            <p-table [value]="user.guestUsers" [responsive]="true" class="expanded-content">
+              <ng-template pTemplate="header">
+                <tr class="responsive-text">
+                  <th>Guest Name</th>
+                  <th>Guest Phone</th>
+                  <th>Guest Type</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-guest>
+                <tr class="responsive-text">
+                  <td>{{ guest.guestUserName }}</td>
+                  <td>{{ guest.guestUserPhone }}</td>
+                  <td>{{ guest.guestUserType }}</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <div
+    class="card flex justify-center"
+    style="border-top: 0px; border-left: 0px; border-right: 0px; background-color: #f5f5f5"
+  >
+    <p-paginator
+      [first]="first"
+      [rows]="rows"
+      class="responsive-text"
+      [totalRecords]="eventCount"
+      [rowsPerPageOptions]="[6, 10, 15]"
+      [style]="{ 'background-color': '#f5f5f5' }"
+      [showCurrentPageReport]="true"
+      (onPageChange)="onPageChange($event)"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
+    >
+    </p-paginator>
+  </div>
+</div>
+<div class="flex justify-center">
+  <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }" />
+</div>
+<ngo-loading-spinner></ngo-loading-spinner>

@@ -1,0 +1,1040 @@
+<app-navbar></app-navbar>
+<div class="dashboard-parent-component mt-top">
+  <table class="table__style--details">
+    <div class="user-data-div">
+      <div class="w-full user-data-left-section">
+        <div class="header">
+          <h3 class="title">Register</h3>
+          <button class="back-button" (click)="goBack()"><i class="pi pi-arrow-left"></i> Back</button>
+        </div>
+        <div>
+          <form [formGroup]="signUpForm" (ngSubmit)="signUp()">
+            <div>
+              <h6 class="heading-small text-muted mb-4">Primary Personal information</h6>
+              <div class="responsive-text">
+                <div class="row">
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label label-required" for="input-username">First Name</label>
+                      <input
+                        type="text"
+                        id="firstName"
+                        class="form-control"
+                        formControlName="firstName"
+                        placeholder="First Name"
+                        [class.valid]="
+                          signUpForm.controls['firstName'].valid &&
+                          (signUpForm.controls['firstName'].dirty || signUpForm.controls['firstName'].touched)
+                        "
+                        [class.invalid]="
+                          signUpForm.controls['firstName'].invalid &&
+                          (signUpForm.controls['firstName'].dirty || signUpForm.controls['firstName'].touched)
+                        "
+                      />
+                      <small *ngIf="signUpForm?.get('firstName')?.errors?.['lettersOnly']" style="color: red">
+                        First Name should contain only letters.
+                      </small>
+                      <small *ngIf="signUpForm?.get('firstName')?.errors?.['noSpaceAtStart']" style="color: red">
+                        First Name cannot start with a space.
+                      </small>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-Last-name">Last name</label>
+                      <input
+                        type="text"
+                        id="input-first-name"
+                        formControlName="lastName"
+                        class="form-control"
+                        placeholder="Last name"
+                        [class.valid]="signUpForm.controls['lastName'].valid"
+                        [class.invalid]="signUpForm.controls['lastName'].invalid"
+                      />
+                      <small *ngIf="signUpForm?.get('lastName')?.errors?.['lettersOnly']" style="color: red">
+                        Last Name should contain only letters.
+                      </small>
+                      <small *ngIf="signUpForm?.get('lastName')?.errors?.['noSpaceAtStart']" style="color: red">
+                        Last Name cannot start with a space.
+                      </small>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-familyName">Family name</label>
+                      <input
+                        type="text"
+                        id="familyName"
+                        formControlName="familyName"
+                        class="form-control"
+                        placeholder="Family name"
+                        [class.valid]="signUpForm.controls['familyName'].valid"
+                        [class.invalid]="signUpForm.controls['familyName'].invalid"
+                      />
+                      <small *ngIf="signUpForm?.get('familyName')?.errors?.['lettersOnly']" style="color: red">
+                        Family Name should contain only letters.
+                      </small>
+                      <small *ngIf="signUpForm?.get('familyName')?.errors?.['noSpaceAtStart']" style="color: red">
+                        Family Name cannot start with a space.
+                      </small>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-email">Email address</label>
+                      <input
+                        type="email"
+                        id="input-email"
+                        formControlName="emailAddress"
+                        class="form-control"
+                        [readonly]="true"
+                        placeholder="Email address"
+                        [class.valid]="
+                          signUpForm.controls['emailAddress'].valid &&
+                          (signUpForm.controls['emailAddress'].dirty || signUpForm.controls['emailAddress'].touched)
+                        "
+                        [class.invalid]="
+                          signUpForm.controls['emailAddress'].invalid &&
+                          (signUpForm.controls['emailAddress'].dirty || signUpForm.controls['emailAddress'].touched)
+                        "
+                      />
+                      <small *ngIf="signUpForm.get('emailAddress')?.errors?.['email']" style="color: red">
+                        Please enter a valid email address.
+                      </small>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-phoneNumber">Phone Number</label>
+                      <input
+                        type="text"
+                        id="phoneNumber"
+                        formControlName="phoneNumber"
+                        class="form-control"
+                        placeholder="Phone Number"
+                        [class.valid]="signUpForm.controls['phoneNumber'].valid"
+                        [class.invalid]="signUpForm.controls['phoneNumber'].invalid"
+                      />
+                      <small *ngIf="signUpForm.get('phoneNumber')?.errors?.['numbersOnly']" style="color: red">
+                        Phone Number must only contain numbers (no letters).
+                      </small>
+
+                      <!-- Error for invalid phone length -->
+                      <small *ngIf="signUpForm?.get('phoneNumber')?.errors?.['exceedsLimit']" style="color: red">
+                        Phone Number must not exceed 10 digits.
+                      </small>
+                      <small class="text-danger" *ngIf="f['phoneNumber'].touched && f['phoneNumber'].invalid">
+                        <div *ngIf="f['phoneNumber'].errors?.['pattern']">Please, Enter 10 digit Mobile Number.</div>
+                      </small>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-yearOfBirth">YearOfBirth</label>
+                      <input
+                        type="number"
+                        id="yearOfBirth"
+                        [(ngModel)]="yearOfBirth"
+                        formControlName="yearOfBirth"
+                        class="form-control"
+                        placeholder="Year Of Birth"
+                        min="1900"
+                        [max]="currentYear"
+                      />
+                      <small *ngIf="signUpForm.get('yearOfBirth')?.hasError('numbersOnly')" style="color: red">
+                        Year of Birth must contain only numbers.
+                      </small>
+                      <small
+                        *ngIf="
+                          signUpForm.get('yearOfBirth')?.hasError('invalidYear') &&
+                          (signUpForm.get('yearOfBirth')?.touched || signUpForm.get('yearOfBirth')?.dirty)
+                        "
+                        style="color: red"
+                      >
+                        Please enter a valid year (between 1900 and {{ currentYear }}).
+                      </small>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-postalCode">Postal Code</label>
+                      <input
+                        type="text"
+                        id="input-postalCode"
+                        formControlName="postalCode"
+                        class="form-control"
+                        placeholder="Postal Code"
+                        [class.valid]="signUpForm.controls['postalCode'].valid"
+                        [class.invalid]="signUpForm.controls['postalCode'].invalid"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-country">Country</label><br />
+                      <p-dropdown
+                        [options]="countries"
+                        placeholder="Select Country"
+                        optionLabel="name"
+                        (onChange)="onChangeCountry($event)"
+                        formControlName="country"
+                        placeholder="Select Country"
+                        [showClear]="
+                          signUpForm.controls['country'].value !== null && signUpForm.controls['country'].value !== ''
+                        "
+                        autoWidth="false"
+                        [editable]="true"
+                        [style]="{ width: '100%' }"
+                        [class.valid]="
+                          signUpForm.controls['country'].valid &&
+                          (signUpForm.controls['country'].dirty || signUpForm.controls['country'].touched)
+                        "
+                        [class.invalid]="
+                          signUpForm.controls['country'].invalid &&
+                          (signUpForm.controls['country'].dirty || signUpForm.controls['country'].touched)
+                        "
+                      >
+                      </p-dropdown>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-State">State</label><br />
+                      <p-dropdown
+                        [options]="states"
+                        (onChange)="onChangeState($event)"
+                        placeholder="Select State"
+                        [editable]="true"
+                        formControlName="state"
+                        optionLabel="name"
+                        autoWidth="false"
+                        [showClear]="
+                          signUpForm.controls['state'].value !== null && signUpForm.controls['state'].value !== ''
+                        "
+                        [style]="{ width: '100%' }"
+                        [class.valid]="
+                          signUpForm.controls['state'].valid &&
+                          (signUpForm.controls['state'].dirty || signUpForm.controls['state'].touched)
+                        "
+                        [class.invalid]="
+                          signUpForm.controls['state'].invalid &&
+                          (signUpForm.controls['state'].dirty || signUpForm.controls['state'].touched)
+                        "
+                      />
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-city">City</label><br />
+                      <p-dropdown
+                        [options]="cities"
+                        (onChange)="onChangeCity($event)"
+                        placeholder="Select a City"
+                        [editable]="true"
+                        optionLabel="name"
+                        formControlName="city"
+                        autoWidth="false"
+                        [style]="{ width: '100%' }"
+                        [class.valid]="
+                          signUpForm.controls['city'].valid &&
+                          (signUpForm.controls['city'].dirty || signUpForm.controls['city'].touched)
+                        "
+                        [class.invalid]="
+                          signUpForm.controls['city'].invalid &&
+                          (signUpForm.controls['city'].dirty || signUpForm.controls['city'].touched)
+                        "
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-homeTown">Home Town</label>
+                      <input
+                        type="text"
+                        id="homeTown"
+                        formControlName="homeTown"
+                        class="form-control"
+                        placeholder="Home Town"
+                        [class.valid]="
+                          signUpForm.controls['homeTown'].valid &&
+                          (signUpForm.controls['homeTown'].dirty || signUpForm.controls['homeTown'].touched)
+                        "
+                        [class.invalid]="
+                          signUpForm.controls['homeTown'].invalid &&
+                          (signUpForm.controls['homeTown'].dirty || signUpForm.controls['homeTown'].touched)
+                        "
+                      />
+                      <small *ngIf="signUpForm?.get('homeTown')?.errors?.['noSpaceAtStart']" style="color: red">
+                        Home Town cannot start with a Space.
+                      </small>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-country">Upload Photo</label>
+                      <input
+                        type="file"
+                        #imageInput
+                        accept="image/*"
+                        (change)="processFile($event)"
+                        formControlName="photo"
+                        class="form-control form-control-alternative"
+                        placeholder="Upload Photo"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label label-required" for="input-memberShipType"
+                        >MemberShip Type</label
+                      >
+                      <p-dropdown
+                        [options]="membershipPlans"
+                        optionLabel="name"
+                        optionValue="code"
+                        (onChange)="onMembershipChange($event)"
+                        formControlName="memberShipId"
+                        placeholder="Select Membership Type"
+                        [showClear]="
+                          signUpForm.controls['memberShipId'].value !== null &&
+                          signUpForm.controls['memberShipId'].value !== ''
+                        "
+                        autoWidth="false"
+                        [style]="{ width: '100%' }"
+                        [class.valid]="signUpForm.controls['memberShipId'].valid"
+                        [class.invalid]="signUpForm.controls['memberShipId'].invalid"
+                      >
+                      </p-dropdown>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-addInWhatsAppOrTelegram"
+                        >Add in whatsApp/Telegram?</label
+                      >
+                      <p-dropdown
+                        [options]="Answer"
+                        optionLabel="name"
+                        optionValue="code"
+                        formControlName="addInWhatsAppOrTelegram"
+                        placeholder="Add in WhatsApp/Telegram?"
+                        [showClear]="
+                          signUpForm.controls['addInWhatsAppOrTelegram'].value !== null &&
+                          signUpForm.controls['addInWhatsAppOrTelegram'].value !== ''
+                        "
+                        autoWidth="false"
+                        [style]="{ width: '100%' }"
+                        [class.valid]="
+                          signUpForm.controls['addInWhatsAppOrTelegram'].valid &&
+                          (signUpForm.controls['addInWhatsAppOrTelegram'].dirty ||
+                            signUpForm.controls['addInWhatsAppOrTelegram'].touched)
+                        "
+                        [class.invalid]="
+                          signUpForm.controls['addInWhatsAppOrTelegram'].invalid &&
+                          (signUpForm.controls['addInWhatsAppOrTelegram'].dirty ||
+                            signUpForm.controls['addInWhatsAppOrTelegram'].touched)
+                        "
+                      >
+                      </p-dropdown>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-reason">Reason</label>
+                      <textarea
+                        formControlName="reason"
+                        placeholder="Enter reason"
+                        class="form-control"
+                        [style]="{ width: '100%' }"
+                      ></textarea>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-preferredBy">Reffered By</label>
+                      <input
+                        type="text"
+                        id="preferredBy"
+                        formControlName="preferredBy"
+                        class="form-control"
+                        placeholder="Reffered By"
+                        [class.valid]="signUpForm.controls['preferredBy'].valid"
+                        [class.invalid]="signUpForm.controls['preferredBy'].invalid"
+                      />
+                      <small *ngIf="signUpForm?.get('preferredBy')?.errors?.['noSpaceAtStart']" style="color: red">
+                        This Field cannot start with a Space.
+                      </small>
+                      <small *ngIf="signUpForm?.get('preferredBy')?.errors?.['lettersOnly']" style="color: red">
+                        This Field should contain only letters.
+                      </small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div
+                  *ngIf="selectedMembershipAmt && selectedValidityPeriod"
+                  style="display: flex; flex-direction: row; gap: 1rem"
+                >
+                  <p-tag severity="info" value="Info" />
+                  <p class="note"><strong>Amount to be Paid:</strong> ₹{{ selectedMembershipAmt }}</p>
+                  <p class="note"><strong>Validity:</strong> {{ selectedValidityPeriod }} months</p>
+                </div>
+                <hr class="my-4" />
+
+                <h6 class="heading-small text-muted mb-4">Spouse Details</h6>
+                <div class="form-group mb-4">
+                  <div class="custom-control custom-checkbox">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      id="hasSpouse"
+                      [checked]="hasSpouse"
+                      (change)="toggleSpouseDetails($event)"
+                    />
+                    <label class="custom-control-label" for="hasSpouse">Add Spouse Details</label>
+                  </div>
+                </div>
+
+                <div [class.d-none]="!hasSpouse">
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label class="form-control-label label-required" for="input-spouseFirstName">First Name</label>
+                        <input
+                          type="text"
+                          id="spouseFirstName"
+                          formControlName="spouseFirstName"
+                          class="form-control"
+                          placeholder="First Name"
+                          [class.valid]="
+                            signUpForm.controls['spouseFirstName'].valid &&
+                            (signUpForm.controls['spouseFirstName'].dirty ||
+                              signUpForm.controls['spouseFirstName'].touched)
+                          "
+                          [class.invalid]="
+                            signUpForm.controls['spouseFirstName'].invalid &&
+                            (signUpForm.controls['spouseFirstName'].dirty ||
+                              signUpForm.controls['spouseFirstName'].touched)
+                          "
+                        />
+                        <small *ngIf="signUpForm?.get('spouseFirstName')?.errors?.['lettersOnly']" style="color: red">
+                          First Name should contain only letters.
+                        </small>
+                        <small
+                          *ngIf="signUpForm?.get('spouseFirstName')?.errors?.['noSpaceAtStart']"
+                          style="color: red"
+                        >
+                          First Name cannot start with a space.
+                        </small>
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-spouseLastName">Last name</label>
+                        <input
+                          type="text"
+                          id="spouseLastName"
+                          formControlName="spouseLastName"
+                          class="form-control"
+                          placeholder="Last name"
+                          [class.valid]="signUpForm.controls['spouseLastName'].valid"
+                          [class.invalid]="signUpForm.controls['spouseLastName'].invalid"
+                        />
+                        <small *ngIf="signUpForm?.get('spouseLastName')?.errors?.['lettersOnly']" style="color: red">
+                          Last Name should contain only letters.
+                        </small>
+                        <small *ngIf="signUpForm?.get('spouseLastName')?.errors?.['noSpaceAtStart']" style="color: red">
+                          Last Name cannot start with a space.
+                        </small>
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-spouseEmail">Email address</label>
+                        <input
+                          type="email"
+                          id="spouseEmail"
+                          formControlName="spouseEmail"
+                          class="form-control"
+                          placeholder="Email address"
+                          [class.valid]="signUpForm.controls['spouseEmail'].valid"
+                          [class.invalid]="signUpForm.controls['spouseEmail'].invalid"
+                        />
+                        <small *ngIf="signUpForm.get('spouseEmail')?.errors?.['email']" style="color: red">
+                          Please enter a valid email address.
+                        </small>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-spousePhoneNumber">Phone Number</label>
+                        <input
+                          type="text"
+                          id="spousePhoneNumber"
+                          formControlName="spousePhoneNumber"
+                          class="form-control"
+                          placeholder="Phone Number"
+                          [class.valid]="signUpForm.controls['spousePhoneNumber'].valid"
+                          [class.invalid]="signUpForm.controls['spousePhoneNumber'].invalid"
+                        />
+                        <small *ngIf="signUpForm.get('spousePhoneNumber')?.errors?.['numbersOnly']" style="color: red">
+                          Phone Number must only contain numbers (no letters).
+                        </small>
+
+                        <!-- Error for invalid phone length -->
+                        <small
+                          *ngIf="signUpForm?.get('spousePhoneNumber')?.errors?.['exceedsLimit']"
+                          style="color: red"
+                        >
+                          Phone Number must not exceed 10 digits.
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <div class="form-group mt-4">
+                        <input type="checkbox" (click)="spouseSameAddress($event)" />
+                        Same As Primary Address
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-spouseCountry">Country</label>
+
+                        <p-dropdown
+                          [disabled]="disableSpouseFlag"
+                          [options]="spouseCountries"
+                          [(ngModel)]="spouseCountryName"
+                          optionLabel="name"
+                          (onChange)="onChangeSpouseCountry($event)"
+                          formControlName="spouseCountry"
+                          placeholder="Select Country"
+                          [showClear]="true"
+                          autoWidth="false"
+                          [editable]="true"
+                          [style]="{ width: '100%' }"
+                          [class.valid]="signUpForm.controls['spouseCountry'].valid"
+                          [class.invalid]="signUpForm.controls['spouseCountry'].invalid"
+                        >
+                        </p-dropdown>
+
+                        <span *ngIf="hasDropDownError">Enter Country ...</span>
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-spouseState">State</label>
+                        <p-dropdown
+                          [disabled]="disableSpouseFlag"
+                          [options]="spouseStates"
+                          [(ngModel)]="spouseStateName"
+                          optionLabel="name"
+                          (onChange)="onChangeSpouseState($event)"
+                          formControlName="spouseState"
+                          placeholder="Select State"
+                          [showClear]="true"
+                          autoWidth="false"
+                          [editable]="true"
+                          [style]="{ width: '100%' }"
+                          [class.valid]="signUpForm.controls['spouseState'].valid"
+                          [class.invalid]="signUpForm.controls['spouseState'].invalid"
+                        >
+                        </p-dropdown>
+
+                        <span *ngIf="hasDropDownError">Enter Country ...</span>
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-spouseCity">City</label><br />
+
+                        <p-dropdown
+                          [disabled]="disableSpouseFlag"
+                          [options]="spouseCities"
+                          (onChange)="onChangeSpouseCity($event)"
+                          optionLabel="name"
+                          formControlName="spouseCity"
+                          placeholder="Select City"
+                          [showClear]="true"
+                          [editable]="true"
+                          autoWidth="false"
+                          [style]="{ width: '100%' }"
+                          [class.valid]="signUpForm.controls['spouseCity'].valid"
+                          [class.invalid]="signUpForm.controls['spouseCity'].invalid"
+                        >
+                        </p-dropdown>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-spouseYearOfBirth">Year Of Birth</label>
+
+                        <input
+                          type="number"
+                          id="spouseYearOfBirth"
+                          formControlName="spouseYearOfBirth"
+                          class="form-control"
+                          placeholder="Year Of Birth"
+                          min="1900"
+                          [max]="currentYear"
+                        />
+                        <small *ngIf="signUpForm.get('spouseYearOfBirth')?.hasError('numbersOnly')" style="color: red">
+                          Year of Birth must contain only numbers.
+                        </small>
+                        <small
+                          *ngIf="
+                            signUpForm.get('spouseYearOfBirth')?.hasError('invalidYear') &&
+                            (signUpForm.get('spouseYearOfBirth')?.touched || signUpForm.get('spouseYearOfBirth')?.dirty)
+                          "
+                          style="color: red"
+                        >
+                          Please enter a valid year (between 1900 and {{ currentYear }}).
+                        </small>
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-spouseHometown">Home town</label>
+                        <input
+                          type="text"
+                          id="spouseHometown"
+                          formControlName="spouseHometown"
+                          class="form-control"
+                          placeholder="Hometown"
+                          [class.valid]="signUpForm.controls['spouseHometown'].valid"
+                          [class.invalid]="signUpForm.controls['spouseHometown'].invalid"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr class="my-4" />
+                <p>
+                  <button class="btn btn-info" type="button" (click)="addChildrens()">Add Childrens Details</button>
+                </p>
+                <div formArrayName="childrensDetails">
+                  <div *ngFor="let skill of childrensDetails.controls; let i = index">
+                    <div [formGroupName]="i" class="child-group">
+                      <div class="pl-lg-4 p-3">
+                        <div class="row">
+                          <div class="col-lg-3">
+                            <div class="form-group">
+                              <label class="form-control-label label-required" for="input-childFirstName"
+                                >First Name</label
+                              >
+                              <input
+                                type="text"
+                                id="childFirstName"
+                                formControlName="childFirstName"
+                                class="form-control"
+                                placeholder="First Name"
+                                [class.valid]="
+                                  (childrensDetails.controls[i].get('childFirstName')?.valid &&
+                                    childrensDetails.controls[i].get('childFirstName')?.dirty) ||
+                                  childrensDetails.controls[i].get('childFirstName')?.touched
+                                "
+                                [class.invalid]="
+                                  childrensDetails.controls[i].get('childFirstName')?.invalid &&
+                                  (childrensDetails.controls[i].get('childFirstName')?.dirty ||
+                                    childrensDetails.controls[i].get('childFirstName')?.touched)
+                                "
+                              />
+                              <small
+                                *ngIf="childrensDetails.controls[i].get('childFirstName')?.hasError('required')"
+                                style="color: red"
+                              >
+                                First Name is required
+                              </small>
+                              <small
+                                *ngIf="childrensDetails.controls[i].get('childFirstName')?.hasError('lettersOnly')"
+                                style="color: red"
+                              >
+                                First Name must contain only letters
+                              </small>
+                              <small
+                                *ngIf="childrensDetails.controls[i].get('childFirstName')?.hasError('noSpaceAtStart')"
+                                style="color: red"
+                              >
+                                First Name cannot start with a space
+                              </small>
+                            </div>
+                          </div>
+                          <div class="col-lg-3">
+                            <div class="form-group">
+                              <label class="form-control-label" for="input-childLastName">Last name</label>
+                              <input
+                                type="text"
+                                id="input-childLastName"
+                                formControlName="childLastName"
+                                class="form-control"
+                                placeholder="Last name"
+                              />
+                              <small
+                                *ngIf="signUpForm?.get('childLastName')?.errors?.['lettersOnly']"
+                                style="color: red"
+                              >
+                                Last Name should contain only letters.
+                              </small>
+                              <small
+                                *ngIf="signUpForm?.get('childLastName')?.errors?.['noSpaceAtStart']"
+                                style="color: red"
+                              >
+                                Last Name cannot start with a space.
+                              </small>
+                            </div>
+                          </div>
+                          <div class="col-lg-3">
+                            <div class="form-group">
+                              <label class="form-control-label" for="input-childEmailAddress">Email address</label>
+                              <input
+                                type="email"
+                                id="childEmailAddress"
+                                formControlName="childEmailAddress"
+                                class="form-control"
+                                placeholder="Email address"
+                              />
+                              <small *ngIf="signUpForm.get('childEmailAddress')?.errors?.['email']" style="color: red">
+                                Please enter a valid email address.
+                              </small>
+                            </div>
+                          </div>
+                          <div class="col-lg-3">
+                            <div class="form-group">
+                              <label class="form-control-label" for="input-childPhoneNumber">Phone Number</label>
+                              <input
+                                type="text"
+                                id="childPhoneNumber"
+                                formControlName="childPhoneNumber"
+                                class="form-control"
+                                placeholder="Phone Number"
+                              />
+                              <small
+                                *ngIf="signUpForm.get('childPhoneNumber')?.errors?.['numbersOnly']"
+                                style="color: red"
+                              >
+                                Phone Number must only contain numbers (no letters).
+                              </small>
+
+                              <!-- Error for invalid phone length -->
+                              <small
+                                *ngIf="signUpForm.get('childPhoneNumber')?.errors?.['invalidCharacters']"
+                                style="color: red"
+                              >
+                                Phone Number must only contain numbers, spaces, and an optional '+'.
+                              </small>
+
+                              <!-- Error for invalid country code format -->
+                              <small
+                                *ngIf="signUpForm.get('childPhoneNumber')?.errors?.['invalidCountryCode']"
+                                style="color: red"
+                              >
+                                Please enter a valid country code (e.g., +91, +1).
+                              </small>
+
+                              <!-- Error for missing space after country code -->
+                              <small
+                                *ngIf="signUpForm.get('childPhoneNumber')?.errors?.['invalidFormat']"
+                                style="color: red"
+                              >
+                                Country code must be followed by a space (e.g., +91 1234567890).
+                              </small>
+                              <small
+                                *ngIf="signUpForm.get('childPhoneNumber')?.errors?.['invalidLength']"
+                                style="color: red"
+                              >
+                                Phone Number must have exactly 10 digits (excluding country code).
+                              </small>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-3">
+                            <div class="form-group mt-4">
+                              <input type="checkbox" (click)="childSameAddress($event, i)" />
+                              Same As Primary Address
+                            </div>
+                          </div>
+                          <div class="col-lg-3">
+                            <div class="form-group">
+                              <label class="form-control-label" for="input-childCountry">Country</label><br />
+
+                              <p-dropdown
+                                [disabled]="disableChildFlag[i]"
+                                [options]="countries"
+                                optionLabel="name"
+                                (onChange)="onChangeChildCountry($event, i)"
+                                formControlName="childCountry"
+                                placeholder="Select Country"
+                                [showClear]="
+                                  childrensDetails.controls[i].get('childCountry')?.value !== null &&
+                                  childrensDetails.controls[i].get('childCountry')?.value !== ''
+                                "
+                                [editable]="true"
+                                autoWidth="false"
+                                [style]="{ width: '100%' }"
+                              ></p-dropdown>
+                            </div>
+                          </div>
+                          <div class="col-lg-3">
+                            <div class="form-group">
+                              <label class="form-control-label" for="input-childState">State</label><br />
+
+                              <p-dropdown
+                                [disabled]="disableChildFlag[i]"
+                                [options]="childStates"
+                                optionLabel="name"
+                                (onChange)="onChangeChildState($event, i)"
+                                formControlName="childState"
+                                placeholder="Select State"
+                                [showClear]="
+                                  childrensDetails.controls[i].get('childCity')?.value !== null &&
+                                  childrensDetails.controls[i].get('childCity')?.value !== ''
+                                "
+                                [editable]="true"
+                                autoWidth="false"
+                                [style]="{ width: '100%' }"
+                              ></p-dropdown>
+                            </div>
+                          </div>
+                          <div class="col-lg-3">
+                            <div class="form-group">
+                              <label class="form-control-label" for="input-childCity">City</label><br />
+
+                              <p-dropdown
+                                [disabled]="disableChildFlag[i]"
+                                [options]="childCities"
+                                (onChange)="onChangeChildCity($event, i)"
+                                optionLabel="name"
+                                formControlName="childCity"
+                                placeholder="Select City"
+                                [showClear]="true"
+                                [editable]="true"
+                                autoWidth="false"
+                                [style]="{ width: '100%' }"
+                              ></p-dropdown>
+                            </div>
+                          </div>
+                          <div class="col-lg-3">
+                            <div class="form-group">
+                              <label class="form-control-label" for="input-childYearOfBirth">Year Of Birth</label>
+                              <input
+                                type="number"
+                                id="input-childYearOfBirth"
+                                formControlName="childYearOfBirth"
+                                class="form-control"
+                                placeholder="yearOfBirth"
+                                min="1900"
+                                [max]="currentYear"
+                              />
+                              <small
+                                *ngIf="
+                                  childrensDetails.controls[i].get('childYearOfBirth')?.hasError('numbersOnly') &&
+                                  (childrensDetails.controls[i].get('childYearOfBirth')?.touched ||
+                                    childrensDetails.controls[i].get('childYearOfBirth')?.dirty)
+                                "
+                                style="color: red"
+                              >
+                                Year of Birth must contain only numbers
+                              </small>
+                              <small
+                                *ngIf="
+                                  childrensDetails.controls[i].get('childYearOfBirth')?.hasError('invalidYear') &&
+                                  (childrensDetails.controls[i].get('childYearOfBirth')?.touched ||
+                                    childrensDetails.controls[i].get('childYearOfBirth')?.dirty)
+                                "
+                                style="color: red"
+                              >
+                                Please enter a valid year (between 1900 and {{ currentYear }}).
+                              </small>
+                            </div>
+                          </div>
+                        </div>
+                        <button style="float: right" class="primary-btn mb-2" (click)="removeChild(i)">Remove</button>
+                      </div>
+                      <br />
+
+                      <hr class="my-4" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <hr class="my-4" />
+              <h6 class="heading-small text-muted mb-4">Payment Details</h6>
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="form-group">
+                    <label class="form-control-label label-required">Payment Mode</label>
+                    <div class="payment-options">
+                      <p-radioButton
+                        name="paymentMode"
+                        value="zelle"
+                        [(ngModel)]="selectedPaymentMode"
+                        formControlName="paymentMode"
+                        inputId="zelle"
+                        (onClick)="onPaymentModeChange('zelle')"
+                      >
+                      </p-radioButton>
+                      <label for="zelle" class="ml-2 mr-4">Zelle</label>
+
+                      <p-radioButton
+                        name="paymentMode"
+                        value="paypal"
+                        [(ngModel)]="selectedPaymentMode"
+                        formControlName="paymentMode"
+                        inputId="paypal"
+                        (onClick)="onPaymentModeChange('paypal')"
+                      >
+                      </p-radioButton>
+                      <label for="paypal" class="ml-2 mr-4">PayPal</label>
+
+                      <p-radioButton
+                        name="paymentMode"
+                        value="check"
+                        [(ngModel)]="selectedPaymentMode"
+                        formControlName="paymentMode"
+                        inputId="check"
+                        (onClick)="onPaymentModeChange('check')"
+                      >
+                      </p-radioButton>
+                      <label for="check" class="ml-2">Check</label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Additional fields for Zelle/PayPal -->
+                <div
+                  class="col-lg-12 mt-4 ml-0"
+                  *ngIf="selectedPaymentMode === 'zelle' || selectedPaymentMode === 'paypal'"
+                >
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="form-control-label label-required">Transaction ID</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          formControlName="transactionId"
+                          placeholder="Enter Transaction ID"
+                          [class.valid]="
+                            signUpForm.controls['transactionId'].valid && signUpForm.controls['transactionId'].touched
+                          "
+                          [class.invalid]="
+                            signUpForm.controls['transactionId'].invalid && signUpForm.controls['transactionId'].touched
+                          "
+                        />
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="form-control-label label-required">Payment Date</label>
+                        <p-calendar
+                          formControlName="paymentDate"
+                          [showIcon]="true"
+                          dateFormat="dd/mm/yy"
+                          [maxDate]="currentDate"
+                          placeholder="Select Payment Date"
+                          [style]="{ width: '100%' }"
+                        >
+                        </p-calendar>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Additional fields for Check -->
+                <div class="col-lg-12 ml-0" *ngIf="selectedPaymentMode === 'check'">
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="form-control-label label-required">Check Number</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          formControlName="checkNumber"
+                          placeholder="Enter Check Number"
+                          [class.valid]="
+                            signUpForm.controls['checkNumber'].valid && signUpForm.controls['checkNumber'].touched
+                          "
+                          [class.invalid]="
+                            signUpForm.controls['checkNumber'].invalid && signUpForm.controls['checkNumber'].touched
+                          "
+                        />
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="form-control-label label-required">Bank Name</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          formControlName="bankName"
+                          placeholder="Enter Bank Name"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="form-control-label label-required">Check Date</label>
+                        <p-calendar
+                          formControlName="checkDate"
+                          [showIcon]="true"
+                          dateFormat="dd/mm/yy"
+                          [maxDate]="currentDate"
+                          placeholder="Select Check Date"
+                          [style]="{ width: '100%' }"
+                          [class.valid]="
+                            signUpForm.controls['checkDate'].valid && signUpForm.controls['checkDate'].touched
+                          "
+                          [class.invalid]="
+                            signUpForm.controls['checkDate'].invalid && signUpForm.controls['checkDate'].touched
+                          "
+                        >
+                        </p-calendar>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                [disabled]="isSaveButtonDisabled()"
+                style="width: 100%; float: right"
+                class="btn btn-info mt-4"
+              >
+                Register
+              </button>
+              <br />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </table>
+</div>
+
+<div class="flex justify-center">
+  <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }" />
+</div>
+
+<ngo-loading-spinner></ngo-loading-spinner>

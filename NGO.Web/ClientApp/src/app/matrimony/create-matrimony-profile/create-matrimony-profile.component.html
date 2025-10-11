@@ -1,0 +1,686 @@
+<app-navbar></app-navbar>
+<div class="profile-form-wrapper mt-top pt-2">
+  <p class="back-btn back-div" (click)="goBack()" style="cursor: pointer">
+    <i class="pi pi-arrow-left"></i>
+  </p>
+  <h2 class="title-lg mb-4">Create Matrimony Profile</h2>
+  <form [formGroup]="profileForm" (ngSubmit)="submitForm()" autocomplete="on">
+      <!-- Stepper Navigation -->
+      <p-steps [model]="steps"  [activeIndex]="activeStep" class="custom-steps" (activeIndexChange)="onStepChange($event)"></p-steps>
+  <!-- Step Content -->
+  <div class="step-content">
+    <!-- Step 1: Primary Contact Information -->
+    <div *ngIf="activeStep === 0">
+    
+
+    <!-- Section: Primary Contact Information -->
+    <fieldset class="form-section responsive-text">
+      
+      <p class="responsive-text">Primary Contact Information</p>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="authPrimaryPersonFName" class="label-required">First Name</label>
+          <input type="text" pInputText formControlName="authPrimaryPersonFName" />
+          <small *ngIf="profileForm?.get('authPrimaryPersonFName')?.errors?.['valueRequired']" style="color: red">
+            First Name is required
+          </small>
+          <small *ngIf="profileForm?.get('authPrimaryPersonFName')?.errors?.['lettersOnly']" style="color: red">
+            First Name should contain only letters.
+          </small>
+          <small *ngIf="profileForm?.get('authPrimaryPersonFName')?.errors?.['noSpaceAtStart']" style="color: red">
+            First Name cannot start with a space.
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="authPrimaryPersonLName">Last Name</label>
+          <input id="authPrimaryPersonLName" formControlName="authPrimaryPersonLName" type="text" />
+          <small *ngIf="profileForm?.get('authPrimaryPersonLName')?.errors?.['lettersOnly']" style="color: red">
+            Last Name should contain only letters.
+          </small>
+          <small *ngIf="profileForm?.get('authPrimaryPersonLName')?.errors?.['noSpaceAtStart']" style="color: red">
+            Last Name cannot start with a space.
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="profileFor" class="label-required">Profile For</label>
+          <p-dropdown
+            [style]="{ width: '100%' }"
+            formControlName="profileFor"
+            [options]="profileFor"
+            optionLabel="name"
+            optionValue="code"
+            placeholder="Profile For?"
+          />
+        </div>
+        <div class="form-group">
+          <label for="registeringFor" class="label-required">Registering For</label>
+          <p-dropdown
+            [style]="{ width: '100%' }"
+            formControlName="registeringFor"
+            [options]="registeringFor"
+            optionLabel="name"
+            optionValue="code"
+            placeholder="registering For?"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="authPrimaryPersonEmail" class="label-required">Email</label>
+          <input id="authPrimaryPersonEmail" formControlName="authPrimaryPersonEmail" type="email" />
+          <small *ngIf="profileForm?.get('authPrimaryPersonEmail')?.errors?.['valueRequired']" style="color: red">
+            Email is required
+          </small>
+          <small *ngIf="profileForm.get('authPrimaryPersonEmail')?.errors?.['email']" style="color: red">
+            Please enter a valid email address.
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="authPrimaryPersonPhoneNo" class="label-required">Phone Number</label>
+          <input id="authPrimaryPersonPhoneNo" formControlName="authPrimaryPersonPhoneNo" type="text" />
+          <small *ngIf="profileForm?.get('authPrimaryPersonPhoneNo')?.errors?.['valueRequired']" style="color: red">
+            Phone Number is required
+          </small>
+          <!-- Error for invalid characters -->
+          <small *ngIf="profileForm.get('authPrimaryPersonPhoneNo')?.errors?.['invalidCharacters']" style="color: red">
+            Phone Number must only contain numbers, spaces, and an optional '+'.
+          </small>
+
+          <!-- Error for invalid country code format -->
+          <small *ngIf="profileForm.get('authPrimaryPersonPhoneNo')?.errors?.['invalidCountryCode']" style="color: red">
+            Please enter a valid country code (e.g., +91, +1).
+          </small>
+
+          <!-- Error for missing space after country code -->
+          <small *ngIf="profileForm.get('authPrimaryPersonPhoneNo')?.errors?.['invalidFormat']" style="color: red">
+            Country code must be followed by a space (e.g., +91 1234567890).
+          </small>
+
+          <!-- Error for invalid phone length -->
+          <small *ngIf="profileForm.get('authPrimaryPersonPhoneNo')?.errors?.['invalidLength']" style="color: red">
+            Phone Number must have exactly 10 digits (excluding country code).
+          </small>
+          <small *ngIf="profileForm.get('authPrimaryPersonPhoneNo')?.errors?.['noSpaceAtStart']" style="color: red">
+            Phone Number cannot start with a space.
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="authPrimaryContactPref">Preferred Contact</label>
+          <p-dropdown
+            [style]="{ width: '100%' }"
+            formControlName="authPrimaryContactPref"
+            [options]="communicationMedium"
+            optionLabel="name"
+            optionValue="code"
+            placeholder="Contact Preferrence ?"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="authPrimaryContactCanBeShared">Can Share Contact?</label>
+          <p-checkbox
+            [style]="{ marginTop: '10px' }"
+            formControlName="authPrimaryContactCanBeShared"
+            value="true"
+            inputId="authPrimaryContactCanBeShared"
+          />
+        </div>
+      </div>
+    </fieldset>
+    <div class="flex pt-6 justify-content-end">
+      <p-button (onClick)="nextStep()" label="Next" icon="pi pi-arrow-right" iconPos="right" [disabled]="!isStepValid(0)" />
+    </div>
+  </div>
+
+  <div *ngIf="activeStep === 1">
+    <!-- Section: Bride/Groom Information -->
+    <fieldset class="form-section responsive-text">
+      <p class="responsive-text">Bride/Groom Information</p>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="brideOrGroomFName" class="label-required">First Name </label>
+          <input id="brideOrGroomFName" formControlName="brideOrGroomFName" type="text" />
+          <small *ngIf="profileForm.get('brideOrGroomFName')?.errors?.['valueRequired']" style="color: red">
+            First Name is required
+          </small>
+          <small *ngIf="profileForm.get('brideOrGroomFName')?.errors?.['lettersOnly']" style="color: red">
+            First Name should contain only letters.
+          </small>
+
+          <small *ngIf="profileForm.get('brideOrGroomFName')?.errors?.['noSpaceAtStart']" style="color: red">
+            First Name cannot start with a space.
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="brideOrGroomLName">Last Name</label>
+          <input id="brideOrGroomLName" formControlName="brideOrGroomLName" type="text" />
+          <small *ngIf="profileForm?.get('brideOrGroomLName')?.errors?.['lettersOnly']" style="color: red">
+            Last Name should contain only letters.
+          </small>
+          <small *ngIf="profileForm?.get('brideOrGroomLName')?.errors?.['noSpaceAtStart']" style="color: red">
+            Last Name cannot start with a space.
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="brideOrGroomEmail" class="label-required">Email</label>
+          <input id="brideOrGroomEmail" formControlName="brideOrGroomEmail" type="email" />
+          <small *ngIf="profileForm?.get('brideOrGroomEmail')?.errors?.['valueRequired']" style="color: red">
+            Email is required
+          </small>
+          <small *ngIf="profileForm.get('brideOrGroomEmail')?.errors?.['email']" style="color: red">
+            Please enter a valid email address.
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="brideGroomDOB" class="label-required">Date of Birth</label>
+          <input id="brideGroomDOB" formControlName="brideGroomDOB" type="date" />
+        </div>
+        <div class="form-group">
+          <label for="brideGroomTimeOfBirth" class="label-required">Time of Birth</label>
+          <input id="brideGroomTimeOfBirth" formControlName="brideGroomTimeOfBirth" type="time" />
+        </div>
+        <div class="form-group">
+          <label for="brideGroomPlaceOfBirth" class="label-required">Place of Birth</label>
+          <input id="brideGroomPlaceOfBirth" formControlName="brideGroomPlaceOfBirth" type="text" />
+          <small *ngIf="profileForm?.get('brideGroomPlaceOfBirth')?.errors?.['valueRequired']" style="color: red">
+            Birth Place is required
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="brideOrGroomPhoneNumber" class="label-required">PhoneNumber</label>
+          <input id="brideOrGroomPhoneNumber" formControlName="brideOrGroomPhoneNumber" type="tel" />
+          <!-- Error for invalid characters -->
+          <small *ngIf="profileForm?.get('brideOrGroomPhoneNumber')?.errors?.['valueRequired']" style="color: red">
+            Phone Number is required
+          </small>
+          <small *ngIf="profileForm.get('brideOrGroomPhoneNumber')?.errors?.['invalidCharacters']" style="color: red">
+            Phone Number must only contain numbers, spaces, and an optional '+'.
+          </small>
+
+          <!-- Error for invalid country code format -->
+          <small *ngIf="profileForm.get('brideOrGroomPhoneNumber')?.errors?.['invalidCountryCode']" style="color: red">
+            Please enter a valid country code (e.g., +91, +1).
+          </small>
+
+          <!-- Error for missing space after country code -->
+          <small *ngIf="profileForm.get('brideOrGroomPhoneNumber')?.errors?.['invalidFormat']" style="color: red">
+            Country code must be followed by a space (e.g., +91 1234567890).
+          </small>
+
+          <!-- Error for invalid phone length -->
+          <small *ngIf="profileForm.get('brideOrGroomPhoneNumber')?.errors?.['invalidLength']" style="color: red">
+            Phone Number must have exactly 10 digits (excluding country code).
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="gender" class="label-required">Gender</label>
+          <p-dropdown
+            [style]="{ width: '100%' }"
+            formControlName="gender"
+            [options]="gender"
+            optionLabel="name"
+            optionValue="code"
+            placeholder="Select Gender"
+          />
+        </div>
+
+        <div class="form-group">
+          <div class="checkbox-divider">
+            <label for="brideGroomAccessToCommunication">Access to Communication?</label>
+            <p-checkbox
+              formControlName="brideGroomAccessToCommunication"
+              value="true"
+              inputId="brideGroomAccessToCommunication"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="brideGroomCurrentCountry" class="label-required">Current Country</label>
+          <p-dropdown
+            [options]="countries"
+            optionLabel="name"
+            (onChange)="onChangeCountry($event)"
+            formControlName="brideGroomCurrentCountry"
+            placeholder="Current Country"
+            [showClear]="
+              profileForm.controls['brideGroomCurrentCountry'].value !== null &&
+              profileForm.controls['brideGroomCurrentCountry'].value !== ''
+            "
+            [editable]="true"
+            autoWidth="false"
+            [style]="{ width: '100%' }"
+            [class.valid]="
+              profileForm.controls['brideGroomCurrentCountry'].valid &&
+              (profileForm.controls['brideGroomCurrentCountry'].dirty ||
+                profileForm.controls['brideGroomCurrentCountry'].touched)
+            "
+            [class.invalid]="
+              profileForm.controls['brideGroomCurrentCountry'].invalid &&
+              (profileForm.controls['brideGroomCurrentCountry'].dirty ||
+                profileForm.controls['brideGroomCurrentCountry'].touched)
+            "
+          >
+          </p-dropdown>
+        </div>
+
+        <div class="form-group">
+          <label for="brideGroomCurrentState" class="label-required">Current State</label>
+          <p-dropdown
+            [options]="states"
+            optionLabel="name"
+            (onChange)="onChangeState($event)"
+            formControlName="brideGroomCurrentState"
+            placeholder="Current State"
+            [showClear]="
+              profileForm.controls['brideGroomCurrentState'].value !== null &&
+              profileForm.controls['brideGroomCurrentState'].value !== ''
+            "
+            [editable]="true"
+            autoWidth="false"
+            [style]="{ width: '100%' }"
+            [class.valid]="
+              profileForm.controls['brideGroomCurrentState'].valid &&
+              (profileForm.controls['brideGroomCurrentState'].dirty ||
+                profileForm.controls['brideGroomCurrentState'].touched)
+            "
+            [class.invalid]="
+              profileForm.controls['brideGroomCurrentState'].invalid &&
+              (profileForm.controls['brideGroomCurrentState'].dirty ||
+                profileForm.controls['brideGroomCurrentState'].touched)
+            "
+          >
+          </p-dropdown>
+        </div>
+
+        <div class="form-group">
+          <label for="brideGroomCurrentCity" class="label-required">Current City</label>
+          <p-dropdown
+            [options]="cities"
+            optionLabel="name"
+            (onChange)="onChangeCity($event)"
+            formControlName="brideGroomCurrentCity"
+            placeholder="Current City"
+            [showClear]="
+              profileForm.controls['brideGroomCurrentCity'].value !== null &&
+              profileForm.controls['brideGroomCurrentCity'].value !== ''
+            "
+            [editable]="true"
+            autoWidth="false"
+            [style]="{ width: '100%' }"
+            [class.valid]="
+              profileForm.controls['brideGroomCurrentCity'].valid &&
+              (profileForm.controls['brideGroomCurrentCity'].dirty ||
+                profileForm.controls['brideGroomCurrentCity'].touched)
+            "
+            [class.invalid]="
+              profileForm.controls['brideGroomCurrentCity'].invalid &&
+              (profileForm.controls['brideGroomCurrentCity'].dirty ||
+                profileForm.controls['brideGroomCurrentCity'].touched)
+            "
+          >
+          </p-dropdown>
+        </div>
+
+        <div class="form-group">
+          <label for="brideGroomCurrentLocation" class="label-required">Current Location</label>
+          <input id="brideGroomCurrentLocation" formControlName="brideGroomCurrentLocation" type="text" />
+          <small *ngIf="profileForm?.get('brideGroomCurrentLocation')?.errors?.['valueRequired']" style="color: red">
+            Location is required
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="brideGroomHeight" class="label-required">Height</label>
+          <input id="brideGroomHeight" formControlName="brideGroomHeight" type="text" />
+          <small *ngIf="profileForm?.get('brideGroomHeight')?.errors?.['valueRequired']" style="color: red">
+            Height is required
+          </small>
+          <small *ngIf="profileForm.get('brideGroomHeight')?.errors?.['invalidHeight']" style="color: red">
+            Height must be a number between 2 and 7
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="brideGroomGothra" class="label-required">Gothra</label>
+          <input id="brideGroomGothra" formControlName="brideGroomGothra" type="text" />
+          <small *ngIf="profileForm?.get('brideGroomGothra')?.errors?.['valueRequired']" style="color: red">
+            Gothra is required
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="brideGroomPravara" class="label-required">Pravara</label>
+          <input id="brideGroomPravara" formControlName="brideGroomPravara" type="text" />
+          <small *ngIf="profileForm?.get('brideGroomPravara')?.errors?.['valueRequired']" style="color: red">
+            Pravara is required
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="brideGroomNakshatra" class="label-required">Nakshatra</label>
+          <input id="brideGroomNakshatra" formControlName="brideGroomNakshatra" type="text" />
+          <small *ngIf="profileForm?.get('brideGroomNakshatra')?.errors?.['valueRequired']" style="color: red">
+            Nakshatra is required
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="brideGroomRashi" class="label-required">Rashi</label>
+          <input id="brideGroomRashi" formControlName="brideGroomRashi" type="text" />
+          <small *ngIf="profileForm?.get('brideGroomRashi')?.errors?.['valueRequired']" style="color: red">
+            Rashi is required
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="brideGroomEducation" class="label-required">Education</label>
+          <input id="brideGroomEducation" formControlName="brideGroomEducation" type="text" />
+          <small *ngIf="profileForm?.get('brideGroomEducation')?.errors?.['valueRequired']" style="color: red">
+            Education Details is required
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="brideGroomEducationDegree" class="label-required">Education Degree</label>
+          <input id="brideGroomEducationDegree" formControlName="brideGroomEducationDegree" type="text" />
+          <small *ngIf="profileForm?.get('brideGroomEducationDegree')?.errors?.['valueRequired']" style="color: red">
+            Education Degree is required.
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="brideGroomUniversity" class="label-required">University</label>
+          <input id="brideGroomUniversity" formControlName="brideGroomUniversity" type="text" />
+          <small *ngIf="profileForm?.get('brideGroomUniversity')?.errors?.['valueRequired']" style="color: red">
+            University Details is required
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="brideGroomEmploymentInfo" class="label-required">Employment Info</label>
+          <input id="brideGroomEmploymentInfo" formControlName="brideGroomEmploymentInfo" type="text" />
+          <small *ngIf="profileForm?.get('brideGroomEmploymentInfo')?.errors?.['valueRequired']" style="color: red">
+            Employment Information is required
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="brideGroomCanRelocate">Can Relocate?</label>
+          <p-dropdown
+            [style]="{ width: '100%' }"
+            formControlName="brideGroomCanRelocate"
+            [options]="Answer"
+            optionLabel="name"
+            optionValue="code"
+            placeholder="Can Relocate?"
+          />
+        </div>
+        <div class="form-group">
+          <label for="brideGroomPrevMarried">Previously Married?</label>
+          <p-dropdown
+            [style]="{ width: '100%' }"
+            formControlName="brideGroomPrevMarried"
+            [options]="marriageStatus"
+            optionLabel="name"
+            optionValue="code"
+            placeholder="Previously Married?"
+          />
+        </div>
+        <div class="form-group">
+          <label for="brideGroomNativePlace" class="label-required">Native Place</label>
+          <input id="brideGroomNativePlace" formControlName="brideGroomNativePlace" type="text" />
+          <small *ngIf="profileForm?.get('brideGroomNativePlace')?.errors?.['valueRequired']" style="color: red">
+            Native Information is required
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="brideGroomLegalStatus">Legal Status</label>
+          <input id="brideGroomLegalStatus" formControlName="brideGroomLegalStatus" type="text" />
+        </div>
+        <div class="form-group">
+          <label for="brideGroomGrownUpCountryAndPlace" class="label-required">Grown-Up Country and Place Info</label>
+          <input id="brideGroomGrownUpCountryAndPlace" formControlName="brideGroomGrownUpCountryAndPlace" type="text" />
+          <small
+            *ngIf="profileForm?.get('brideGroomGrownUpCountryAndPlace')?.errors?.['valueRequired']"
+            style="color: red"
+          >
+            Grown-Up Country and Place Info is required
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="brideGroomDiet">Diet</label>
+          <p-dropdown
+            [style]="{ width: '100%' }"
+            formControlName="brideGroomDiet"
+            [options]="dietPreferences"
+            optionLabel="name"
+            optionValue="code"
+            placeholder="Diet Preference?"
+          />
+        </div>
+      </div>
+    </fieldset>
+    <div class="flex pt-6  justify-content-between">
+      <p-button (onClick)="prevStep()" label="Back" severity="secondary" icon="pi pi-arrow-left" />
+      <p-button (onClick)="nextStep()" label="Next" icon="pi pi-arrow-right" iconPos="right" [disabled]="!isStepValid(1)" />
+    </div>
+  </div>
+
+  <div *ngIf="activeStep === 2">
+    <fieldset class="form-section responsive-text">
+      <p class="responsive-text">Photo Information</p>
+
+      <div class="form-grid">
+        <!-- Primary Picture -->
+        <div class="form-group">
+          <label for="primaryPicture">Primary Picture</label>
+          <input id="primaryPicture" type="file" (change)="onFileSelect($event, 'primary')" accept="image/*" />
+        </div>
+
+        <!-- Casual Picture -->
+        <div class="form-group">
+          <label for="casualPicture">Casual Picture</label>
+          <input id="casualPicture" type="file" (change)="onFileSelect($event, 'casual')" accept="image/*" />
+        </div>
+
+        <!-- Business Picture -->
+        <div class="form-group">
+          <label for="businessPicture">Business Picture</label>
+          <input id="businessPicture" type="file" (change)="onFileSelect($event, 'business')" accept="image/*" />
+        </div>
+
+        <!-- Festival Picture -->
+        <div class="form-group">
+          <label for="festivalPicture">Festival Picture</label>
+          <input id="festivalPicture" type="file" (change)="onFileSelect($event, 'festival')" accept="image/*" />
+        </div>
+      </div>
+      <div class="text-sm text-gray-600">
+        <span class="basic-text-styles mr-2"> Note: </span>
+        Minimun one photo is required.
+      </div>
+    </fieldset>
+    <div class="flex pt-6  justify-content-between">
+      <p-button (onClick)="prevStep()" label="Back" severity="secondary" icon="pi pi-arrow-left" />
+      <p-button (onClick)="nextStep()" label="Next" icon="pi pi-arrow-right" iconPos="right" [disabled]="matrimonialDataPhotos.length === 0" />
+    </div>
+  </div>
+
+  <div *ngIf="activeStep === 3">
+    <fieldset class="form-section responsive-text">
+      <p class="responsive-text" class="responsive-text">Partner Information</p>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="partnersPref" class="label-required">Preferred Partner</label>
+          <input id="partnersPref" formControlName="partnersPref" type="text" />
+          <small *ngIf="profileForm?.get('partnersPref')?.errors?.['valueRequired']" style="color: red">
+            Preferred Partner Information is required
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="partnersLegalStayPref" >Partner's Legal Stay Preference</label>
+          <input id="partnersLegalStayPref" formControlName="partnersLegalStayPref" type="text" />
+         
+        </div>
+      </div>
+    </fieldset>
+    <div class="flex pt-6  justify-content-between">
+      <p-button (onClick)="prevStep()" label="Back" severity="secondary" icon="pi pi-arrow-left" />
+      <p-button (onClick)="nextStep()" label="Next" icon="pi pi-arrow-right" iconPos="right" [disabled]="!isStepValid(3)" />
+    </div>
+  </div>
+
+  <div *ngIf="activeStep === 4">
+    <fieldset class="form-section responsive-text">
+      <p class="responsive-text" class="responsive-text">Parent Information</p>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="fatherFName" class="label-required">Father's Name</label>
+          <input id="fatherFName" formControlName="fatherFName" type="text" />
+          <small *ngIf="profileForm?.get('fatherFName')?.errors?.['lettersOnly']" style="color: red">
+            Name should contain only letters.
+          </small>
+          <small *ngIf="profileForm?.get('fatherFName')?.errors?.['noSpaceAtStart']" style="color: red">
+            Name cannot start with a space.
+          </small>
+          <small *ngIf="profileForm?.get('fatherFName')?.errors?.['valueRequired']" style="color: red">
+            Name is required
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="fatherEmail">Father's Email</label>
+          <input id="fatherEmail" formControlName="fatherEmail" type="email" />
+        </div>
+        <div class="form-group">
+          <label for="fatherPhoneNo">Father's Phone Number</label>
+          <input id="fatherPhoneNo" formControlName="fatherPhoneNo" type="text" />
+          <small *ngIf="profileForm.get('fatherPhoneNo')?.errors?.['invalidCharacters']" style="color: red">
+            Phone Number must only contain numbers, spaces, and an optional '+'.
+          </small>
+
+          <!-- Error for invalid country code format -->
+          <small *ngIf="profileForm.get('fatherPhoneNo')?.errors?.['invalidCountryCode']" style="color: red">
+            Please enter a valid country code (e.g., +91, +1).
+          </small>
+
+          <!-- Error for missing space after country code -->
+          <small *ngIf="profileForm.get('fatherPhoneNo')?.errors?.['invalidFormat']" style="color: red">
+            Country code must be followed by a space (e.g., +91 1234567890).
+          </small>
+
+          <!-- Error for invalid phone length -->
+          <small *ngIf="profileForm.get('fatherPhoneNo')?.errors?.['invalidLength']" style="color: red">
+            Phone Number must have exactly 10 digits (excluding country code).
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="fatherNativePlace">Father's Native Place</label>
+          <input id="fatherNativePlace" formControlName="fatherNativePlace" type="text" />
+        </div>
+        <div class="form-group">
+          <label for="fatherOccupation">Father's Occupation</label>
+          <input id="fatherOccupation" formControlName="fatherOccupation" type="text" />
+        </div>
+        <div class="form-group">
+          <label for="motherFName" class="label-required">Mother's Name</label>
+          <input id="motherFName" formControlName="motherFName" type="text" />
+          <small *ngIf="profileForm?.get('motherFName')?.errors?.['lettersOnly']" style="color: red">
+            Name should contain only letters.
+          </small>
+          <small *ngIf="profileForm?.get('motherFName')?.errors?.['noSpaceAtStart']" style="color: red">
+            Name cannot start with a space.
+          </small>
+          <small *ngIf="profileForm?.get('motherFName')?.errors?.['valueRequired']" style="color: red">
+            Name is required
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="motherEmail">Mother's Email</label>
+          <input id="motherEmail" formControlName="motherEmail" type="email" />
+          <small *ngIf="profileForm.get('motherEmail')?.errors?.['email']" style="color: red">
+            Please enter a valid email address.
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="motherPhoneNo">Mother's Phone Number</label>
+          <input id="motherPhoneNo" formControlName="motherPhoneNo" type="text" />
+          <small *ngIf="profileForm.get('motherPhoneNo')?.errors?.['invalidCharacters']" style="color: red">
+            Phone Number must only contain numbers, spaces, and an optional '+'.
+          </small>
+
+          <!-- Error for invalid country code format -->
+          <small *ngIf="profileForm.get('motherPhoneNo')?.errors?.['invalidCountryCode']" style="color: red">
+            Please enter a valid country code (e.g., +91, +1).
+          </small>
+
+          <!-- Error for missing space after country code -->
+          <small *ngIf="profileForm.get('motherPhoneNo')?.errors?.['invalidFormat']" style="color: red">
+            Country code must be followed by a space (e.g., +91 1234567890).
+          </small>
+
+          <!-- Error for invalid phone length -->
+          <small *ngIf="profileForm.get('motherPhoneNo')?.errors?.['invalidLength']" style="color: red">
+            Phone Number must have exactly 10 digits (excluding country code).
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="motherPlaceIndia">Mother's Native Place</label>
+          <input id="motherPlaceIndia" formControlName="motherPlaceIndia" type="text" />
+        </div>
+        <div class="form-group">
+          <label for="motherOccupation">Mother's Occupation</label>
+          <input id="motherOccupation" formControlName="motherOccupation" type="text" />
+        </div>
+        <div class="form-group">
+          <label for="parentLocation">Parent's Location</label>
+          <input id="parentLocation" formControlName="parentLocation" type="text" />
+        </div>
+        <div class="form-group">
+          <label for="siblingsInformation" class="label-required">Siblings' Information</label>
+          <textarea id="siblingsInformation" formControlName="siblingsInformation"></textarea>
+          <small *ngIf="profileForm?.get('siblingsInformation')?.errors?.['valueRequired']" style="color: red">
+            Siblings Information is required
+          </small>
+          <div class="text-sm text-gray-600">
+            <span class="basic-text-styles mr-2"> Note: </span>
+            Add Siblings Information or Add 'N/A'
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    <div class="flex pt-6 justify-between justify-content-between">
+      <p-button (onClick)="prevStep()" label="Back" severity="secondary" icon="pi pi-arrow-left" />
+      <p-button (onClick)="nextStep()" label="Next" icon="pi pi-arrow-right" iconPos="right" [disabled]="!isStepValid(4)" />
+    </div>
+  </div>
+
+  <div *ngIf="activeStep === 5">
+    <fieldset class="form-section responsive-text">
+      <p class="responsive-text" class="responsive-text">Additional Information</p>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="additionalInformation">Details</label>
+          <textarea id="additionalInformation" formControlName="additionalInformation"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="contactPref">Preferred Contact</label>
+          <p-dropdown
+            [style]="{ width: '100%' }"
+            formControlName="contactPref"
+            [options]="communicationMedium"
+            optionLabel="name"
+            optionValue="code"
+            placeholder="Contact Preferrence ?"
+          />
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="flex pt-6  justify-content-between">
+      <p-button (onClick)="prevStep()" label="Back" severity="secondary" icon="pi pi-arrow-left" />
+      <button type="submit" pButton label="Submit" class="primary-btn btn max-w-fit" [disabled]="isSaveButtonDisabled()"></button>
+    </div>
+  </div>
+</div>
+  </form>
+</div>
+<p-toast></p-toast>
+
+<ngo-loading-spinner></ngo-loading-spinner>

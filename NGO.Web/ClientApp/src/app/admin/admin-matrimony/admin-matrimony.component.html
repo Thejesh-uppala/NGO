@@ -1,0 +1,137 @@
+<div class="dashboard-parent-component">
+  <app-sidebar></app-sidebar>
+  <div class="card mt-4 w-full">
+    <p-table
+      #dt
+      [value]="filteredMatrimonialUsersList"
+      [(selection)]="selectedUsers"
+      dataKey="id"
+      [rowHover]="true"
+      [rows]="6"
+      [showCurrentPageReport]="true"
+      [rowsPerPageOptions]="[6, 10, 20]"
+      [loading]="loading"
+      [paginator]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [filterDelay]="0"
+      [globalFilterFields]="['brideOrGroomFName', 'brideOrGroomLName', 'brideGroomCurrentCity', 'status']"
+    >
+      <ng-template pTemplate="caption">
+        <div class="flex align-items-center justify-content-between">
+          <p-button [outlined]="true" icon="pi pi-filter-slash" label="Clear" (click)="clear(dt)" />
+
+          <span class="p-input-icon-left ml-2 responsive-text">
+            <i class="pi pi-search"></i>
+            <input
+              class="responsive-text"
+              class="h-full"
+              pInputText
+              type="text"
+              (input)="filterGlobal($event)"
+              placeholder="Search..."
+            />
+          </span>
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="header">
+        <tr class="responsive-text">
+          <th style="width: 4rem">
+            <p-tableHeaderCheckbox />
+          </th>
+          <th pSortableColumn="brideOrGroomFName" style="min-width: 10rem">
+            <div class="flex justify-between items-center">
+              Name
+              <p-sortIcon field="brideOrGroomFName" />
+              <p-columnFilter type="text" field="brideOrGroomFName" display="menu" class="ml-auto" />
+            </div>
+          </th>
+          <th pSortableColumn="brideGroomCurrentCity" style="min-width: 8rem">
+            <div class="flex justify-between items-center">Photo</div>
+          </th>
+
+          <th pSortableColumn="brideGroomCurrentCity" style="min-width: 10rem">
+            <div class="flex justify-between items-center">
+              City
+              <p-sortIcon field="brideGroomCurrentCity" />
+              <p-columnFilter type="text" field="brideGroomCurrentCity" display="menu" class="ml-auto" />
+            </div>
+          </th>
+
+          <th pSortableColumn="status" style="min-width: 10rem">
+            <div class="flex justify-between items-center">
+              Status
+              <p-sortIcon field="status" />
+              <p-columnFilter field="status" display="menu" class="ml-auto"> </p-columnFilter>
+            </div>
+          </th>
+
+          <th style="width: 5rem">Action</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-user>
+        <tr class="p-selectable-row" (click)="viewProfile(user.id, user.orgId)" class="responsive-text">
+          <td (click)="$event.stopPropagation()">
+            <p-tableCheckbox [value]="user" />
+          </td>
+          <td>
+            {{ user.brideOrGroomFName + ' ' + user.brideOrGroomLName }}
+          </td>
+          <td>
+            <div class="flex items-center">
+              <img
+                alt="Photo"
+                [src]="user?.matrimonialDataPhotos[0]?.photoPath"
+                width="60"
+                height="40"
+                style="vertical-align: middle"
+              />
+            </div>
+          </td>
+
+          <td>
+            {{ user.brideGroomCurrentCity }}
+          </td>
+          <td>
+            <p-tag class="responsive-text" [value]="user.status" [severity]="getSeverity(user.status)" />
+          </td>
+
+          <td (click)="$event.stopPropagation()">
+            <div class="flex gap-2 btn-grp">
+              <p-button
+                tooltipPosition="left"
+                pTooltip="Approve Matrimony Profile"
+                icon="pi pi-check"
+                [rounded]="true"
+                [outlined]="true"
+                severity="success"
+                (onClick)="approveProfile(user.id)"
+                [disabled]="user.status === 'Approved' || user.status === 'Rejected'"
+              />
+
+              <p-button
+                pTooltip="Reject Matrimony Profile"
+                icon="pi pi-times"
+                [rounded]="true"
+                [outlined]="true"
+                severity="danger"
+                (onClick)="rejectProfile(user.id)"
+                [disabled]="user.status === 'Approved' || user.status === 'Rejected'"
+              />
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr class="responsive-text">
+          <td colspan="8">No Matrimonial Profiles found.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+<div class="flex justify-center">
+  <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }" />
+</div>

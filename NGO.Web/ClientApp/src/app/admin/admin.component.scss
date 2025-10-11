@@ -1,0 +1,178 @@
+.user-info {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 24px;
+}
+
+.user-stats {
+  display: flex;
+  gap: 18px;
+  margin-top: 20px;
+  font-family:
+    DM Sans,
+    sans-serif;
+}
+
+.user-icon {
+  aspect-ratio: 1;
+  object-fit: contain;
+  object-position: center;
+  width: 56px;
+}
+
+.stats-content {
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+}
+.stats-content p {
+  margin-bottom: 0rem !important;
+}
+
+.stats-label {
+  color: #a3aed0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 2;
+  letter-spacing: -0.28px;
+}
+
+.stats-value {
+  color: #2b3674;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.48px;
+}
+
+.user-payment {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: space-between;
+}
+.user-payment-div {
+  padding-left: 10px;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: -3px -1px 20px rgba(0, 0, 0, 0.09);
+  width: 100%;
+  min-width: 20rem;
+  height: 6.0625rem;
+  margin: auto;
+}
+@media (max-width: 1280px) {
+  .user-payment-div {
+    min-width: 15rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .user-payment-div {
+    min-width: 12rem;
+  }
+}
+@media (max-width: 864px) {
+  .user-payment-div {
+    min-width: 9.5rem;
+  }
+  .user-payment {
+    flex-direction: column;
+  }
+}
+
+.mobile-div {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .non-mobile {
+    display: none;
+  }
+
+  .mobile-div {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+  }
+  .user-payment-div {
+    flex-direction: row;
+    display: flex;
+    gap: 80px;
+    align-items: center;
+    justify-content: center;
+  }
+  .user-stats {
+    margin-top: 0px;
+  }
+}
+
+@media (max-width: 520px) {
+  .user-payment-div {
+    gap: 40px;
+  }
+}
+
+.manage-user-div {
+  margin-top: 2rem;
+  background-color: #fff;
+  padding: 12px;
+}
+
+:host ::ng-deep .p-dialog .product-image {
+  width: 150px;
+  margin: 0 auto 2rem auto;
+  display: block;
+}
+
+/* Screens up to 1024px */
+@media (max-width: 1024px) {
+  .dashboard-parent-component {
+    gap: 10px;
+  }
+  .dashboard-right-section {
+    width: 70% !important;
+    margin-top: 16px !important;
+    margin: auto;
+  }
+  .stats-label {
+    font-size: 12px;
+  }
+  .user-icon {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-parent-component {
+    gap: 0px;
+  }
+  .dashboard-right-section {
+    width: 100% !important;
+  }
+  .stats-label {
+    font-size: 10px;
+  }
+  .user-icon {
+    display: none;
+  }
+  .user-stats {
+    justify-content: center;
+  }
+  .stats-value {
+    display: flex;
+    justify-content: center;
+  }
+  .user-payment-div {
+    padding-left: 0px;
+  }
+}
+
+/* Screens up to 480px */
+@media (max-width: 480px) {
+  .input-search {
+    width: 120px;
+  }
+}

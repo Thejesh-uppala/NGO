@@ -1,0 +1,26 @@
+﻿namespace NGO.Model
+{
+    public class UserModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = null!;
+        public string ContactNumber { get; set; } = null!;
+        public string Email { get; set; } = null!;
+        public string Password { get; set; } = null!;
+        public int Status { get; set; }
+        public DateTimeOffset? LastLogin { get; set; }
+        public int CreatedBy { get; set; }
+        public DateTimeOffset CreatedOn { get; set; }
+        public int UpdatedBy { get; set; }
+        public DateTimeOffset UpdatedOn { get; set; }
+        public bool IsDeleted { get; set; }
+        public int? OTP { get; set; }
+        public bool OTPUsed { get; set; }
+
+
+        public List<UserDetailModel> UserDetails { get; set; }
+        public List<UserRoleModel> UserRoles { get; set; } = new List<UserRoleModel>();
+        public List<UserOrganizationModel> UserOrganizations { get; set; } = new List<UserOrganizationModel>();
+
+    }
+}

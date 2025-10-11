@@ -1,0 +1,124 @@
+<section class="contact-section mt-top-sm">
+  <div class="contact-header">
+    <div class="card shadow border-0 p-4">
+      <form class="contact-form" [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+        <p class="back-btn" (click)="goBack()" style="cursor: pointer">
+          <i class="pi pi-arrow-left"></i>
+        </p>
+
+        <h2 class="form-title">Contact Us</h2>
+
+        <div class="form-grid">
+          <!-- Name -->
+
+          <div class="form-group label-required">
+            <input
+              type="text"
+              formControlName="contactFormName"
+              id="contactFormName"
+              class="form-input responsive-text "
+              placeholder="Your Name"
+              [class.valid]="
+              contactForm.controls['contactFormName'].valid &&
+              (contactForm.controls['contactFormName'].dirty ||
+              contactForm.controls['contactFormName'].touched)
+            "
+            [class.invalid]="
+              contactForm.controls['contactFormName'].invalid &&
+              (contactForm.controls['contactFormName'].dirty ||
+              contactForm.controls['contactFormName'].touched)
+            "
+            />
+              <small *ngIf="contactForm.get('contactFormName')?.errors?.['minlength']" style="color: red">Name must be at least 2 characters long.</small>
+              <small *ngIf="contactForm.get('contactFormName')?.errors?.['maxlength']" style="color: red">Name cannot exceed 50 characters.</small>
+
+            
+            <small *ngIf="contactForm?.get('contactFormName')?.errors?.['lettersOnly']" style="color: red">
+              Name should contain only letters.
+            </small>
+            <small *ngIf="contactForm?.get('contactFormName')?.errors?.['noSpaceAtStart']" style="color: red">
+              Name cannot start with a space.
+            </small>
+            <small *ngIf="contactForm?.get('contactFormName')?.errors?.['valueRequired']" style="color: red">
+              Name is required
+            </small>
+          </div>
+
+          <!-- Subject -->
+          <div class="form-group contact-subject label-required">
+            <p-dropdown
+              [options]="subjects"
+              formControlName="contactFormSubjects"
+              placeholder="Choose Subject"
+              class="form-select responsive-text"
+          
+            >
+          </p-dropdown>
+          </div>
+
+          <!-- Email (Full Width) -->
+          <div class="form-group full-width label-required">
+            <input 
+              type="email"
+              formControlName="contactFormEmail"
+              id="contactFormEmail"
+              class="form-input responsive-text"
+              placeholder="Your Email"
+              [class.valid]="
+              contactForm.controls['contactFormEmail'].valid &&
+              (contactForm.controls['contactFormEmail'].dirty ||
+              contactForm.controls['contactFormEmail'].touched)
+            "
+            [class.invalid]="
+              contactForm.controls['contactFormEmail'].invalid &&
+              (contactForm.controls['contactFormEmail'].dirty ||
+              contactForm.controls['contactFormEmail'].touched)
+            "
+            />
+            <small *ngIf="contactForm.get('contactFormEmail')?.errors?.['maxlength']" style="color: red">Email cannot exceed 100 characters.</small>
+        
+            <small *ngIf="contactForm?.get('contactFormEmail')?.errors?.['valueRequired']" style="color: red">
+              Email is required
+            </small>
+            <small *ngIf="contactForm?.get('contactFormEmail')?.errors?.['email']" style="color: red">
+              Please enter a valid email address.
+            </small>
+          </div>
+
+          <!-- Message (Full Width) -->
+          <div class="form-group full-width responsive-text label-required">
+            <textarea
+              formControlName="contactFormMessage"
+              class="form-textarea responsive-text"
+              id="contactFormMessage"
+              rows="4"
+              placeholder="Your Message"
+              [class.valid]="
+              contactForm.controls['contactFormMessage'].valid &&
+              (contactForm.controls['contactFormMessage'].dirty ||
+              contactForm.controls['contactFormMessage'].touched)
+            "
+            [class.invalid]="
+              contactForm.controls['contactFormMessage'].invalid &&
+              (contactForm.controls['contactFormMessage'].dirty ||
+              contactForm.controls['contactFormMessage'].touched)
+            "
+            ></textarea>
+            <small *ngIf="contactForm.get('contactFormMessage')?.errors?.['valueRequired']" style="color: red">Message is required.</small>
+            <small *ngIf="contactForm.get('contactFormMessage')?.errors?.['minlength']" style="color: red">Message must be at least 10 characters long.</small>
+       
+       
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn" [disabled]="contactForm.invalid">Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
+<div class="flex justify-center">
+  <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }" />
+</div>
+
+<!-- Loading Spinner -->
+<ngo-loading-spinner></ngo-loading-spinner>

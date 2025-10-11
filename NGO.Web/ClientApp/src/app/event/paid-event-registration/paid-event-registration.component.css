@@ -1,0 +1,399 @@
+/* registration.component.css */
+
+/* General Styles */
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f9fa;
+}
+
+.registration-container {
+  width: 90%;
+  max-width: 600px;
+  margin: 50px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+h2 {
+  font-size: 1.2rem;
+  color: #555;
+  margin-top: 20px;
+}
+
+/* Cards Styling */
+.card {
+  margin-top: 15px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.checkbox-top-right {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+/* Button */
+.submit-button {
+  display: block;
+  width: 100%;
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+}
+.submit-button:disabled:hover {
+  background-color: #ddd; /* Keeps the original background color */
+  cursor: not-allowed;
+}
+/* Card Styling */
+.user-payment {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.user-payment-div {
+  width: 27.4375rem;
+  padding: 15px;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: -3px -1px 20px rgba(0, 0, 0, 0.09);
+  margin-top: 15px;
+
+  justify-content: space-between;
+}
+
+.user-stats {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.user-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.stats-content {
+  max-width: 250px;
+}
+
+.stats-label {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.stats-value {
+  font-size: 14px;
+  color: #666;
+}
+
+.user-payment {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.user-stats {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.stats-content {
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+}
+
+.stats-content p {
+  margin-bottom: 0rem !important;
+}
+
+.stats-value {
+  color: #a3aed0;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.48px;
+}
+
+.checkbox-size {
+  margin-right: 10px;
+  height: 20px;
+  width: 20px;
+}
+
+/* registration.component.css */
+
+/* Wrapper for the background */
+.bg-wrapper {
+  padding: 30px;
+}
+
+/* Container for event details and image */
+.event-detail-container {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+.event-image {
+  min-width: 300px;
+}
+/* Event image styling */
+.event-image img {
+  width: 450px;
+  height: 300px;
+  border-radius: 10px;
+}
+
+/* Event details (right side of the image) */
+.event-details {
+  max-width: 600px;
+}
+
+.event-details p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+}
+/* Styles for the dialog and form */
+::ng-deep .p-dialog {
+  border-radius: 10px;
+}
+
+.guest-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.p-field {
+  margin-bottom: 1rem;
+}
+
+.p-field label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.p-field input {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.p-field input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.p-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+button[pButton] {
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+button[disabled] {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+/* Adjust the button styles */
+button.p-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+
+button.p-button:hover {
+  background-color: #0056b3;
+}
+
+.flex-row-gap-center {
+  display: flex;
+  flex-direction: row;
+  gap: 12px; /* Equivalent to gap-3 */
+  margin-top: 24px; /* Equivalent to mt-6 */
+  align-items: center; /* Equivalent to align-content-center */
+  justify-content: end;
+  margin-top: 2rem;
+}
+
+.cost-summary {
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+}
+.c-header {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: rgb(0, 0, 0);
+  padding: 20px;
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 10px;
+  letter-spacing: -0.5px;
+}
+@media (max-width: 768px) {
+  .c-header {
+    padding-left: 0px;
+    text-align: start;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+}
+
+.cost-summary h3 {
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 600;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+.item-details {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  margin-bottom: 15px;
+  padding: 0px;
+  background-color: #fff;
+  border-radius: 2px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.header-padding {
+  padding-left: 20px;
+}
+.cost-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease-in-out;
+}
+
+.cost-item:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cost-type {
+  font-weight: 500;
+  color: #4a4a4a;
+  text-transform: capitalize;
+}
+.cost-total {
+  font-weight: 600;
+  color: #007bff;
+  font-size: 1.1em;
+}
+
+.cost-per-person {
+  font-weight: 600;
+  color: #4a4a4a;
+  font-size: 1.1em;
+}
+
+.grand-total {
+  font-size: 1.4em;
+  font-weight: 600;
+  color: #e63946;
+  text-align: center;
+  margin-top: 30px;
+  padding-top: 10px;
+  border-top: 2px solid #e63946;
+}
+
+@media (max-width: 600px) {
+  .cost-summary {
+    padding: 15px;
+  }
+
+  .cost-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cost-type,
+  .cost-per-person,
+  .cost-total {
+    font-size: 1em;
+  }
+
+  .grand-total {
+    font-size: 1.2em;
+  }
+}
+
+@media (max-width: 768px) {
+  .event-detail-container {
+    margin-top: 20px;
+    flex-direction: column; /* Change to column layout */
+    align-items: flex-start; /* Adjust alignment for better stacking */
+    justify-content: flex-start; /* Adjust content positioning */
+  }
+}

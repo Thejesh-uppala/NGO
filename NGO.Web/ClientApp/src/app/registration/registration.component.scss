@@ -1,0 +1,55 @@
+.register-container {
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+}
+/* registration.component.scss */
+.payment-options {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.form-control.valid {
+  border-color: #28a745;
+}
+
+.field-radiobutton {
+  margin-bottom: 0.5rem;
+}
+
+.invalid {
+  border-color: red;
+}
+.card-body {
+  background-color: white;
+}
+
+.header {
+  margin-bottom: 20px;
+}
+.header-text {
+  font-family: 'oxyegn';
+  font-size: 24px;
+  padding-left: 2.5rem;
+}
+.child-group {
+  margin-bottom: 20px;
+  background-color: #f1f1f1;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+.form-body {
+  padding: 2.5rem;
+}
+
+.card {
+  background: var(--surface-card);
+  padding: 2rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  width: 90%;
+  margin: auto;
+}
+
+.col-8 {
+  padding: 1rem !important;
+}

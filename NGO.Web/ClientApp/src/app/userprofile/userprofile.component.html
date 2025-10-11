@@ -1,0 +1,893 @@
+<div class="dashboard-parent-component">
+  <table class="table__style--details">
+    <div class="user-data-div">
+      <div class="w-full user-data-left-section">
+        <div class="text-edit-styles">
+          <div class="title basic-text-styles">Basic Info</div>
+          <p-button
+            tooltipPosition="left"
+            icon="pi pi-pencil"
+            [rounded]="true"
+            label="Edit"
+            pTooltip="Edit"
+            [outlined]="true"
+            severity="info"
+            (click)="onEditClick()"
+          />
+        </div>
+        <div>
+          <form [formGroup]="profileForm" (ngSubmit)="updateDetails()">
+            <h6 class="heading-small text-muted mb-4 mt-4">Primary Personal information</h6>
+            <div class="responsive-text">
+              <div class="row responsive-text">
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label class="form-control-label label-required" for="input-firstName">First Name</label>
+                    <input
+                      type="text"
+                      id="input-username"
+                      formControlName="firstName"
+                      [readonly]="!isEditClicked"
+                      class="form-control"
+                      placeholder="First Name"
+                    />
+
+                    <!-- Validation Messages -->
+                    <small *ngIf="profileForm?.get('firstName')?.errors?.['lettersOnly']" style="color: red">
+                      First Name should contain only letters.
+                    </small>
+                    <small *ngIf="profileForm?.get('firstName')?.errors?.['noSpaceAtStart']" style="color: red">
+                      First Name cannot start with a space.
+                    </small>
+                    <small *ngIf="profileForm?.get('firstName')?.errors?.['valueRequired']" style="color: red">
+                      First Name is required
+                    </small>
+                  </div>
+                </div>
+
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-last-name">Last Name</label>
+                    <input
+                      type="text"
+                      id="input-last-name"
+                      formControlName="lastName"
+                      [readonly]="!isEditClicked"
+                      class="form-control"
+                      placeholder="Last Name"
+                      [class.valid]="profileForm.controls['lastName'].valid"
+                      [class.invalid]="profileForm.controls['lastName'].invalid"
+                    />
+
+                    <!-- Validation Messages -->
+
+                    <small *ngIf="profileForm?.get('lastName')?.errors?.['lettersOnly']" style="color: red">
+                      Last Name should contain only letters.
+                    </small>
+                    <small *ngIf="profileForm?.get('lastName')?.errors?.['noSpaceAtStart']" style="color: red">
+                      Last Name cannot start with a space.
+                    </small>
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-familyName">Family name</label>
+                    <input
+                      type="text"
+                      id="familyName"
+                      formControlName="familyName"
+                      [readonly]="!isEditClicked"
+                      class="form-control"
+                      placeholder="Family name"
+                      [class.valid]="profileForm.controls['familyName'].valid"
+                      [class.invalid]="profileForm.controls['familyName'].invalid"
+                    />
+                    <small *ngIf="profileForm?.get('familyName')?.errors?.['lettersOnly']" style="color: red">
+                      Family Name should contain only letters.
+                    </small>
+                    <small *ngIf="profileForm?.get('familyName')?.errors?.['noSpaceAtStart']" style="color: red">
+                      Family Name cannot start with a space.
+                    </small>
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-email">Email address</label>
+                    <input
+                      type="email"
+                      id="input-email"
+                      formControlName="emailAddress"
+                      [readonly]="true"
+                      class="form-control"
+                      placeholder="Email address"
+                    />
+                    <small *ngIf="profileForm.get('emailAddress')?.errors?.['email']" style="color: red">
+                      Please enter a valid email address.
+                    </small>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-last-name">Phone Number</label>
+                    <input
+                      type="text"
+                      id="input-last-name"
+                      formControlName="phoneNumber"
+                      [readonly]="!isEditClicked"
+                      class="form-control"
+                      placeholder="Phone Number"
+                      [class.valid]="profileForm.controls['phoneNumber'].valid"
+                      [class.invalid]="profileForm.controls['phoneNumber'].invalid"
+                    />
+                    <small *ngIf="profileForm.get('phoneNumber')?.errors?.['invalidCharacters']" style="color: red">
+                      Phone Number must only contain numbers, spaces, and an optional '+'.
+                    </small>
+
+                    <!-- Error for invalid country code format -->
+                    <small *ngIf="profileForm.get('phoneNumber')?.errors?.['invalidCountryCode']" style="color: red">
+                      Please enter a valid country code (e.g., +91, +1).
+                    </small>
+
+                    <!-- Error for missing space after country code -->
+                    <small *ngIf="profileForm.get('phoneNumber')?.errors?.['invalidFormat']" style="color: red">
+                      Country code must be followed by a space (e.g., +91 1234567890).
+                    </small>
+
+                    <!-- Error for invalid phone length -->
+                    <small *ngIf="profileForm.get('phoneNumber')?.errors?.['invalidLength']" style="color: red">
+                      Phone Number must have exactly 10 digits (excluding country code).
+                    </small>
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-year-of-birth">Year Of Birth</label>
+                    <input
+                      type="text"
+                      id="input-year-of-birth"
+                      formControlName="yearOfBirth"
+                      [readonly]="!isEditClicked"
+                      class="form-control"
+                      placeholder="Year Of Birth"
+                      min="1900"
+                      [max]="currentYear"
+                    />
+                    <small *ngIf="profileForm.get('yearOfBirth')?.hasError('numbersOnly')" style="color: red">
+                      Year of Birth must contain only numbers.
+                    </small>
+                    <small
+                      *ngIf="
+                        profileForm.get('yearOfBirth')?.hasError('invalidYear') &&
+                        (profileForm.get('yearOfBirth')?.touched || profileForm.get('yearOfBirth')?.dirty)
+                      "
+                      style="color: red"
+                    >
+                      Please enter a valid year (between 1900 and {{ currentYear }}).
+                    </small>
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-country">Postal Code</label>
+                    <input
+                      type="number"
+                      id="input-country"
+                      formControlName="postalCode"
+                      class="form-control"
+                      placeholder="Postal Code"
+                      [readonly]="!isEditClicked"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-addInWhatsAppOrTelegram">WhatsAppOrTelegram?</label>
+
+                    <p-dropdown
+                      [readonly]="!isEditClicked"
+                      [options]="Answer"
+                      optionLabel="name"
+                      optionValue="code"
+                      formControlName="addInWhatsAppOrTelegram"
+                      placeholder="Add in WhatsApp/Telegram?"
+                      [showClear]="
+                        profileForm.controls['addInWhatsAppOrTelegram'].value !== null &&
+                        profileForm.controls['addInWhatsAppOrTelegram'].value !== ''
+                      "
+                      autoWidth="false"
+                      [style]="{ width: '100%' }"
+                    >
+                    </p-dropdown>
+                  </div>
+                </div>
+
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-country">Country</label>
+
+                    <p-dropdown
+                      [readonly]="!isEditClicked"
+                      [options]="countries"
+                      optionLabel="name"
+                      (onChange)="onChangeCountry($event)"
+                      formControlName="country"
+                      placeholder="Select Country"
+                      [showClear]="
+                        profileForm.controls['country'].value !== null && profileForm.controls['country'].value !== ''
+                      "
+                      [editable]="true"
+                      autoWidth="false"
+                      [style]="{ width: '100%' }"
+                    >
+                    </p-dropdown>
+                  </div>
+                </div>
+
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-city">State</label>
+
+                    <p-dropdown
+                      [options]="states"
+                      (onChange)="onChangeState($event)"
+                      placeholder="Select State"
+                      formControlName="state"
+                      [editable]="true"
+                      optionLabel="name"
+                      [showClear]="
+                        profileForm.controls['state'].value !== null && profileForm.controls['state'].value !== ''
+                      "
+                      autoWidth="false"
+                      [style]="{ width: '100%' }"
+                      [readonly]="!isEditClicked"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-city">City</label>
+
+                    <p-dropdown
+                      [options]="cities"
+                      (onChange)="onChangeCity($event)"
+                      placeholder="Select a City"
+                      [editable]="true"
+                      optionLabel="name"
+                      [showClear]="
+                        profileForm.controls['city'].value !== null && profileForm.controls['city'].value !== ''
+                      "
+                      formControlName="city"
+                      [readonly]="!isEditClicked"
+                      autoWidth="false"
+                      [style]="{ width: '100%' }"
+                      [class.valid]="
+                        profileForm.controls['city'].valid &&
+                        (profileForm.controls['city'].dirty || profileForm.controls['city'].touched)
+                      "
+                      [class.invalid]="
+                        profileForm.controls['city'].invalid &&
+                        (profileForm.controls['city'].dirty || profileForm.controls['city'].touched)
+                      "
+                    />
+                  </div>
+                </div>
+
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-country">Home Town</label>
+                    <input
+                      type="text"
+                      id="input-country"
+                      [readonly]="!isEditClicked"
+                      formControlName="homeTown"
+                      class="form-control"
+                      placeholder="Home Town"
+                      [class.valid]="profileForm.controls['homeTown'].valid"
+                      [class.invalid]="profileForm.controls['homeTown'].invalid"
+                    />
+                    <small *ngIf="profileForm?.get('homeTown')?.errors?.['noSpaceAtStart']" style="color: red">
+                      Home Town cannot start with a Space.
+                    </small>
+                  </div>
+                </div>
+
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-preferredBy">Reffered By</label>
+                    <input
+                      [readonly]="!isEditClicked"
+                      type="text"
+                      id="preferredBy"
+                      formControlName="preferredBy"
+                      class="form-control"
+                      placeholder="Reffered By"
+                      [class.valid]="profileForm.controls['preferredBy'].valid"
+                      [class.invalid]="profileForm.controls['preferredBy'].invalid"
+                    />
+
+                    <small *ngIf="profileForm?.get('preferredBy')?.errors?.['noSpaceAtStart']" style="color: red">
+                      This Field cannot start with a Space.
+                    </small>
+                    <small *ngIf="profileForm?.get('preferredBy')?.errors?.['lettersOnly']" style="color: red">
+                      This Field should contain only letters.
+                    </small>
+                  </div>
+                </div>
+
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-country">Update Photo</label>
+                    <input
+                      [readonly]="!isEditClicked"
+                      type="file"
+                      #imageInput
+                      accept="image/*"
+                      (change)="processFile($event)"
+                      formControlName="Photo"
+                      class="form-control form-control-alternative"
+                      placeholder="Upload Photo"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-reason">Reason</label> <br />
+
+                    <textarea
+                      class="form-control"
+                      formControlName="reason"
+                      placeholder="Enter reason"
+                      [readonly]="!isEditClicked"
+                      [style]="{ width: '100%' }"
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <hr class="my-4" />
+              <div class="flex justify-content-between w-full">
+                <h6 class="heading-small text-muted mb-4">Spouse Details</h6>
+                <p-button
+                  tooltipPosition="left"
+                  icon="pi pi-pencil"
+                  [rounded]="true"
+                  label="Edit"
+                  pTooltip="Edit"
+                  [outlined]="true"
+                  severity="info"
+                  (click)="onEditClick()"
+                />
+              </div>
+              <div class="form-group mb-4">
+                <div class="custom-control custom-checkbox">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="hasSpouse"
+                    [checked]="hasSpouse"
+                    (change)="toggleSpouseDetails($event)"
+                    [disabled]="!isEditClicked"
+                  />
+                  <label class="custom-control-label" for="hasSpouse">Add Spouse Details</label>
+                </div>
+              </div>
+
+              <div [class.d-none]="!hasSpouse">
+                <div class="row">
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label label-required" for="input-spouseFirstName">First Name</label>
+                      <input
+                        type="text"
+                        [readonly]="!isEditClicked"
+                        id="spouseFirstName"
+                        formControlName="spouseFirstName"
+                        class="form-control"
+                        placeholder="First Name"
+                      />
+                      <small *ngIf="profileForm.get('spouseFirstName')?.errors?.['lettersOnly']" style="color: red">
+                        First Name should contain only letters.
+                      </small>
+                      <small *ngIf="profileForm.get('spouseFirstName')?.errors?.['noSpaceAtStart']" style="color: red">
+                        First Name cannot start with a space.
+                      </small>
+                      <small
+                        *ngIf="
+                          profileForm.get('spouseFirstName')?.hasError('required') &&
+                          profileForm.get('spouseFirstName')?.dirty
+                        "
+                        style="color: red"
+                      >
+                        First Name is required.
+                      </small>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-spouseLastName">Last name</label>
+                      <input
+                        type="text"
+                        [readonly]="!isEditClicked"
+                        id="spouseLastName"
+                        formControlName="spouseLastName"
+                        class="form-control"
+                        placeholder="Last name"
+                      />
+                      <small *ngIf="profileForm?.get('spouseLastName')?.errors?.['lettersOnly']" style="color: red">
+                        Last Name should contain only letters.
+                      </small>
+                      <small *ngIf="profileForm?.get('spouseLastName')?.errors?.['noSpaceAtStart']" style="color: red">
+                        Last Name cannot start with a space.
+                      </small>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-spouseEmail">Email address</label>
+                      <input
+                        type="email"
+                        [readonly]="!isEditClicked"
+                        id="spouseEmail"
+                        formControlName="spouseEmail"
+                        class="form-control"
+                        placeholder="Email address"
+                      />
+                      <small *ngIf="profileForm.get('spouseEmail')?.errors?.['email']" style="color: red">
+                        Please enter a valid email address.
+                      </small>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-spousePhoneNumber">Phone Number</label>
+                      <input
+                        type="text"
+                        [readonly]="!isEditClicked"
+                        id="spousePhoneNumber"
+                        formControlName="spousePhoneNumber"
+                        class="form-control"
+                        placeholder="Phone Number"
+                        [class.valid]="profileForm.controls['spousePhoneNumber'].valid"
+                        [class.invalid]="profileForm.controls['spousePhoneNumber'].invalid"
+                      />
+                      <small
+                        *ngIf="profileForm.get('spousePhoneNumber')?.errors?.['invalidCharacters']"
+                        style="color: red"
+                      >
+                        Phone Number must only contain numbers, spaces, and an optional '+'.
+                      </small>
+
+                      <!-- Error for invalid country code format -->
+                      <small
+                        *ngIf="profileForm.get('spousePhoneNumber')?.errors?.['invalidCountryCode']"
+                        style="color: red"
+                      >
+                        Please enter a valid country code (e.g., +91, +1).
+                      </small>
+
+                      <!-- Error for missing space after country code -->
+                      <small *ngIf="profileForm.get('spousePhoneNumber')?.errors?.['invalidFormat']" style="color: red">
+                        Country code must be followed by a space (e.g., +91 1234567890).
+                      </small>
+
+                      <!-- Error for invalid phone length -->
+                      <small *ngIf="profileForm.get('spousePhoneNumber')?.errors?.['invalidLength']" style="color: red">
+                        Phone Number must have exactly 10 digits (excluding country code).
+                      </small>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3">
+                    <div class="form-group mt-4">
+                      <input type="checkbox" [disabled]="!isEditClicked" (click)="spouseSameAddress($event)" />
+                      Same As Primary Address
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-spouseCountry">Country</label>
+
+                      <p-dropdown
+                        [readonly]="!disableSpouseFlag && !isEditClicked"
+                        [options]="spouseCountries"
+                        [(ngModel)]="spouseCountryName"
+                        optionLabel="name"
+                        (onChange)="onChangeSpouseCountry($event)"
+                        formControlName="spouseCountry"
+                        placeholder="Select Country"
+                        [showClear]="
+                          profileForm.controls['spouseCountry'].value !== null &&
+                          profileForm.controls['spouseCountry'].value !== ''
+                        "
+                        autoWidth="false"
+                        [editable]="true"
+                        [style]="{ width: '100%' }"
+                        [class.valid]="profileForm.controls['spouseCountry'].valid"
+                        [class.invalid]="profileForm.controls['spouseCountry'].invalid"
+                      >
+                      </p-dropdown>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-spouseState">State</label>
+
+                      <p-dropdown
+                        [readonly]="!disableSpouseFlag && !isEditClicked"
+                        [options]="spouseStates"
+                        [(ngModel)]="spouseStateName"
+                        optionLabel="name"
+                        (onChange)="onChangeSpouseState($event)"
+                        formControlName="spouseState"
+                        placeholder="Select State"
+                        [showClear]="
+                          profileForm.controls['spouseState'].value !== null &&
+                          profileForm.controls['spouseState'].value !== ''
+                        "
+                        autoWidth="false"
+                        [editable]="true"
+                        [style]="{ width: '100%' }"
+                        [class.valid]="profileForm.controls['spouseState'].valid"
+                        [class.invalid]="profileForm.controls['spouseState'].invalid"
+                      >
+                      </p-dropdown>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-spouseCity">City</label>
+
+                      <p-dropdown
+                        [readonly]="disableSpouseFlag && !isEditClicked"
+                        [options]="spouseCities"
+                        (onChange)="onChangeSpouseCity($event)"
+                        optionLabel="name"
+                        formControlName="spouseCity"
+                        placeholder="Select City"
+                        [showClear]="
+                          profileForm.controls['spouseCity'].value !== null &&
+                          profileForm.controls['spouseCity'].value !== ''
+                        "
+                        [editable]="true"
+                        autoWidth="false"
+                        [style]="{ width: '100%' }"
+                        [class.valid]="profileForm.controls['spouseCity'].valid"
+                        [class.invalid]="profileForm.controls['spouseCity'].invalid"
+                      >
+                      </p-dropdown>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-spouseYearOfBirth">Year Of Birth</label>
+
+                      <input
+                        [readonly]="!isEditClicked"
+                        type="text"
+                        id="spouseYearOfBirth"
+                        formControlName="spouseYearOfBirth"
+                        class="form-control"
+                        placeholder="Year Of Birth"
+                        min="1900"
+                        [max]="currentYear"
+                      />
+                      <small *ngIf="profileForm.get('spouseYearOfBirth')?.hasError('numbersOnly')" style="color: red">
+                        Year of Birth must contain only numbers.
+                      </small>
+                      <small
+                        *ngIf="
+                          profileForm.get('spouseYearOfBirth')?.hasError('invalidYear') &&
+                          (profileForm.get('spouseYearOfBirth')?.touched || profileForm.get('spouseYearOfBirth')?.dirty)
+                        "
+                        style="color: red"
+                      >
+                        Please enter a valid year (between 1900 and {{ currentYear }}).
+                      </small>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-spouseHometown">Home town</label>
+                      <input
+                        type="text"
+                        [readonly]="!isEditClicked"
+                        id="spouseHometown"
+                        formControlName="spouseHometown"
+                        class="form-control"
+                        placeholder="Hometown"
+                        [class.valid]="profileForm.controls['spouseHometown'].valid"
+                        [class.invalid]="profileForm.controls['spouseHometown'].invalid"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <hr class="my-4" />
+              <p>
+                <button [disabled]="!isEditClicked" class="btn btn-info" type="button" (click)="addChildrens()">
+                  Add Child Details
+                </button>
+              </p>
+              <div formArrayName="childrensDetails">
+                <div *ngFor="let skill of childrensDetails.controls; let i = index">
+                  <div [formGroupName]="i" class="child-group">
+                    <div class="pl-lg-4 p-3">
+                      <div class="row">
+                        <div class="col-lg-3">
+                          <div class="form-group">
+                            <label class="form-control-label label-required" for="input-childFirstName_{{ i }}"
+                              >First Name</label
+                            >
+                            <input
+                              [readonly]="!isEditClicked"
+                              type="text"
+                              id="childFirstName_{{ i }}"
+                              formControlName="childFirstName"
+                              class="form-control"
+                              placeholder="First Name"
+                            />
+                            <small
+                              *ngIf="childrensDetails.controls[i].get('childFirstName')?.hasError('required')"
+                              style="color: red"
+                            >
+                              First Name is required
+                            </small>
+                            <small
+                              *ngIf="childrensDetails.controls[i].get('childFirstName')?.hasError('lettersOnly')"
+                              style="color: red"
+                            >
+                              First Name must contain only letters
+                            </small>
+                            <small
+                              *ngIf="childrensDetails.controls[i].get('childFirstName')?.hasError('noSpaceAtStart')"
+                              style="color: red"
+                            >
+                              First Name cannot start with a space
+                            </small>
+                          </div>
+                        </div>
+                        <div class="col-lg-3">
+                          <div class="form-group">
+                            <label class="form-control-label" for="input-childLastName">Last name</label>
+                            <input
+                              [readonly]="!isEditClicked"
+                              type="text"
+                              id="input-childLastName"
+                              formControlName="childLastName"
+                              class="form-control"
+                              placeholder="Last name"
+                            />
+                            <small
+                              *ngIf="childrensDetails.controls[i].get('childLastName')?.errors?.['lettersOnly']"
+                              style="color: red"
+                            >
+                              Last Name should contain only letters.
+                            </small>
+                            <small
+                              *ngIf="childrensDetails.controls[i].get('childLastName')?.errors?.['noSpaceAtStart']"
+                              style="color: red"
+                            >
+                              Last Name cannot start with a space.
+                            </small>
+                          </div>
+                        </div>
+                        <div class="col-lg-3">
+                          <div class="form-group">
+                            <label class="form-control-label" for="input-childEmailAddress">Email address</label>
+                            <input
+                              [readonly]="!isEditClicked"
+                              type="email"
+                              id="childEmailAddress"
+                              formControlName="childEmailAddress"
+                              class="form-control"
+                              placeholder="Email address"
+                            />
+                            <small
+                              *ngIf="childrensDetails.controls[i].get('childEmailAddress')?.errors?.['email']"
+                              style="color: red"
+                            >
+                              Please enter a valid email address.
+                            </small>
+                          </div>
+                        </div>
+                        <div class="col-lg-3">
+                          <div class="form-group">
+                            <label class="form-control-label" for="input-childPhoneNumber">Phone Number</label>
+                            <input
+                              [readonly]="!isEditClicked"
+                              type="text"
+                              id="childPhoneNumber"
+                              formControlName="childPhoneNumber"
+                              class="form-control"
+                              placeholder="Phone Number"
+                            />
+                            <small
+                              *ngIf="
+                                childrensDetails.controls[i].get('childPhoneNumber')?.errors?.['invalidCharacters']
+                              "
+                              style="color: red"
+                            >
+                              Phone Number must only contain numbers, spaces, and an optional '+'.
+                            </small>
+
+                            <!-- Error for invalid country code format -->
+                            <small
+                              *ngIf="
+                                childrensDetails.controls[i].get('childPhoneNumber')?.errors?.['invalidCountryCode']
+                              "
+                              style="color: red"
+                            >
+                              Please enter a valid country code (e.g., +91, +1).
+                            </small>
+
+                            <!-- Error for missing space after country code -->
+                            <small
+                              *ngIf="childrensDetails.controls[i].get('childPhoneNumber')?.errors?.['invalidFormat']"
+                              style="color: red"
+                            >
+                              Country code must be followed by a space (e.g., +91 1234567890).
+                            </small>
+
+                            <!-- Error for invalid phone length -->
+                            <small
+                              *ngIf="childrensDetails.controls[i].get('childPhoneNumber')?.errors?.['invalidLength']"
+                              style="color: red"
+                            >
+                              Phone Number must have exactly 10 digits (excluding country code).
+                            </small>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-lg-3">
+                          <div class="form-group mt-4">
+                            <input type="checkbox" [disabled]="!isEditClicked" (click)="childSameAddress($event, i)" />
+                            Same As Primary Address
+                          </div>
+                        </div>
+                        <div class="col-lg-3">
+                          <div class="form-group">
+                            <label class="form-control-label" for="input-childCountry">Country</label>
+
+                            <p-dropdown
+                              [readonly]="disableChildFlag[i] && !isEditClicked"
+                              [options]="countries"
+                              optionLabel="name"
+                              (onChange)="onChangeChildCountry($event, i)"
+                              formControlName="childCountry"
+                              placeholder="Select Country"
+                              [showClear]="
+                                childrensDetails.controls[i].get('childCountry')?.value !== null &&
+                                childrensDetails.controls[i].get('childCountry')?.value !== ''
+                              "
+                              [editable]="true"
+                              autoWidth="false"
+                              [style]="{ width: '100%' }"
+                            >
+                            </p-dropdown>
+                          </div>
+                        </div>
+                        <div class="col-lg-3">
+                          <div class="form-group">
+                            <label class="form-control-label" for="input-childState">State</label>
+
+                            <p-dropdown
+                              [readonly]="disableChildFlag[i] && !isEditClicked"
+                              [options]="childStates"
+                              optionLabel="name"
+                              (onChange)="onChangeChildState($event, i)"
+                              formControlName="childState"
+                              placeholder="Select State"
+                              [showClear]="
+                                childrensDetails.controls[i].get('childState')?.value !== null &&
+                                childrensDetails.controls[i].get('childState')?.value !== ''
+                              "
+                              [editable]="true"
+                              autoWidth="false"
+                              [style]="{ width: '100%' }"
+                            >
+                            </p-dropdown>
+                          </div>
+                        </div>
+                        <div class="col-lg-3">
+                          <div class="form-group">
+                            <label class="form-control-label" for="input-childCity">City</label>
+
+                            <p-dropdown
+                              [readonly]="disableChildFlag[i] && !isEditClicked"
+                              [options]="childCities"
+                              optionLabel="name"
+                              (onChange)="onChangeChildCity($event, i)"
+                              formControlName="childCity"
+                              placeholder="Select City"
+                              [showClear]="
+                                childrensDetails.controls[i].get('childCity')?.value !== null &&
+                                childrensDetails.controls[i].get('childCity')?.value !== ''
+                              "
+                              [editable]="true"
+                              autoWidth="false"
+                              [style]="{ width: '100%' }"
+                            ></p-dropdown>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-3">
+                          <div class="form-group">
+                            <label class="form-control-label" for="input-childYearOfBirth">Year Of Birth</label>
+                            <input
+                              [readonly]="!isEditClicked"
+                              type="text"
+                              id="input-childYearOfBirth"
+                              formControlName="childYearOfBirth"
+                              class="form-control"
+                              placeholder="yearOfBirth"
+                              min="1900"
+                              [max]="currentYear"
+                            />
+                            <small
+                              *ngIf="childrensDetails.controls[i].get('childYearOfBirth')?.hasError('numbersOnly')"
+                              style="color: red"
+                            >
+                              Year of Birth must contain only numbers
+                            </small>
+                            <small
+                              *ngIf="
+                                childrensDetails.controls[i].get('childYearOfBirth')?.hasError('invalidYear') &&
+                                (childrensDetails.controls[i].get('childYearOfBirth')?.touched ||
+                                  childrensDetails.controls[i].get('childYearOfBirth')?.dirty)
+                              "
+                              style="color: red"
+                            >
+                              Please enter a valid year (between 1900 and {{ currentYear }}).
+                            </small>
+                          </div>
+                        </div>
+                      </div>
+                      <div style="float: right">
+                        <button class="btn primary-btn mb-2" [disabled]="!isEditClicked" (click)="removeChild(i)">
+                          Remove
+                        </button>
+                      </div>
+                    </div>
+                    <br />
+
+                    <hr class="my-4" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <button [disabled]="isSaveButtonDisabled()" type="submit" class="btn btn-info">
+                Save profile <i *ngIf="isEditClicked"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div></div>
+  </table>
+</div>
+
+<div class="flex justify-center">
+  <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }" />
+</div>
+
+<ngo-loading-spinner></ngo-loading-spinner>

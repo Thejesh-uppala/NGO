@@ -1,0 +1,119 @@
+<app-navbar></app-navbar>
+<div class="hero-section mt-top-sm" style="height: 42vh">
+  <div class="hero-content">
+    <h1 class="header">Join Our Events</h1>
+    <p class="title">Let's Join Together.</p>
+  </div>
+</div>
+<h3 class="pl-5 title-lg">Events</h3>
+<div class="search-filter-header">
+  <input
+    type="text"
+    class="search-bar lg-screen"
+    placeholder="Search by name or location.."
+    [(ngModel)]="searchQuery"
+    (input)="onSearchInput($event)"
+    (keyup.backspace)="onSearchInput($event)"
+  />
+
+  <p-dropdown
+    [(ngModel)]="filters.eventtype"
+    [options]="filterOptions"
+    optionLabel="label"
+    [showClear]="filters.eventtype !== null && filters.eventtype !== ''"
+    optionValue="value"
+    placeholder="Select Event Type"
+    (onClear)="onFilterClear()"
+    (onChange)="onFilterChange($event)"
+    class="dropdown-filter"
+  ></p-dropdown>
+
+  <div>
+    <button class="filter-icon-button" (click)="showDialog('center')"><i class="pi pi-filter"></i></button>
+    <p-button icon="pi pi-refresh" (click)="clearFilters()" class="custom-refresh-button"></p-button>
+  </div>
+</div>
+
+<div class="mobile search-container" style="background-color: #f9f9f9">
+  <span class="p-input-icon-left search-wrapper w-full">
+    <i class="pi pi-search"></i>
+    <input
+      class="responsive-text search-bar"
+      placeholder="Search by name or location.."
+      [(ngModel)]="searchQuery"
+      (input)="onSearchInput($event)"
+      (keyup.backspace)="onSearchInput($event)"
+      pInputText
+      type="text"
+    />
+  </span>
+</div>
+
+<p-dialog
+  header="Filter Events"
+  [modal]="true"
+  [(visible)]="visible"
+  [position]="position"
+  [style]="{ width: '40rem' }"
+  class="modern-dialog responsive-text"
+>
+  <div class="filter-container">
+    <div class="filter-row">
+      <div class="filter-item">
+        <label for="start-time">Start Date</label>
+        <input type="date" class="input-field" placeholder="Start Date" [(ngModel)]="filters.startdate" />
+      </div>
+
+      <div class="filter-item">
+        <label for="end-time">End Date</label>
+        <input type="date" class="input-field" placeholder="End Date" [(ngModel)]="filters.enddate" />
+      </div>
+    </div>
+  </div>
+
+  <div class="dialog-actions" style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: end">
+    <p-button label="Clear Filters" class="p-button-primary" (click)="clearFilters()"></p-button>
+    <p-button label="Cancel" class="p-button-text" (click)="visible = false"></p-button>
+    <p-button label="Apply Filters" class="p-button-primary" (click)="applyFilters()"></p-button>
+  </div>
+</p-dialog>
+
+<div class="partner-cards">
+  <div
+    class="partner-card cursor-pointer"
+    *ngFor="let event of eventslist"
+    [routerLink]="['/events', event.orgId, event.id]"
+  >
+    <div class="image-container">
+      <img [src]="event.eventPhoto" alt="{{ event.eventTitle }}" class="partner-photo" />
+      <p-tag *ngIf="event.isPassed" class="registration-closed" severity="danger" value="Registration Closed"></p-tag>
+    </div>
+    <div class="card-content">
+      <p class="font-semibold">{{ event.eventTitle }}</p>
+      <p><strong>Access :</strong> {{ event.eventAccess }}</p>
+      <p class="responsive-text"><strong>Description:</strong> {{ trimText(event.eventDesc, 50) }}</p>
+    </div>
+  </div>
+</div>
+
+<div
+  class="card flex justify-center"
+  style="border-top: 0px; border-left: 0px; border-right: 0px; background-color: #f5f5f5"
+>
+  <p-paginator
+    [first]="first"
+    [rows]="rows"
+    [totalRecords]="eventCount"
+    [rowsPerPageOptions]="[6, 10, 15]"
+    [style]="{ 'background-color': '#f5f5f5' }"
+    [showCurrentPageReport]="true"
+    (onPageChange)="onPageChange($event)"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
+  >
+  </p-paginator>
+</div>
+<div class="flex justify-center">
+  <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }" />
+</div>
+
+<ngo-loading-spinner></ngo-loading-spinner>

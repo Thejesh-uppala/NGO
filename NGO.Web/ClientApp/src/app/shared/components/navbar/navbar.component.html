@@ -1,0 +1,70 @@
+<div class="nav-bar-header-section fixed-top">
+  <div class="nav-bar-left-section flex gap-2 align-content-center">
+    <img class="image-container" [src]="orgLogo" alt="Organization Logo" [routerLink]="['/']" style="cursor: pointer" />
+    <div
+      class="responsive-text align-content-center"
+      [style]="{ color: '#36454F' }"
+      alt="Organization Name"
+      [routerLink]="['/']"
+      style="cursor: pointer"
+    >
+      {{ this.orgName }}
+    </div>
+  </div>
+  <div></div>
+
+  <div class="nav-search"></div>
+
+  <div class="nav-bar-right-section">
+    <div class="nav-bar-button-section">
+      <p-button
+        class="text-sm"
+        label="Contact Us"
+        [routerLink]="['/contact-us']"
+        [text]="true"
+        [plain]="true"
+        [style]="{ color: '#36454F' }"
+      />
+    </div>
+    <div class="nav-bar-image-section">
+      <span class="cursor-pointer pi pi-ellipsis-v" style="font-size: 1rem"></span>
+      <div id="profile-dropdown" class="profile-dropdown">
+        <ul class="cursor-pointer">
+          <li><a routerLinkActive="active" [routerLink]="['/user-profile']">Profile</a></li>
+          <li><a routerLinkActive="active" [routerLink]="['/change-password']">Reset Password</a></li>
+          <li><a href="/" (click)="logout()">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="hamburger-menu" (click)="toggleMenu()">
+    <i class="pi pi-bars"></i>
+  </div>
+
+  <div class="collapsible-menu" [class.active]="menuActive">
+    <div class="closebtn" (click)="toggleMenu()">
+      <i class="pi pi-times"></i>
+    </div>
+    <ul>
+      <li><a routerLinkActive="active" [routerLink]="['/user-profile']" (click)="toggleMenu()">Profile</a></li>
+      <li><a routerLinkActive="active" [routerLink]="['/']" (click)="toggleMenu()">Dashboard</a></li>
+      <li *ngIf="this.isAdmin">
+        <a routerLinkActive="active" [routerLink]="['/admin-matrimony']" (click)="toggleMenu()">Matrimony</a>
+      </li>
+      <li *ngIf="this.isAdmin">
+        <a routerLinkActive="active" [routerLink]="['/admin-events']" (click)="toggleMenu()">Events</a>
+      </li>
+      <li *ngIf="this.isAdmin">
+        <a routerLinkActive="active" [routerLink]="['/memberships']" (click)="toggleMenu()">Members</a>
+      </li>
+
+      <li>
+        <a routerLinkActive="active" [routerLink]="['/change-password']" (click)="toggleMenu()">Change Password</a>
+      </li>
+      <li><a routerLinkActive="active" [routerLink]="['/contact-us']" (click)="toggleMenu()">Contact Us</a></li>
+
+      <li><a href="/" (click)="logout(); toggleMenu()">Logout</a></li>
+    </ul>
+  </div>
+</div>

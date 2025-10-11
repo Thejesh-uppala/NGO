@@ -1,0 +1,422 @@
+<!-- registration.component.html -->
+<app-navbar></app-navbar>
+<div
+  class="bg-wrapper mt-top-sm"
+  [ngStyle]="{ background: 'linear-gradient(to bottom, ' + '#fff' + ' 10%, white 30%)' }"
+>
+  <div class="c-header title-lg">Event Registration</div>
+  <span class="title-lg">
+    <strong>{{ eventData?.eventTitle }}</strong>
+  </span>
+  <div class="event-detail-container">
+    <div class="event-image">
+      <img [src]="eventData?.eventPhoto" alt="Event Image" class="img-fluid" />
+    </div>
+
+    <!-- Event Details Section (Text Content) -->
+    <div class="event-details">
+      <p class="responsive-text"><strong>Requirements:</strong></p>
+      <div [innerHTML]="formatInputText(eventData?.eventRequirements)"></div>
+      <p class="responsive-text"><strong>Attendance Terms:</strong></p>
+      <div [innerHTML]="formatInputText(eventData?.eventAttendenceTerms)"></div>
+      <p class="responsive-text">
+        <strong>Event Access: </strong>
+        <p-tag [value]="eventData?.eventAccess" [severity]="getSeverity(eventData?.eventAccess)" />
+      </p>
+    </div>
+  </div>
+
+  <div class="event-detail-container">
+    <div *ngIf="eventData?.eventCosts?.length" class="flex-1 responsive-text p-4">
+      <h3 class="title">Cost Breakdown</h3>
+      <ul class="item-details">
+        <li *ngFor="let cost of eventData?.eventCosts">
+          <strong>{{ cost.type }}:</strong> {{ cost.cost }}
+        </li>
+      </ul>
+    </div>
+
+    <div class="flex-1 responsive-text p-4">
+      <h3 class="title">Contact Details</h3>
+      <ul class="item-details">
+        <li>
+          <p>
+            <strong>Email:</strong>
+            <a href="mailto:{{ eventData?.eventContactEmail }}">{{ eventData?.eventContactEmail }}</a>
+          </p>
+        </li>
+        <li>
+          <p><strong>Phone:</strong> {{ eventData?.eventContactPhone }}</p>
+        </li>
+      </ul>
+    </div>
+
+    <div class="flex-1 responsive-text p-4">
+      <h3 class="title">Additional Details</h3>
+      <ul class="item-details">
+        <li>
+          <div [innerHTML]="formatInputText(eventData?.additionalInfo)"></div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="label-required responsive-text">Select Attendees</div>
+  <div class="user-payment responsive-text">
+    <div class="user-payment-div">
+      <section class="user-stats">
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/cfb543d795454e8ae9181df4cbd24b09dda8df43100a326dbf57babc87f3b502?placeholderIfAbsent=true&apiKey=9e16588387084fb2a9a51a1b99489136"
+          alt="User icon"
+          class="user-icon"
+        />
+        <div class="stats-content">
+          <p class="stats-label">{{ user?.firstName }} {{ user?.lastName }}</p>
+          <p class="stats-value">{{ getAgeCategory(user.yearOfBirth) }}</p>
+        </div>
+        <input
+          type="checkbox"
+          class="card-checkbox checkbox-size"
+          [(ngModel)]="user.selected"
+          (change)="onPersonSelection(user)"
+        />
+      </section>
+    </div>
+
+    <div class="user-payment-div" *ngIf="isSpouse">
+      <section class="user-stats">
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/cfb543d795454e8ae9181df4cbd24b09dda8df43100a326dbf57babc87f3b502?placeholderIfAbsent=true&apiKey=9e16588387084fb2a9a51a1b99489136"
+          alt="User icon"
+          class="user-icon"
+        />
+        <div class="stats-content">
+          <p class="stats-label">{{ spouse?.firstName }} {{ spouse?.lastName }}</p>
+          <p class="stats-value">{{ getAgeCategory(spouse.yearOfBirth) }}</p>
+        </div>
+        <input
+          type="checkbox"
+          class="card-checkbox checkbox-size"
+          [(ngModel)]="spouse.selected"
+          (change)="onPersonSelection(spouse)"
+        />
+      </section>
+    </div>
+
+    <div class="user-payment-div" *ngFor="let child of children">
+      <section class="user-stats">
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/cfb543d795454e8ae9181df4cbd24b09dda8df43100a326dbf57babc87f3b502?placeholderIfAbsent=true&apiKey=9e16588387084fb2a9a51a1b99489136"
+          alt="User icon"
+          class="user-icon"
+        />
+        <div class="stats-content">
+          <p class="stats-label">{{ child.firstName }} {{ child.lastName }}</p>
+          <p class="stats-value">{{ getAgeCategory(child.yearOfBirth) }}</p>
+        </div>
+        <input
+          type="checkbox"
+          class="card-checkbox checkbox-size"
+          [(ngModel)]="child.selected"
+          (change)="onPersonSelection(child)"
+        />
+      </section>
+    </div>
+  </div>
+  <!-- Popup Dialog for Category Selection -->
+  <!-- Popup Dialog for Category Selection -->
+  <p-dialog [(visible)]="categorySelectionDialog" [modal]="true" header="Select Category" class="responsive-text">
+    <p>Year of Birth is missing. Please select a category:</p>
+
+    <div *ngIf="selectedPerson" style="display: flex; flex-direction: column; gap: 1rem">
+      <div style="display: flex; flex-direction: row; gap: 1rem">
+        <p-radioButton name="personCategory" value="Adult" label="Adult (18+)" [(ngModel)]="selectedCategory">
+        </p-radioButton>
+
+        <p-radioButton name="personCategory" value="Child" label="Child (6-17)" [(ngModel)]="selectedCategory">
+        </p-radioButton>
+
+        <p-radioButton name="personCategory" value="Infant" label="Infant (0-5)" [(ngModel)]="selectedCategory">
+        </p-radioButton>
+      </div>
+
+      <div>
+        <button pButton label="Confirm" (click)="setPersonCategory()"></button>
+      </div>
+    </div>
+  </p-dialog>
+  <div class="user-payment responsive-text">
+    <div class="user-payment-div" *ngFor="let guest of guests">
+      <section class="user-stats">
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/cfb543d795454e8ae9181df4cbd24b09dda8df43100a326dbf57babc87f3b502?placeholderIfAbsent=true&apiKey=9e16588387084fb2a9a51a1b99489136"
+          alt="User icon"
+          class="user-icon"
+        />
+        <div class="stats-content">
+          <p class="stats-label">{{ guest.firstName }} {{ guest.lastName }}</p>
+          <p class="stats-value">{{ guest.yearOfBirth }}</p>
+        </div>
+        <input
+          type="checkbox"
+          class="card-checkbox checkbox-size"
+          [(ngModel)]="guest.selected"
+          (change)="updateTotalCost()"
+        />
+      </section>
+    </div>
+  </div>
+
+  <div class="flex-row-gap-center">
+    <button
+      type="button"
+      class="addbtn"
+      pButton
+      label="Add Guest"
+      icon="pi pi-plus"
+      (click)="openAddGuestDialog()"
+    ></button>
+  </div>
+
+  <div class="cost-summary responsive-text">
+    <h3 class="title">Total Cost Summary</h3>
+    <ul>
+      <li *ngFor="let cost of calculatedCosts" class="cost-item">
+        <span class="cost-type">{{ cost.type }} Count:</span>
+        <p class="cost-per-person">{{ cost.count }}</p>
+        <span class="cost-per-person">* {{ getCostByType(cost.type) | currency }}</span>
+        <span class="cost-total">= {{ cost.total | currency }}</span>
+      </li>
+    </ul>
+    <p class="grand-total">
+      <strong>Grand Total: {{ grandTotal | currency }}</strong>
+    </p>
+  </div>
+
+  <!-- Modal for Adding Guest -->
+  <p-dialog
+    header="Add Guest"
+    [(visible)]="display"
+    [modal]="true"
+    [closable]="true"
+    [style]="{ minWidth: '40vw' }"
+    [responsive]="true"
+  >
+    <div class="guest-form">
+      <form [formGroup]="guestForm" (ngSubmit)="addGuest()">
+        <div class="p-field">
+          <label for="firstName" class="label-required">First Name</label>
+          <input id="firstName" pInputText formControlName="firstName" />
+          <small *ngIf="guestForm?.get('firstName')?.errors?.['lettersOnly']" style="color: red">
+            First Name should contain only letters.
+          </small>
+          <small *ngIf="guestForm?.get('firstName')?.errors?.['noSpaceAtStart']" style="color: red">
+            First Name cannot start with a space.
+          </small>
+          <small *ngIf="guestForm?.get('firstName')?.errors?.['valueRequired']" style="color: red">
+            First Name is required
+          </small>
+        </div>
+        <div class="p-field">
+          <label for="lastName">Last Name</label>
+          <input id="lastName" pInputText formControlName="lastName" />
+          <small *ngIf="guestForm?.get('lastName')?.errors?.['lettersOnly']" style="color: red">
+            Last Name should contain only letters.
+          </small>
+          <small *ngIf="guestForm?.get('lastName')?.errors?.['noSpaceAtStart']" style="color: red">
+            Last Name cannot start with a space.
+          </small>
+        </div>
+        <div class="p-field">
+          <label for="yearOfBirth" class="label-required">Year of Birth</label>
+          <input id="yearOfBirth" type="text" min="1900" [max]="currentYear" pInputText formControlName="yearOfBirth" />
+          <small *ngIf="guestForm.get('yearOfBirth')?.hasError('numbersOnly')" style="color: red">
+            Year of Birth must contain only numbers.
+          </small>
+
+          <small *ngIf="guestForm?.get('yearOfBirth')?.errors?.['valueRequired']" style="color: red">
+            Year Of Birth
+          </small>
+          <small
+            *ngIf="
+              guestForm?.get('yearOfBirth')?.hasError('invalidYear') &&
+              (guestForm.get('yearOfBirth')?.touched || guestForm.get('yearOfBirth')?.dirty)
+            "
+            style="color: red"
+          >
+            Please enter a valid year (between 1900 and {{ currentYear }}).
+          </small>
+        </div>
+        <div class="p-field">
+          <label for="email" class="label-required">Email</label>
+          <input id="email" type="email" pInputText formControlName="email" />
+          <small *ngIf="guestForm?.get('email')?.errors?.['email']" style="color: red">
+            Please enter a valid email address.
+          </small>
+          <small *ngIf="guestForm?.get('email')?.errors?.['valueRequired']" style="color: red">
+            Email is required
+          </small>
+        </div>
+        <div class="p-field">
+          <label for="phone" class="label-required">Phone</label>
+          <input id="phone" type="text" pInputText formControlName="phone" />
+          <small *ngIf="guestForm?.get('phone')?.errors?.['invalidCharacters']" style="color: red">
+            Phone Number must only contain numbers, spaces, and an optional '+'.
+          </small>
+
+          <!-- Error for invalid country code format -->
+          <small *ngIf="guestForm?.get('phone')?.errors?.['invalidCountryCode']" style="color: red">
+            Please enter a valid country code (e.g., +91, +1).
+          </small>
+
+          <!-- Error for missing space after country code -->
+          <small *ngIf="guestForm?.get('phone')?.errors?.['invalidFormat']" style="color: red">
+            Country code must be followed by a space (e.g., +91 1234567890).
+          </small>
+
+          <!-- Error for invalid phone length -->
+          <small *ngIf="guestForm?.get('phone')?.errors?.['invalidLength']" style="color: red">
+            Phone Number must have exactly 10 digits (excluding country code).
+          </small>
+          <small *ngIf="guestForm?.get('phone')?.errors?.['valueRequired']" style="color: red">
+            Email is required
+          </small>
+        </div>
+        <p-footer class="flex justify-content-between">
+          <button type="button" pButton label="Cancel" icon="pi pi-times" (click)="display = false"></button>
+          <button type="submit" pButton label="Add" icon="pi pi-check" [disabled]="!guestForm.valid"></button>
+        </p-footer>
+      </form>
+    </div>
+  </p-dialog>
+  <h6 class="heading-small text-muted mb-4">Payment Details</h6>
+
+  <form [formGroup]="paymentDetailsForm">
+    <label class="label-required">Payment Mode</label>
+    <div class="flex align-items-center gap-3">
+      <div class="flex align-items-center">
+        <p-radioButton
+          name="paymentMode"
+          value="zelle"
+          [(ngModel)]="selectedPaymentMode"
+          formControlName="paymentMode"
+          (onChange)="onPaymentModeChange('zelle')"
+          inputId="zelle"
+        ></p-radioButton>
+        <label for="zelle" class="ml-2 mb-0">Zelle</label>
+      </div>
+
+      <div class="flex align-items-center">
+        <p-radioButton
+          name="paymentMode"
+          value="paypal"
+          [(ngModel)]="selectedPaymentMode"
+          formControlName="paymentMode"
+          (onChange)="onPaymentModeChange('paypal')"
+          inputId="paypal"
+        ></p-radioButton>
+        <label for="paypal" class="ml-2 mb-0">PayPal</label>
+      </div>
+
+      <div class="flex align-items-center">
+        <p-radioButton
+          name="paymentMode"
+          value="check"
+          [(ngModel)]="selectedPaymentMode"
+          formControlName="paymentMode"
+          (onChange)="onPaymentModeChange('check')"
+          inputId="check"
+        ></p-radioButton>
+        <label for="check" class="ml-2 mb-0">Check</label>
+      </div>
+    </div>
+
+    <div class="col-lg-12 mt-4 pl-0" *ngIf="selectedPaymentMode === 'zelle' || selectedPaymentMode === 'paypal'">
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="form-group">
+            <label class="form-control-label label-required">Transaction ID</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="transactionId"
+              placeholder="Enter Transaction ID"
+            />
+            <small *ngIf="paymentDetailsForm?.get('transactionId')?.errors?.['noSpaceAtStart']" style="color: red">
+              Transaction ID cannot start with a space.
+            </small>
+            <small *ngIf="paymentDetailsForm?.get('transactionId')?.errors?.['valueRequired']" style="color: red">
+              Transaction ID is required
+            </small>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="form-group">
+            <label class="form-control-label label-required">Payment Date</label>
+            <p-calendar
+              formControlName="paymentDate"
+              [showIcon]="true"
+              dateFormat="dd/mm/yy"
+              [maxDate]="currentDate"
+              placeholder="Select Payment Date"
+              [style]="{ width: '100%' }"
+            >
+            </p-calendar>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional fields for Check -->
+    <div class="col-lg-12 mt-4 pl-0" *ngIf="selectedPaymentMode === 'check'">
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="form-group">
+            <label class="form-control-label label-required">Check Number</label>
+            <input type="text" class="form-control" formControlName="checkNumber" placeholder="Enter Check Number" />
+            <small *ngIf="paymentDetailsForm?.get('checkNumber')?.errors?.['noSpaceAtStart']" style="color: red">
+              Check Number cannot start with a space.
+            </small>
+            <small *ngIf="paymentDetailsForm?.get('checkNumber')?.errors?.['valueRequired']" style="color: red">
+              Check Number is required
+            </small>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="form-group">
+            <label class="form-control-label label-required">Bank Name</label>
+            <input type="text" class="form-control" formControlName="bankName" placeholder="Enter Bank Name" />
+            <small *ngIf="paymentDetailsForm?.get('bankName')?.errors?.['noSpaceAtStart']" style="color: red">
+              Bank Name cannot start with a space.
+            </small>
+            <small *ngIf="paymentDetailsForm?.get('bankName')?.errors?.['valueRequired']" style="color: red">
+              Bank Name is required
+            </small>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="form-group">
+            <label class="form-control-label label-required">Check Date</label>
+            <p-calendar
+              formControlName="checkDate"
+              [showIcon]="true"
+              dateFormat="dd/mm/yy"
+              [maxDate]="currentDate"
+              placeholder="Select Check Date"
+              [style]="{ width: '100%' }"
+            >
+            </p-calendar>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <button class="submit-button" (click)="registerEvent()" [disabled]="isRegistered || isRegisterButtonDisabled()">
+    Register
+  </button>
+</div>
+<div class="flex justify-center">
+  <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }" />
+</div>
+<ngo-loading-spinner></ngo-loading-spinner>

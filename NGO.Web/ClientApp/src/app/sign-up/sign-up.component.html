@@ -1,0 +1,285 @@
+<div class="signup-container">
+  <p class="back-btn" (click)="goBack()" style="cursor: pointer">
+    <i class="pi pi-arrow-left"></i>
+  </p>
+  <div class="flex justify-content-center w-full">
+    <h2 class="title title-lg basic-text-styles mb-5">Sign Up</h2>
+  </div>
+  <form [formGroup]="signupForm" class="responsive-text form-row-gap" (ngSubmit)="signUp()">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="firstName" class="label-required"> First Name </label>
+        <input
+          type="text"
+          id="firstName"
+          class="form-control"
+          formControlName="firstName"
+          [class.valid]="
+            signupForm.controls['firstName'].valid &&
+            (signupForm.controls['firstName'].dirty || signupForm.controls['firstName'].touched)
+          "
+          [class.invalid]="
+            signupForm.controls['firstName'].invalid &&
+            (signupForm.controls['firstName'].dirty || signupForm.controls['firstName'].touched)
+          "
+        />
+        <small
+          *ngIf="
+            signupForm.get('firstName')?.invalid &&
+            (signupForm.get('firstName')?.dirty || signupForm.get('firstName')?.touched)
+          "
+          style="color: red"
+        >
+          First Name is required.
+        </small>
+        <small *ngIf="signupForm.get('firstName')?.hasError('lettersOnly')" style="color: red">
+          First Name should contain only letters.
+        </small>
+        <small *ngIf="signupForm.get('firstName')?.hasError('noSpaceAtStart')" style="color: red">
+          First Name cannot start with a space.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" class="form-control" formControlName="lastName" />
+        <small *ngIf="signupForm.get('lastName')?.hasError('lettersOnly')" style="color: red">
+          Last Name should contain only letters.
+        </small>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="email" class="label-required">Email </label>
+        <input type="email" id="email" class="form-control" formControlName="email" />
+        <small
+          *ngIf="
+            signupForm.get('email')?.hasError('required') &&
+            (signupForm.get('email')?.dirty || signupForm.get('email')?.touched)
+          "
+          style="color: red"
+        >
+          Email is required.
+        </small>
+        <small *ngIf="signupForm.get('email')?.hasError('email')" style="color: red"> Enter a valid email. </small>
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="label-required"> Password </label>
+        <div class="password-container">
+          <input
+            [type]="passwordVisible ? 'text' : 'password'"
+            id="password"
+            class="form-control"
+            formControlName="password"
+          />
+          <i
+            class="fa"
+            [ngClass]="passwordVisible ? 'fa-eye-slash' : 'fa-eye'"
+            (click)="togglePasswordVisibility()"
+          ></i>
+        </div>
+
+        <small
+          *ngIf="
+            signupForm.get('password')?.hasError('required') &&
+            (signupForm.get('password')?.dirty || signupForm.get('password')?.touched)
+          "
+          style="color: red"
+        >
+          Password is required.
+        </small>
+        <small *ngIf="signupForm.get('password')?.hasError('noUpperCase')" style="color: red"
+          >Password must contain at least one uppercase letter.</small
+        >
+        <small *ngIf="signupForm.get('password')?.hasError('noLowerCase')" style="color: red"
+          >Password must contain at least one lowercase letter.</small
+        >
+        <small *ngIf="signupForm.get('password')?.hasError('noDigits')" style="color: red"
+          >Password must contain at least one digit.</small
+        >
+        <small *ngIf="signupForm.get('password')?.hasError('noSpecialChar')" style="color: red"
+          >Password must contain at least one special character.</small
+        >
+        <small *ngIf="signupForm.get('password')?.hasError('minLength')" style="color: red"
+          >Password must be at least 8 characters long.</small
+        >
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="chapterId" class="label-required"> Chapter </label>
+        <p-dropdown
+          [options]="chapters"
+          optionLabel="name"
+          optionValue="code"
+          formControlName="chapterId"
+          placeholder="Select Chapter"
+          [showClear]="signupForm.controls['chapterId'].value !== null && signupForm.controls['chapterId'].value !== ''"
+          [style]="{ width: '100%' }"
+          [class.valid]="
+            signupForm.controls['chapterId'].valid &&
+            (signupForm.controls['chapterId'].dirty || signupForm.controls['chapterId'].touched)
+          "
+          [class.invalid]="
+            signupForm.controls['chapterId'].invalid &&
+            (signupForm.controls['chapterId'].dirty || signupForm.controls['chapterId'].touched)
+          "
+        >
+        </p-dropdown>
+        <small
+          *ngIf="
+            signupForm.get('chapterId')?.hasError('required') &&
+            (signupForm.get('chapterId')?.dirty || signupForm.get('chapterId')?.touched)
+          "
+          style="color: red"
+        >
+          Chapter selection is required.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="country" class="label-required"> Country </label>
+        <p-dropdown
+          [options]="countries"
+          optionLabel="name"
+          (onChange)="onChangeCountry($event)"
+          formControlName="country"
+          placeholder="Current Country"
+          [showClear]="signupForm.controls['country'].value !== null && signupForm.controls['country'].value !== ''"
+          [editable]="true"
+          autoWidth="false"
+          [style]="{ width: '100%' }"
+          [class.valid]="
+            signupForm.controls['country'].valid &&
+            (signupForm.controls['country'].dirty || signupForm.controls['country'].touched)
+          "
+          [class.invalid]="
+            signupForm.controls['country'].invalid &&
+            (signupForm.controls['country'].dirty || signupForm.controls['country'].touched)
+          "
+        >
+        </p-dropdown>
+        <small
+          *ngIf="
+            signupForm.get('country')?.hasError('required') &&
+            (signupForm.get('country')?.dirty || signupForm.get('country')?.touched)
+          "
+          style="color: red"
+        >
+          Country selection is required.
+        </small>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="state" class="label-required"> State </label>
+        <p-dropdown
+          [options]="states"
+          optionLabel="name"
+          (onChange)="onChangeState($event)"
+          formControlName="state"
+          placeholder="Current State"
+          [showClear]="signupForm.controls['state'].value !== null && signupForm.controls['state'].value !== ''"
+          [editable]="true"
+          autoWidth="false"
+          [style]="{ width: '100%' }"
+          [class.valid]="
+            signupForm.controls['state'].valid &&
+            (signupForm.controls['state'].dirty || signupForm.controls['state'].touched)
+          "
+          [class.invalid]="
+            signupForm.controls['state'].invalid &&
+            (signupForm.controls['state'].dirty || signupForm.controls['state'].touched)
+          "
+        >
+        </p-dropdown>
+        <small
+          *ngIf="
+            signupForm.get('state')?.hasError('required') &&
+            (signupForm.get('state')?.dirty || signupForm.get('state')?.touched)
+          "
+          style="color: red"
+        >
+          State selection is required.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="city" class="label-required"> City </label>
+        <p-dropdown
+          [options]="cities"
+          optionLabel="name"
+          (onChange)="onChangeCity($event)"
+          formControlName="city"
+          placeholder="Current City"
+          [showClear]="signupForm.controls['city'].value !== null && signupForm.controls['city'].value !== ''"
+          [editable]="true"
+          autoWidth="false"
+          [style]="{ width: '100%' }"
+          [class.valid]="
+            signupForm.controls['city'].valid &&
+            (signupForm.controls['city'].dirty || signupForm.controls['city'].touched)
+          "
+          [class.invalid]="
+            signupForm.controls['city'].invalid &&
+            (signupForm.controls['city'].dirty || signupForm.controls['city'].touched)
+          "
+        >
+        </p-dropdown>
+        <small
+          *ngIf="
+            signupForm.get('city')?.hasError('required') &&
+            (signupForm.get('city')?.dirty || signupForm.get('city')?.touched)
+          "
+          style="color: red"
+        >
+          City selection is required.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="address">Home Town</label>
+        <input type="text" id="address" class="form-control" formControlName="address" />
+      </div>
+
+      <div class="form-group">
+        <label for="phNumber">Phone Number</label>
+        <input type="text" id="phNumber" class="form-control" formControlName="phNumber" />
+        <small *ngIf="signupForm.get('phNumber')?.errors?.['invalidCharacters']" style="color: red">
+          Phone Number must only contain numbers, spaces, and an optional '+'.
+        </small>
+
+        <!-- Error for invalid country code format -->
+        <small *ngIf="signupForm.get('phNumber')?.errors?.['invalidCountryCode']" style="color: red">
+          Please enter a valid country code (e.g., +91, +1).
+        </small>
+
+        <!-- Error for missing space after country code -->
+        <small *ngIf="signupForm.get('phNumber')?.errors?.['invalidFormat']" style="color: red">
+          Country code must be followed by a space (e.g., +91 1234567890).
+        </small>
+
+        <!-- Error for invalid phone length -->
+        <small *ngIf="signupForm.get('phNumber')?.errors?.['invalidLength']" style="color: red">
+          Phone Number must have exactly 10 digits (excluding country code).
+        </small>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="signupForm.invalid">Sign Up</button>
+  </form>
+  <div class="text-center mt-4">
+    <a [routerLink]="['/login', this.orgId]" class="text-dark">
+      <small>Already have an account? Login</small>
+    </a>
+  </div>
+</div>
+
+<div class="flex justify-center">
+  <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }" />
+</div>
+<ngo-loading-spinner></ngo-loading-spinner>

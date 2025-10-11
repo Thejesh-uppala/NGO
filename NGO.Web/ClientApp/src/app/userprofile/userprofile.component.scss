@@ -1,0 +1,97 @@
+.invalid {
+  border-color: red;
+}
+
+.profile-card {
+  border-radius: 10px;
+  background-color: #fff;
+  display: flex;
+  max-width: 406px;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.75rem;
+}
+.child-group {
+  margin-bottom: 20px;
+  background-color: #f1f1f1;
+  padding: 1rem;
+}
+.profile-image-wrapper {
+  background-color: #cefaf4;
+  border-radius: 50%;
+  display: flex;
+  width: 109px;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.profile-image {
+  aspect-ratio: 1;
+  object-fit: contain;
+  width: 100%;
+  border-radius: 50%;
+}
+
+.profile-name {
+  color: #000;
+  margin-top: 19px;
+  font:
+    600 24px Outfit,
+    sans-serif;
+}
+
+.profile-title {
+  color: #756f6f;
+  margin-top: 21px;
+  font:
+    400 16px Outfit,
+    sans-serif;
+}
+.progress-bar-styles {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem;
+}
+.text-edit-styles {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  color: #000000;
+  font-size: 16px;
+  font-weight: bolder;
+}
+
+.link-style {
+  cursor: pointer;
+  border: 1px;
+  border-radius: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.link-style:hover {
+  color: darkblue; /* Change color on hover for a realistic effect */
+  border: none;
+  background: none !important;
+}
+
+/* Spinner animation */
+
+/* Styles for the button when it is not disabled */
+.btn-info {
+  background-color: #17a2b8;
+  border-color: #17a2b8;
+  margin-top: 0.8rem;
+}
+
+.btn-info:hover {
+  background-color: #138496;
+  border-color: #117a8b;
+}
+/* Optional CSS */
+p-dropdown[disabled] input {
+  background-color: #f4f4f4; /* Visual indication of being disabled */
+  cursor: not-allowed !important;
+}

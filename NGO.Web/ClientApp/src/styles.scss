@@ -1,0 +1,426 @@
+/* You can add global styles to this file, and also import other style files */
+html,
+body,
+button,
+input,
+textarea,
+select,
+div,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Oxygen', sans-serif !important;
+}
+
+body {
+  font-family: 'Oxygen', sans-serif;
+  scroll-behavior: smooth !important;
+  overscroll-behavior: none !important;
+  // background-color: #F5F5F5;
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+}
+
+/* Default root font size */
+html {
+  font-size: 16px;
+  font-family: 'Oxygen', sans-serif;
+}
+
+/* Common responsive text class */
+.responsive-text {
+  font-size: 1rem;
+}
+
+/* Table and button-specific adjustments */
+.p-table .responsive-text,
+.p-table th,
+.p-table td,
+.p-button {
+  font-size: 1rem; /* Match the base size */
+}
+.p-button:focus {
+  outline: none !important;
+  border: none !important;
+}
+button:disabled {
+  //background-color: #cccccc !important;
+  cursor: not-allowed;
+  border: none;
+}
+.p-button.p-disabled,
+.p-button[disabled] {
+  cursor: not-allowed !important; /* Show the "🚫 not-allowed" cursor */
+  //background-color: #cccccc !important; /* Grey out the button */
+  opacity: 0.6;
+  border: none;
+}
+
+.title {
+  font-size: 1.25rem;
+}
+.title-lg {
+  font-size: 1.5rem;
+}
+
+/* Ensure the cursor remains "not-allowed" on hover */
+.p-button.p-disabled:hover,
+.p-button[disabled]:hover {
+  cursor: not-allowed !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .responsive-text,
+  .p-table .responsive-text,
+  .p-table th,
+  .p-table td,
+  .p-button {
+    font-size: 0.95rem;
+  }
+  .title {
+    font-size: 1.2rem;
+  }
+  .title-lg {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .responsive-text,
+  .p-table .responsive-text,
+  .p-table th,
+  .p-table td,
+  .p-button {
+    font-size: 0.9rem;
+  }
+  .title {
+    font-size: 1.1rem;
+  }
+  .title-lg {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .responsive-text,
+  .p-table .responsive-text,
+  .p-table th,
+  .p-table td,
+  .p-button {
+    font-size: 0.85rem;
+  }
+  .title {
+    font-size: 1rem;
+  }
+  .title-lg {
+    font-size: 1.15rem;
+  }
+}
+.label-required::before {
+  content: ' *';
+  color: red !important;
+  font-size: 0.9em;
+}
+.p-inputtext.ng-dirty.ng-invalid {
+  border: 1px solid #ced4da !important;
+}
+
+.form-control:focus,
+.p-inputtext:enabled:focus {
+  border-color: #2196f3 !important;
+  box-shadow: none !important;
+}
+.mt-top {
+  margin-top: 82px !important;
+}
+.mt-top-x-lg {
+  margin-top: 140px !important;
+}
+.mt-top-lg {
+  margin-top: 100px !important;
+}
+.mt-top-sm {
+  margin-top: 60px !important;
+}
+
+.user-status {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Header Styles */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.approved {
+  color: #28a745; /* Green for Approved */
+}
+
+.rejected {
+  color: #dc3545; /* Red for Rejected */
+}
+
+.pending {
+  color: #007bff; /* Blue for any other status */
+}
+
+.header h1 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.back-button {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: #5a6268;
+}
+
+.dashboard-parent-component {
+  padding: 16px;
+  width: 100%;
+  height: max-content;
+  display: flex;
+  gap: 20px;
+  background-color: #f5f5f5;
+  flex-direction: row;
+}
+
+/* Avatar Styling */
+.user-avatar {
+  font:
+    400 24px/64px Oxygen,
+    sans-serif;
+  text-align: center;
+  width: 64px;
+  height: 64px;
+}
+.avatar {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+.password-icon {
+  display: flex;
+  position: absolute;
+  align-items: center;
+  height: 100%;
+  right: 10px;
+  z-index: 12;
+}
+.dashboard-left-section {
+  display: flex;
+  flex-direction: column;
+  margin-top: 24px;
+  height: max-content;
+  background-color: #ffffff;
+  width: 20%;
+  padding: 12px;
+  border-radius: 15px;
+}
+
+.dashboard-left-section-contents {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .dashboard-parent-component {
+    gap: 0px;
+  }
+}
+
+.dashboard-right-section {
+  margin-top: 16px;
+  display: flex;
+  flex: 1; /* Automatically take the remaining space */
+  width: 100%;
+  flex-direction: column;
+}
+
+.dashboard-right-section-header-content {
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: -3px -1px 20px rgba(0, 0, 0, 0.09);
+  display: flex;
+  width: 30rem;
+  height: 3rem;
+  gap: 20px;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: space-between;
+  padding: 19px 29px;
+}
+
+@media (max-width: 991px) {
+  .dashboard-right-section-header-content {
+    max-width: 100%;
+    padding: 0 20px;
+  }
+}
+
+/* Global Primary Button Styles */
+.primary-btn {
+  background-color: #007bff; /* Primary color */
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+}
+
+.primary-btn:hover {
+  color: white;
+  background-color: #0056b3; /* Darker shade on hover */
+}
+
+.primary-btn:active {
+  transform: scale(0.98); /* Button scale effect when clicked */
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1200px) {
+  .primary-btn {
+    font-size: 14px; /* Slightly smaller font on large screens */
+    padding: 10px 20px;
+  }
+}
+
+@media (max-width: 992px) {
+  .primary-btn {
+    font-size: 14px; /* Smaller font for medium screens */
+    padding: 8px 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .primary-btn {
+    font-size: 12px; /* Even smaller font on smaller screens */
+    padding: 6px 12px;
+  }
+}
+
+@media (max-width: 576px) {
+  .primary-btn {
+    font-size: 12px;
+    padding: 5px 10px; /* Compact padding for very small screens */
+  }
+}
+
+.user-data-left-section {
+  width: calc(100% - 25px);
+  padding: 1.5rem;
+  background-color: white;
+}
+
+.user-data-div {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  gap: 1rem;
+  background-color: #f5f5f5;
+}
+
+@media screen and (max-width: 767px) {
+  .dashboard-parent-component {
+    padding: 0px !important;
+  }
+  .user-data-left-section {
+    width: 100% !important;
+  }
+  .table__style--details {
+    margin-top: 0px !important;
+  }
+}
+
+.table__style--details {
+  background-color: white;
+  color: black;
+  border-collapse: collapse;
+  width: 100%;
+  margin: 20px 0;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+.table__style--details caption {
+  text-align: left;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.table__style--details a.btn--table {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: normal;
+}
+
+.table__style--details td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.table__style--details tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.table__style--details tr:hover {
+  background-color: #f1f1f1;
+}
+
+.table__style--details th,
+.table__style--details td {
+  text-align: left;
+}
+
+.user-data-div {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  gap: 1rem;
+  background-color: #f5f5f5;
+}
+
+.basic-text-styles {
+  color: #000000;
+  font-weight: bolder;
+  display: inline-block; /* Ensures the underline adjusts to the text width */
+  position: relative;
+}
+.basic-text-styles::after {
+  content: '';
+  position: absolute;
+  bottom: 0; /* Place the underline at the bottom */
+  left: 0;
+  height: 2px; /* Thickness of the underline */
+  width: 50%; /* Half the width */
+  background-color: red; /* Color of the underline */
+}

@@ -1,0 +1,14 @@
+# .editorconfig file at the root of the solution
+
+root = true
+
+# C# settings for the entire solution
+[*.cs]
+indent_style = space
+indent_size = 4
+tab_width = 4
+csharp_new_line_before_members_of_object_initializers = true
+csharp_space_after_cast = false
+csharp_prefer_braces = always
+dotnet_sort_system_directives_first = true
+csharp_indent_case_labels = true

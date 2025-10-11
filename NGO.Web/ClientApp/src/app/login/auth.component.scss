@@ -1,0 +1,76 @@
+.links {
+  cursor: pointer;
+}
+.login-layout {
+  display: flex;
+  flex-direction: row;
+}
+.password-container {
+  position: relative;
+  flex-grow: 1; /* Allows it to take full available width */
+  display: flex;
+  align-items: center;
+}
+
+.password-container input {
+  flex-grow: 1; /* Makes input expand inside the container */
+  width: 100%;
+}
+
+.password-container i {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+}
+
+.login-image {
+  display: flex;
+  width: 40%;
+  height: 100vh;
+  justify-content: center;
+  opacity: 90%;
+}
+.login-form {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-login {
+  width: 30rem;
+  z-index: 12;
+  height: auto;
+}
+.card-bg {
+  background-color: #fff;
+}
+
+.login-cta {
+  align-content: center;
+  margin-bottom: -34px;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+  line-height: 1.2;
+}
+@media screen and (max-width: 767px) {
+  .login-form {
+    width: 100% !important;
+  }
+  .card-login {
+    width: 90%;
+    margin-top: -50px;
+  }
+  .login-layout {
+    flex-direction: column;
+  }
+
+  .login-image {
+    width: 100%;
+    height: 30vh;
+    margin-bottom: 20px;
+  }
+}

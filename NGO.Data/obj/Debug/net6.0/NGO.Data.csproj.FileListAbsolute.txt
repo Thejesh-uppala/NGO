@@ -1,0 +1,15 @@
+/Users/ivoyant/Downloads/NGO-main/NGO.Data/bin/Debug/net6.0/NGO.Data.deps.json
+/Users/ivoyant/Downloads/NGO-main/NGO.Data/bin/Debug/net6.0/NGO.Data.dll
+/Users/ivoyant/Downloads/NGO-main/NGO.Data/bin/Debug/net6.0/NGO.Data.pdb
+/Users/ivoyant/Downloads/NGO-main/NGO.Data/bin/Debug/net6.0/NGO.Common.dll
+/Users/ivoyant/Downloads/NGO-main/NGO.Data/bin/Debug/net6.0/NGO.Common.pdb
+/Users/ivoyant/Downloads/NGO-main/NGO.Data/obj/Debug/net6.0/NGO.Data.csproj.AssemblyReference.cache
+/Users/ivoyant/Downloads/NGO-main/NGO.Data/obj/Debug/net6.0/NGO.Data.GeneratedMSBuildEditorConfig.editorconfig
+/Users/ivoyant/Downloads/NGO-main/NGO.Data/obj/Debug/net6.0/NGO.Data.AssemblyInfoInputs.cache
+/Users/ivoyant/Downloads/NGO-main/NGO.Data/obj/Debug/net6.0/NGO.Data.AssemblyInfo.cs
+/Users/ivoyant/Downloads/NGO-main/NGO.Data/obj/Debug/net6.0/NGO.Data.csproj.CoreCompileInputs.cache
+/Users/ivoyant/Downloads/NGO-main/NGO.Data/obj/Debug/net6.0/NGO.Data.dll
+/Users/ivoyant/Downloads/NGO-main/NGO.Data/obj/Debug/net6.0/refint/NGO.Data.dll
+/Users/ivoyant/Downloads/NGO-main/NGO.Data/obj/Debug/net6.0/NGO.Data.pdb
+/Users/ivoyant/Downloads/NGO-main/NGO.Data/obj/Debug/net6.0/ref/NGO.Data.dll
+/Users/ivoyant/Downloads/NGO-main/NGO.Data/obj/Debug/net6.0/NGO.Data.csproj.CopyComplete

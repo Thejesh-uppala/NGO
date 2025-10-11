@@ -1,0 +1,176 @@
+<div class="bg-wrapper" [ngStyle]="{ background: 'linear-gradient(to bottom, ' + dynamicColor + ' 10%, white 30%)' }">
+  <div class="matrimony-profile-container pt-24">
+    <!-- Profile Header -->
+    <div class="profile-header">
+      <h2>{{ profile?.brideOrGroomFName }} {{ profile?.brideOrGroomLName }}'s Profile</h2>
+      <p
+        class="profile-status"
+        [ngClass]="{ active: profile?.recordStatus === 'active', expired: profile?.recordStatus === 'expired' }"
+      >
+        {{ profile?.recordStatus }}
+      </p>
+      <p class="back-btn" (click)="goBack()" style="cursor: pointer">
+        <i class="pi pi-arrow-left"></i>
+      </p>
+      <p
+        *ngIf="isAdmin"
+        class="user-status"
+        [ngClass]="{
+          approved: profile?.status === 'Approved',
+          rejected: profile?.status === 'Rejected',
+          pending: profile?.status !== 'Approved' && profile?.status !== 'Rejected',
+        }"
+      >
+        {{ profile.status }}
+      </p>
+      <p *ngIf="profile?.status === 'Rejected' && isAdmin" class="user-email">Rejected By: {{ profile.approvedBy }}</p>
+
+      <p *ngIf="profile?.status === 'Approved' && isAdmin" class="user-email">Approved By: {{ profile.approvedBy }}</p>
+    </div>
+
+    <!-- Profile Section -->
+    <div class="profile-section">
+      <!-- Photo Gallery Section -->
+
+      <div class="photo-gallery">
+        <!-- Photo Card -->
+        <div class="photo-card">
+          <img [src]="currentPhoto?.photoPath" alt="Profile Photo" (click)="openZoomModal(currentPhoto)" />
+          <div class="photo-navigation">
+            <button (click)="previousPhoto()" [disabled]="currentIndex === 0">Previous</button>
+            <span>{{ currentIndex + 1 }} / {{ profile?.matrimonialDataPhotos.length }}</span>
+            <button (click)="nextPhoto()" [disabled]="currentIndex === profile?.matrimonialDataPhotos.length - 1">
+              Next
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Zoom Modal -->
+      <div *ngIf="zoomedImage" class="zoom-modal">
+        <button class="zoom-close-button" (click)="closeZoomModal()">&times;</button>
+        <div class="zoomed-image-container">
+          <img [src]="zoomedImage" alt="Zoomed Image" />
+        </div>
+      </div>
+
+      <!-- Personal Details -->
+      <div class="info-cards">
+        <!-- Personal Information -->
+        <div class="info-card">
+          <h4 class="card-header">Personal Information</h4>
+          <ul>
+            <li><strong>Registered For:</strong> {{ profile?.registeringFor }}</li>
+            <li><strong>Profile For:</strong> {{ profile?.profileFor }}</li>
+            <li><strong>Full Name:</strong> {{ profile?.brideOrGroomFName }} {{ profile?.brideOrGroomLName }}</li>
+            <li><strong>Gender:</strong> {{ profile?.gender }}</li>
+            <li><strong>Date of Birth:</strong> {{ profile?.brideGroomDOB }}</li>
+            <li><strong>Time of Birth:</strong> {{ profile?.brideGroomTimeOfBirth }}</li>
+            <li><strong>Place of Birth:</strong> {{ profile?.brideGroomPlaceOfBirth }}</li>
+            <li>
+              <strong>Access to Communication:</strong> {{ profile?.brideGroomAccessToCommunication ? 'Yes' : 'No' }}
+            </li>
+            <li><strong>Email:</strong> {{ profile?.brideOrGroomEmail }}</li>
+            <li><strong>Phone:</strong> {{ profile?.brideOrGroomPhoneNumber }}</li>
+          </ul>
+        </div>
+
+        <!-- Location & Contact Info -->
+        <div class="info-card">
+          <h4 class="card-header">Location & Contact Info</h4>
+          <ul>
+            <li><strong>Current Location:</strong> {{ profile?.brideGroomCurrentLocation }}</li>
+            <li><strong>City:</strong> {{ profile?.brideGroomCurrentCity }}</li>
+            <li><strong>State:</strong> {{ profile?.brideGroomCurrentState }}</li>
+            <li><strong>Country:</strong> {{ profile?.brideGroomCurrentCountry }}</li>
+            <li><strong>Native Place:</strong> {{ profile?.brideGroomNativePlace }}</li>
+            <ng-container *ngIf="profile?.authPrimaryContactCanBeShared">
+              <li>
+                <strong>Primary Contact:</strong>
+                {{ profile?.authPrimaryPersonFName + ' ' + profile?.authPrimaryPersonLName }}
+              </li>
+              <li><strong>Primary Contact Pref:</strong> {{ profile?.authPrimaryContactPref }}</li>
+
+              <li *ngIf="profile?.authPrimaryPersonPhoneNo">
+                <strong>Phone No:</strong> {{ profile?.authPrimaryPersonPhoneNo }}
+              </li>
+              <li *ngIf="profile?.authPrimaryPersonEmail">
+                <strong>Email:</strong> {{ profile?.authPrimaryPersonEmail }}
+              </li>
+            </ng-container>
+            <li><strong>Contact Preference:</strong> {{ profile?.contactPref }}</li>
+          </ul>
+        </div>
+
+        <!-- Family Information -->
+        <div class="info-card">
+          <h4 class="card-header">Family Information</h4>
+          <ul>
+            <li><strong>Father's Name:</strong> {{ profile?.fatherFName }}</li>
+            <li><strong>Father's Email:</strong> {{ profile?.fatherEmail }}</li>
+            <li><strong>Father's Phone:</strong> {{ profile?.fatherPhoneNo }}</li>
+            <li><strong>Father's Native Place:</strong> {{ profile?.fatherNativePlace }}</li>
+            <li><strong>Father's Occupation:</strong> {{ profile?.fatherOccupation }}</li>
+            <li><strong>Mother's Name:</strong> {{ profile?.motherFName }}</li>
+            <li><strong>Mother's Email:</strong> {{ profile?.motherEmail }}</li>
+            <li><strong>Mother's Phone:</strong> {{ profile?.motherPhoneNo }}</li>
+            <li><strong>Mother's Place in India:</strong> {{ profile?.motherPlaceIndia }}</li>
+            <li><strong>Mother's Occupation:</strong> {{ profile?.motherOccupation }}</li>
+            <li><strong>Parent's Location:</strong> {{ profile?.parentLocation }}</li>
+            <li><strong>Siblings Info:</strong> {{ profile?.siblingsInformation }}</li>
+          </ul>
+        </div>
+
+        <!-- Other Details -->
+        <div class="info-card">
+          <h4 class="card-header">Other Details</h4>
+          <ul>
+            <li><strong>Height:</strong> {{ profile?.brideGroomHeight }}</li>
+            <li><strong>Gothra:</strong> {{ profile?.brideGroomGothra }}</li>
+            <li><strong>Pravara:</strong> {{ profile?.brideGroomPravara }}</li>
+            <li><strong>Nakshatra:</strong> {{ profile?.brideGroomNakshatra }}</li>
+            <li><strong>Rashi:</strong> {{ profile?.brideGroomRashi }}</li>
+            <li>
+              <strong>Education:</strong> {{ profile?.brideGroomEducation }} ({{ profile?.brideGroomEducationDegree }})
+            </li>
+            <li><strong>University:</strong> {{ profile?.brideGroomUniversity }}</li>
+            <li><strong>Employment Info:</strong> {{ profile?.brideGroomEmploymentInfo }}</li>
+            <li><strong>Can Relocate:</strong> {{ profile?.brideGroomCanRealocate }}</li>
+            <li><strong>Previously Married:</strong> {{ profile?.brideGroomPrevMarried }}</li>
+            <li><strong>Diet Preference:</strong> {{ profile?.brideGroomDiet }}</li>
+            <li><strong>Legal Status:</strong> {{ profile?.brideGroomLegalStatus }}</li>
+            <li><strong>Grown Up Country & Place:</strong> {{ profile?.brideGroomGrownUpCountryandPlace }}</li>
+          </ul>
+        </div>
+      </div>
+      <div class="btn-styles" *ngIf="isAdmin">
+        <p-button
+          label="Approve"
+          pTooltip="Approve Matrimony Profile"
+          icon="pi pi-check"
+          [rounded]="true"
+          [text]="true"
+          [raised]="true"
+          severity="success"
+          (onClick)="approveProfile(profile?.id)"
+          [disabled]="profile?.status === 'Approved' || profile?.status === 'Rejected'"
+        />
+
+        <p-button
+          label="Reject"
+          pTooltip="Reject Matrimony Profile"
+          icon="pi pi-times"
+          [rounded]="true"
+          [text]="true"
+          [raised]="true"
+          severity="danger"
+          (onClick)="rejectProfile(profile?.id)"
+          [disabled]="profile?.status === 'Approved' || profile?.status === 'Rejected'"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+<div class="flex justify-center">
+  <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }" />
+</div>
+<ngo-loading-spinner></ngo-loading-spinner>

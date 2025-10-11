@@ -1,0 +1,130 @@
+<div class="verify-member-container">
+  <div class="title-lg flex justify-content-between mt-lg-4 p-lg-0 p-md-4 p-sm-4 p-4">
+    <div>{{ hideActions ? 'User Details' : 'Verify Member' }}</div>
+    <button class="back-button" (click)="goBack()"><i class="pi pi-arrow-left"></i> Back</button>
+  </div>
+
+  <div class="user-details-card">
+    <div class="user-profile">
+      <div class="user-avatar">
+        <img
+          [src]="userData.photo || 'assets/img/avatar.jpg'"
+          alt="User Photo"
+          class="avatar rounded-circle"
+          style="width: 70px; height: 70px"
+        />
+      </div>
+      <div class="user-info ml-6">
+        <h2>{{ userData.firstName }} {{ userData.lastName }}</h2>
+        <p class="user-email">{{ userData.emailAddress }}</p>
+        <p
+          *ngIf="!hideActions"
+          class="user-status"
+          [ngClass]="{
+            approved: userData?.isApproved === 'Approved',
+            rejected: userData?.isApproved === 'Rejected',
+            pending: userData?.isApproved !== 'Approved' && userData?.isApproved !== 'Rejected',
+          }"
+        >
+          {{ userData.isApproved }}
+        </p>
+        <p *ngIf="userData?.isApproved === 'Rejected'" class="user-email">Rejected By: {{ userData.approvedBy }}</p>
+
+        <p *ngIf="userData?.isApproved === 'Approved'" class="user-email">Approved By: {{ userData.approvedBy }}</p>
+      </div>
+    </div>
+
+    <div class="details-grid">
+      <div class="details-section">
+        <h3>Personal Information</h3>
+        <p><strong>Year of Birth:</strong> {{ userData.yearOfBirth }}</p>
+        <p><strong>City:</strong> {{ userData.city }}</p>
+        <p><strong>State:</strong> {{ userData.state }}</p>
+        <p><strong>Country:</strong> {{ userData.country }}</p>
+        <p><strong>Postal Code:</strong> {{ userData.postalCode }}</p>
+        <p><strong>Home Town:</strong> {{ userData.homeTown }}</p>
+      </div>
+
+      <div class="details-section">
+        <h3>Spouse Information</h3>
+        <p>
+          <strong>Name:</strong> {{ userData.spouseDetails?.spouseFirstName }}
+          {{ userData.spouseDetails?.spouseLastName }}
+        </p>
+        <p><strong>Email:</strong> {{ userData.spouseDetails?.spouseEmail }}</p>
+        <p><strong>Phone:</strong> {{ userData.spouseDetails?.spousePhoneNumber }}</p>
+        <p><strong>City:</strong> {{ userData.spouseDetails?.spouseCity }}</p>
+        <p><strong>State:</strong> {{ userData.spouseDetails?.spouseState }}</p>
+        <p><strong>Country:</strong> {{ userData.spouseDetails?.spouseCountry }}</p>
+        <p><strong>Home Town:</strong> {{ userData.spouseDetails?.spouseHometown }}</p>
+        <p><strong>YOB:</strong> {{ userData.spouseDetails?.spouseYearOfBirth }}</p>
+      </div>
+
+      <div class="details-section">
+        <h3>Children Information</h3>
+        <div *ngFor="let child of userData.childrensDetails" class="child-info">
+          <p><strong>Name:</strong> {{ child?.childFirstName }} {{ child?.childLastName }}</p>
+          <p><strong>Year of Birth:</strong> {{ child?.childYearOfBirth }}</p>
+          <p><strong>City:</strong> {{ child?.childCity }}</p>
+          <p><strong>State:</strong> {{ child?.childState }}</p>
+          <p><strong>Country:</strong> {{ child?.childCountry }}</p>
+          <p><strong>Phone:</strong> {{ child?.childPhoneNumber }}</p>
+        </div>
+      </div>
+
+      <p *ngIf="!hideActions">
+        <strong>Amount:</strong>
+        {{ userData?.amount ? (userData.amount | currency) : 'N/A' }}
+      </p>
+
+      <ng-container *ngIf="isCheckPayment(userData?.paymentMethod)">
+        <p><strong>Check Number:</strong> {{ userData?.checkNumber ? userData.checkNumber : 'N/A' }}</p>
+        <p><strong>Bank Name:</strong> {{ userData?.bankName ? userData.bankName : 'N/A' }}</p>
+        <p>
+          <strong>Check Date:</strong>
+          {{ userData?.checkDate ? (userData.checkDate | date: 'MMM d, y') : 'N/A' }}
+        </p>
+      </ng-container>
+      <ng-container *ngIf="isDigitalPayment(userData?.paymentMethod)">
+        <p>
+          <strong>Transaction ID:</strong>
+          {{ userData?.transactionId ? userData.transactionId : 'N/A' }}
+        </p>
+        <p>
+          <strong>Payment Date:</strong>
+          {{ userData?.paymentDate ? (userData.paymentDate | date: 'MMM d, y') : 'N/A' }}
+        </p>
+      </ng-container>
+    </div>
+
+    <div class="actions" *ngIf="!hideActions">
+      <button
+        class="verify-button"
+        [disabled]="userData?.isApproved === 'Approved' || userData?.isApproved === 'Rejected'"
+        (click)="acceptMembership()"
+      >
+        <i class="pi pi-check"></i> Verify
+      </button>
+
+      <button
+        [disabled]="userData?.isApproved === 'Approved' || userData?.isApproved === 'Rejected'"
+        class="reject-button"
+        (click)="rejectMembership()"
+      >
+        <i class="pi pi-times"></i> Reject
+      </button>
+    </div>
+  </div>
+</div>
+
+<p-confirmDialog
+  [style]="{ width: '450px' }"
+  [baseZIndex]="10000"
+  rejectButtonStyleClass="p-button-text p-button-danger mr-2"
+  acceptButtonStyleClass="p-button-primary"
+  position="top"
+/>
+<div class="flex justify-center">
+  <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }" />
+</div>
+<ngo-loading-spinner></ngo-loading-spinner>

@@ -1,0 +1,133 @@
+.dashboard-left-section {
+  transition: all 0.3s ease;
+  position: relative;
+  height: 100% !important;
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px;
+  height: max-content;
+  background-color: #ffffff;
+  width: 100%;
+  padding: 12px;
+  border-radius: 15px;
+}
+.hidden {
+  display: none;
+}
+
+.align-center-common {
+  display: flex;
+  align-items: center;
+}
+.dashboard-banner {
+  cursor: pointer;
+  position: absolute;
+  top: 10px; /* Adjust as per your design */
+  right: 10px; /* Adjust as per your design */
+}
+
+.dashboard-left-section-contents {
+  min-width: 200px;
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.menu-text {
+  padding: 12px;
+}
+
+.app-sidebar-icon-label {
+  display: flex;
+  flex-direction: row;
+  margin-left: 0.6rem;
+  gap: 10px;
+  padding: 5px;
+}
+
+.app-sidebar-icon-label:hover {
+  font-weight: bold;
+  cursor: pointer;
+  padding: 5px;
+  background-color: #e5f8ef;
+}
+
+/* Add styles for the active menu item */
+.app-sidebar-icon-label.active {
+  font-weight: bold;
+  background-color: #e5f8ef;
+}
+
+.user-info {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 24px;
+}
+
+.user-name {
+  max-width: 85px;
+  line-height: 25px;
+  color: #000;
+  font-family: Oxygen, sans-serif;
+  font-weight: 600;
+  font-size: clamp(12px, 2vw, 20px); /* Adjusts font size based on width */
+  word-wrap: break-word; /* Ensures text wraps */
+  overflow-wrap: break-word;
+  white-space: normal; /* Allows multi-line wrapping */
+  text-align: center; /* Centers text if needed */
+}
+
+.dashboard-text {
+  color: #3f08dd;
+  font:
+    400 16px Outfit,
+    sans-serif;
+}
+
+.menu-item {
+  display: flex;
+  gap: 46px;
+  color: #000;
+  margin: 20px 0 0 10px;
+  font:
+    400 16px Outfit,
+    sans-serif;
+}
+
+.menu-icon {
+  border-radius: 8px;
+  display: flex;
+  width: 33px;
+  height: 33px;
+}
+
+.notification-icon {
+  background-color: #ff5a5a;
+}
+.jobs-icon {
+  background-color: #82dd7a;
+}
+.jobs-applies-icon {
+  background-color: #89affc;
+  width: 44px;
+  height: 44px;
+}
+.updated-jobs-icon {
+  background-color: #b5e369;
+}
+.schedule-icon {
+  background-color: #fe983a;
+}
+.chatting-icon {
+  background-color: #5ed29b;
+}
+.setting-icon {
+  background-color: #000;
+}
+
+@media (max-width: 768px) {
+  .dashboard-left-section {
+    display: none;
+  }
+}

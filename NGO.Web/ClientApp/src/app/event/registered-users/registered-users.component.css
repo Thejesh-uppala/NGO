@@ -1,0 +1,90 @@
+.table-container {
+  padding: 1rem !important;
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2) !important;
+}
+
+.expand-collapse-btn {
+  cursor: pointer;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+.payment-details-container {
+  padding: 1rem;
+  background-color: #f8f9fa;
+}
+
+.payment-card {
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+::ng-deep .expanded-content .p-datatable .p-datatable-thead > tr > th {
+  background: #c6c6f8 !important;
+}
+.payment-header {
+  background: linear-gradient(135deg, #6366f1 0%, #b0acf7 100%);
+  color: white;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.payment-content {
+  padding: 1.5rem;
+}
+
+.payment-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.payment-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.info-label {
+  color: #64748b;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+
+.info-value {
+  color: #1e293b;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.info-value.highlight {
+  color: #4f46e5;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+/* Hover effect for the card */
+.payment-card:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .payment-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .payment-content {
+    padding: 1rem;
+  }
+}

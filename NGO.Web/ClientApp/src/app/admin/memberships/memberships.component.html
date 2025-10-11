@@ -1,0 +1,147 @@
+<div class="dashboard-parent-component h-full">
+  <app-sidebar></app-sidebar>
+
+  <div class="dashboard-right-section h-full">
+    <!-- users data section -->
+    <div class="manage-user-div">
+      <div class="card">
+        <!-- Data Table to Display Users -->
+        <p-table
+          #dt
+          [value]="users"
+          [rows]="3"
+          [rowsPerPageOptions]="[3, 10, 20]"
+          [paginator]="true"
+          [globalFilterFields]="['firstName', 'emailAddress', 'status', 'country']"
+          [(selection)]="selectedUsers"
+          [rowHover]="true"
+          dataKey="userId"
+          class="table-responsive"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          [showCurrentPageReport]="true"
+        >
+          <!-- Table Caption (Title and Search Box) -->
+          <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+              <h5 class="m-0 responsive-text">Manage Members</h5>
+              <div>
+                <span class="p-input-icon-left">
+                  <i class="pi pi-search"></i>
+                  <input
+                    pInputText
+                    type="text"
+                    (input)="filterGlobal($event)"
+                    placeholder="Search..."
+                    class="h-full responsive-text input-search"
+                  />
+                </span>
+                <p-button
+                  pTooltip="Export Membership Data"
+                  tooltipPosition="left"
+                  icon="pi pi-upload"
+                  (click)="exportExcel()"
+                  [rounded]="true"
+                  [outlined]="true"
+                  class="ml-2"
+                  severity="info"
+                />
+
+                <p-button
+                  pTooltip="Remind Membership Expiry Date"
+                  severity="success"
+                  [rounded]="true"
+                  class="ml-2"
+                  icon="pi pi-envelope"
+                  class="ml-2"
+                  (onClick)="remindUser()"
+                  [disabled]="!selectedUsers || !selectedUsers.length"
+                />
+              </div>
+            </div>
+          </ng-template>
+
+          <!-- Table Header with Sortable Columns -->
+          <ng-template pTemplate="header">
+            <tr class="responsive-text">
+              <th style="width: 4rem" (click)="$event.stopPropagation()">
+                <p-tableHeaderCheckbox />
+              </th>
+              <th pSortableColumn="firstName">Name <p-sortIcon field="firstName" /></th>
+              <th pSortableColumn="emailAddress">Email <p-sortIcon field="emailAddress" /></th>
+              <th pSortableColumn="country">Country <p-sortIcon field="country" /></th>
+
+              <th pSortableColumn="membershipValidityDate">
+                Expiry Date <p-sortIcon field="membershipValidityDate" />
+                <p-columnFilter type="date" field="membershipValidityDate" display="menu" class="ml-auto" />
+              </th>
+
+              <th pSortableColumn="isApproved">Status <p-sortIcon field="isApproved" /></th>
+              <th>Action</th>
+            </tr>
+          </ng-template>
+
+          <!-- Table Body to Display Each User -->
+          <ng-template pTemplate="body" let-user>
+            <tr (click)="viewMemberProfile(user.userId)" class="responsive-text cursor-pointer">
+              <td (click)="$event.stopPropagation()"><p-tableCheckbox [value]="user" /></td>
+              <td>{{ user.firstName }}</td>
+              <td>{{ user.emailAddress }}</td>
+              <td>{{ user.country }}</td>
+
+              <td>{{ user.membershipValidityDate | date: 'MM/dd/yyyy' }}</td>
+
+              <td>
+                <p-tag [value]="user.isApproved" [severity]="getSeverity(user.isApproved)" />
+              </td>
+              <td (click)="$event.stopPropagation()">
+                <p-button
+                  pTooltip="Approve Membership"
+                  icon="pi pi-check"
+                  severity="success"
+                  [rounded]="true"
+                  tooltipPosition="left"
+                  [outlined]="true"
+                  class="mr-2 responsive-text"
+                  (onClick)="acceptMembership(user.userId)"
+                  [disabled]="user.isApproved === 'Approved' || user.isApproved === 'Rejected'"
+                />
+
+                <p-button
+                  pTooltip="Reject Membership"
+                  icon="pi pi-trash"
+                  severity="danger"
+                  tooltipPosition="left"
+                  [rounded]="true"
+                  [outlined]="true"
+                  class="responsive-text"
+                  (onClick)="rejectMembership(user.userId)"
+                  [disabled]="user.isApproved === 'Approved' || user.isApproved === 'Rejected'"
+                />
+              </td>
+            </tr>
+          </ng-template>
+
+          <!-- Table Summary (User Count) -->
+          <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between responsive-text">
+              In total there are {{ users ? users.length : 0 }} users.
+            </div>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+</div>
+<p-confirmDialog
+  [style]="{ width: '450px' }"
+  [baseZIndex]="10000"
+  rejectButtonStyleClass="p-button-text p-button-danger mr-2"
+  acceptButtonStyleClass="p-button-primary"
+  position="top"
+/>
+
+<div class="flex justify-center">
+  <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }" />
+</div>
+
+<ngo-loading-spinner></ngo-loading-spinner>

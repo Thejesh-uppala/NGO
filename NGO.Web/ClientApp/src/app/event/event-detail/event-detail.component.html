@@ -1,0 +1,102 @@
+<div class="bg-wrapper" [ngStyle]="{ background: 'linear-gradient(to bottom, ' + dynamicColor + ' 10%, white 30%)' }">
+  <div class="event-detail-container">
+    <p-card class="event-card">
+      <p class="back-btn" (click)="goBack()" style="cursor: pointer">
+        <i class="pi pi-arrow-left"></i>
+      </p>
+
+      <ng-template pTemplate="content" class="event-header">
+        <div class="flex justify-content-center align-content-center align-items-center flex-column gap-2">
+          <h2>{{ eventData?.eventTitle }}</h2>
+          <p>{{ eventData?.eventDesc }}</p>
+        </div>
+
+        <!-- Event Image -->
+        <div class="event-image">
+          <img [src]="eventData?.eventPhoto" alt="Event Image" class="img-fluid" />
+        </div>
+
+        <!-- Event Details Section -->
+        <div class="event-details">
+          <div class="detail-section">
+            <p><strong>Requirements:</strong></p>
+            <div [innerHTML]="formatInputText(eventData?.eventRequirements)"></div>
+          </div>
+          <div class="detail-section">
+            <p><strong>Attendance Terms:</strong></p>
+            <div [innerHTML]="formatInputText(eventData?.eventAttendenceTerms)"></div>
+          </div>
+
+          <p>
+            <strong class="flex-container">Contact:</strong>
+            <a href="mailto:{{ eventData?.eventContactEmail }}">{{ eventData?.eventContactEmail }}</a> /
+            {{ eventData?.eventContactPhone }}
+          </p>
+          <div class="detail-section">
+            <p><strong>Additional Info:</strong></p>
+            <div [innerHTML]="formatInputText(eventData?.additionalInfo)"></div>
+          </div>
+
+          <p><strong>Event Access:</strong> {{ eventData?.eventAccess }}</p>
+          <p><strong>Event Location:</strong> {{ eventData?.eventLocation }}</p>
+          <p><strong>Event Date:</strong> {{ convertToLocalTime(eventData?.eventDate) }}</p>
+          <p><strong>Registration Last Date:</strong> {{ convertToLocalTime(eventData?.registrationLastDate) }}</p>
+          <p><strong>Event Time:</strong> {{ formatEventTime(eventData?.eventTimeUtc) }}</p>
+
+          <!-- Cost Breakdown -->
+          <div *ngIf="eventData?.eventCosts?.length">
+            <h3>Cost Breakdown</h3>
+            <ul>
+              <li *ngFor="let cost of eventData?.eventCosts" class="cost-item">
+                <strong>{{ cost.type }}:</strong> {{ cost.cost }}
+              </li>
+            </ul>
+          </div>
+          <!-- Buttons Section -->
+
+          <div style="display: flex; flex-direction: row; gap: 2rem">
+            <p-button
+              *ngIf="isAdmin"
+              (click)="navigateToEditEvent(eventData?.id)"
+              label="Update"
+              icon="pi pi-check"
+              class="p-button-success p-mt-2"
+            ></p-button>
+
+            <p-button
+              *ngIf="isAdmin"
+              (click)="ViewRegisteredUsers(eventData?.id)"
+              label="View Registered Users"
+              icon="pi pi-check"
+              class="p-button-success p-mt-2 ml-2"
+            ></p-button>
+          </div>
+          <div style="display: flex; flex-direction: row; gap: 2rem">
+            <p-button
+              *ngIf="!isAdmin"
+              (click)="Register(eventData?.eventAccess, eventData?.id)"
+              [disabled]="isRegistered"
+              label="Register Now"
+              icon="pi pi-check"
+              class="p-button-success p-mt-2"
+            ></p-button>
+            <p-button
+              *ngIf="!eventData?.eventCosts?.length"
+              label="Share Event"
+              icon="pi pi-share-alt"
+              class="p-button-secondary p-mt-2"
+              (click)="shareEvent()"
+            >
+            </p-button>
+          </div>
+
+          <!-- Share Event Button -->
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
+</div>
+<div class="flex justify-center">
+  <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }" />
+</div>
+<ngo-loading-spinner></ngo-loading-spinner>

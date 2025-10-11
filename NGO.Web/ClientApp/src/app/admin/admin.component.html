@@ -1,0 +1,210 @@
+<section style="background-color: #f5f5f5; display: flex; flex-direction: column">
+  <div class="dashboard-parent-component">
+    <app-sidebar></app-sidebar>
+    <div class="dashboard-right-section">
+      <div class="user-payment-manage">
+        <div class="user-payment non-mobile">
+          <div class="user-payment-div">
+            <section class="user-stats">
+              <img
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/cfb543d795454e8ae9181df4cbd24b09dda8df43100a326dbf57babc87f3b502?placeholderIfAbsent=true&apiKey=9e16588387084fb2a9a51a1b99489136"
+                alt="User icon"
+                class="user-icon"
+              />
+              <div class="stats-content">
+                <p class="stats-label">Users</p>
+                <p class="stats-value">{{ summaryCounts?.totalUsers }}</p>
+              </div>
+            </section>
+          </div>
+          <div class="user-payment-div">
+            <section class="user-stats">
+              <img
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/cfb543d795454e8ae9181df4cbd24b09dda8df43100a326dbf57babc87f3b502?placeholderIfAbsent=true&apiKey=9e16588387084fb2a9a51a1b99489136"
+                alt="User icon"
+                class="user-icon"
+              />
+              <div class="stats-content">
+                <p class="stats-label">Members</p>
+                <p class="stats-value">{{ summaryCounts?.totalMembers }}</p>
+              </div>
+            </section>
+          </div>
+          <div class="user-payment-div">
+            <section class="user-stats">
+              <img
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/cfb543d795454e8ae9181df4cbd24b09dda8df43100a326dbf57babc87f3b502?placeholderIfAbsent=true&apiKey=9e16588387084fb2a9a51a1b99489136"
+                alt="User icon"
+                class="user-icon"
+              />
+              <div class="stats-content">
+                <p class="stats-label">Upcoming Events</p>
+                <p class="stats-value">{{ summaryCounts?.upcomingEvents }}</p>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <div class="mobile-div user-payment">
+          <div class="user-payment-div">
+            <section class="user-stats">
+              <img
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/cfb543d795454e8ae9181df4cbd24b09dda8df43100a326dbf57babc87f3b502?placeholderIfAbsent=true&apiKey=9e16588387084fb2a9a51a1b99489136"
+                alt="User icon"
+                class="user-icon"
+              />
+              <div class="stats-content">
+                <p class="stats-label">Users</p>
+                <p class="stats-value">{{ summaryCounts.totalUsers }}</p>
+              </div>
+            </section>
+
+            <section class="user-stats">
+              <img
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/cfb543d795454e8ae9181df4cbd24b09dda8df43100a326dbf57babc87f3b502?placeholderIfAbsent=true&apiKey=9e16588387084fb2a9a51a1b99489136"
+                alt="User icon"
+                class="user-icon"
+              />
+              <div class="stats-content">
+                <p class="stats-label">Members</p>
+                <p class="stats-value">{{ summaryCounts.totalMembers }}</p>
+              </div>
+            </section>
+
+            <section class="user-stats">
+              <img
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/cfb543d795454e8ae9181df4cbd24b09dda8df43100a326dbf57babc87f3b502?placeholderIfAbsent=true&apiKey=9e16588387084fb2a9a51a1b99489136"
+                alt="User icon"
+                class="user-icon"
+              />
+              <div class="stats-content">
+                <p class="stats-label">Users</p>
+                <p class="stats-value">{{ summaryCounts.totalUsers }}</p>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <!-- users data section -->
+        <div class="manage-user-div">
+          <div class="card">
+            <!-- Data Table to Display Users -->
+            <p-table
+              #dt
+              [value]="users"
+              [rows]="3"
+              [rowsPerPageOptions]="[3, 10, 20]"
+              [paginator]="true"
+              [globalFilterFields]="['firstName', 'emailAddress', 'status', 'country']"
+              [(selection)]="selectedUsers"
+              [rowHover]="true"
+              dataKey="userId"
+              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+              [showCurrentPageReport]="true"
+              class="responsive-text"
+            >
+              <!-- Table Caption (Title and Search Box) -->
+              <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between">
+                  <h5 class="m-0 responsive-text">Manage Users</h5>
+
+                  <div>
+                    <span class="p-input-icon-left responsive-text h-full">
+                      <i class="pi pi-search"></i>
+                      <input
+                        pInputText
+                        type="text"
+                        class="input-search"
+                        (input)="filterGlobal($event)"
+                        placeholder="Search..."
+                      />
+                    </span>
+
+                    <p-button
+                      pTooltip="Export Users Data"
+                      tooltipPosition="left"
+                      icon="pi pi-upload"
+                      (click)="exportExcel()"
+                      [outlined]="true"
+                      [rounded]="true"
+                      class="ml-2"
+                      severity="info"
+                    />
+                    <p-button
+                      severity="danger"
+                      pTooltip="Delete User"
+                      [rounded]="true"
+                      class="ml-2"
+                      icon="pi pi-trash"
+                      (onClick)="deleteSelectedUsers()"
+                      [disabled]="!selectedUsers || !selectedUsers.length"
+                    />
+                  </div>
+                </div>
+              </ng-template>
+
+              <!-- Table Header with Sortable Columns -->
+              <ng-template pTemplate="header">
+                <tr class="responsive-text">
+                  <th>
+                    <p-tableHeaderCheckbox />
+                  </th>
+                  <th pSortableColumn="firstName" style="min-width: 5rem">Name <p-sortIcon field="firstName" /></th>
+                  <th pSortableColumn="emailAddress" style="min-width: 5rem">
+                    Email <p-sortIcon field="emailAddress" />
+                  </th>
+                  <th pSortableColumn="state">State <p-sortIcon field="state" /></th>
+                  <th pSortableColumn="city">City <p-sortIcon field="city" /></th>
+                  <th pSortableColumn="country">Country <p-sortIcon field="country" /></th>
+                  <th>Action</th>
+                </tr>
+              </ng-template>
+
+              <!-- Table Body to Display Each User -->
+              <ng-template pTemplate="body" let-user>
+                <tr (click)="viewUserProfile(user.userId)" class="responsive-text cursor-pointer">
+                  <td (click)="$event.stopPropagation()"><p-tableCheckbox [value]="user" /></td>
+                  <td>{{ user.firstName }}</td>
+                  <td>{{ user.emailAddress }}</td>
+                  <td>{{ user.state }}</td>
+                  <td>{{ user.city }}</td>
+                  <td>{{ user.country }}</td>
+
+                  <td (click)="$event.stopPropagation()">
+                    <p-button
+                      icon="pi pi-trash"
+                      severity="danger"
+                      [rounded]="true"
+                      [outlined]="true"
+                      (onClick)="deleteUser(user)"
+                    />
+                  </td>
+                </tr>
+              </ng-template>
+
+              <!-- Table Summary (User Count) -->
+              <ng-template pTemplate="summary">
+                <div class="flex align-items-center justify-content-between responsive-text">
+                  In total there are {{ users ? users.length : 0 }} users.
+                </div>
+              </ng-template>
+            </p-table>
+
+            <p-confirmDialog
+              [style]="{ width: '450px' }"
+              [baseZIndex]="10000"
+              rejectButtonStyleClass="p-button-text p-button-danger mr-2"
+              acceptButtonStyleClass="p-button-primary"
+              position="top"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="flex justify-center">
+  <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }" />
+</div>
+
+<ngo-loading-spinner></ngo-loading-spinner>

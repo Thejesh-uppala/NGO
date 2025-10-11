@@ -1,0 +1,300 @@
+<!-- create-event.component.html -->
+<app-navbar></app-navbar>
+<div class="profile-form-wrapper mt-top-lg">
+  <p class="back-btn" (click)="goBack()" style="cursor: pointer">
+    <i class="pi pi-arrow-left"></i>
+  </p>
+
+  <h2 class="mb-2 mb-sm-4 title-lg basic-text-styles pb-2">Create Event</h2>
+  <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" autocomplete="on">
+    <!-- Section: Event Information -->
+    <fieldset class="form-section responsive-text">
+      <legend class="mb-4 title">Event Information</legend>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="eventTitle" class="label-required">Event Title</label>
+          <div class="input-wrapper">
+            <input
+              pInputText
+              id="eventTitle"
+              formControlName="eventTitle"
+              type="text"
+              class="form-control"
+              placeholder="Enter Event Title"
+            />
+          </div>
+          <small *ngIf="eventForm?.get('eventTitle')?.errors?.['valueRequired']" style="color: red">
+            Event Title is required
+          </small>
+          <small *ngIf="eventForm?.get('eventTitle')?.errors?.['noSpaceAtStart']" style="color: red">
+            Event Title cannot start with a space.
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="eventDesc" class="label-required">Event Description</label>
+          <textarea
+            pInputTextarea
+            id="eventDesc"
+            formControlName="eventDesc"
+            placeholder="Enter Event Description"
+          ></textarea>
+          <small *ngIf="eventForm?.get('eventDesc')?.errors?.['noSpaceAtStart']" style="color: red">
+            Event Description cannot start with a space.
+          </small>
+          <small *ngIf="eventForm?.get('eventDesc')?.hasError('maxlength')" style="color: red">
+            Event Description cannot exceed 500 characters.
+          </small>
+          <small *ngIf="eventForm?.get('eventDesc')?.errors?.['valueRequired']" style="color: red">
+            Event Description is required
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="eventContactEmail" class="label-required">Email Address</label>
+          <input
+            id="eventContactEmail"
+            formControlName="eventContactEmail"
+            type="email"
+            placeholder="Enter Email Address"
+            class="form-control"
+          />
+          <small *ngIf="eventForm.get('eventContactEmail')?.errors?.['email']" style="color: red">
+            Please enter a valid email address.
+          </small>
+          <small *ngIf="eventForm.get('eventContactEmail')?.errors?.['valueRequired']" style="color: red">
+            Email is required
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="eventContactPhone" class="label-required">Contact Phone</label>
+          <input
+            pInputText
+            id="eventContactPhone"
+            formControlName="eventContactPhone"
+            type="tel"
+            class="form-control"
+            placeholder="Enter Contact Phone"
+          />
+          <small *ngIf="eventForm.get('eventContactPhone')?.errors?.['noSpaceAtStart']" style="color: red">
+            Phone Number cannot start with a space.
+          </small>
+          <small *ngIf="eventForm.get('eventContactPhone')?.errors?.['valueRequired']" style="color: red">
+            Phone Number is required
+          </small>
+          <!-- Error for invalid characters -->
+          <small *ngIf="eventForm.get('eventContactPhone')?.errors?.['invalidCharacters']" style="color: red">
+            Phone Number must only contain numbers, spaces, and an optional '+'.
+          </small>
+
+          <!-- Error for invalid country code format -->
+          <small *ngIf="eventForm.get('eventContactPhone')?.errors?.['invalidCountryCode']" style="color: red">
+            Please enter a valid country code (e.g., +91, +1).
+          </small>
+
+          <!-- Error for missing space after country code -->
+          <small *ngIf="eventForm.get('eventContactPhone')?.errors?.['invalidFormat']" style="color: red">
+            Country code must be followed by a space (e.g., +91 1234567890).
+          </small>
+
+          <!-- Error for invalid phone length -->
+          <small *ngIf="eventForm.get('eventContactPhone')?.errors?.['invalidLength']" style="color: red">
+            Phone Number must have exactly 10 digits (excluding country code).
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="eventRequirements" class="label-required"> Event Requirements </label>
+          <textarea
+            rows="5"
+            cols="20"
+            pInputTextarea
+            id="eventRequirements"
+            formControlName="eventRequirements"
+            placeholder="Enter Event Requirements"
+          >
+          </textarea>
+          <small *ngIf="eventForm.get('eventRequirements')?.errors?.['valueRequired']" style="color: red">
+            Event Requirements is required
+          </small>
+          <!-- Validation Messages -->
+          <small *ngIf="eventForm?.get('eventRequirements')?.errors?.['noSpaceAtStart']" style="color: red">
+            Event Requirements cannot start with a space.
+          </small>
+          <small *ngIf="eventForm?.get('eventRequirements')?.hasError('maxlength')" style="color: red">
+            Event Requirements cannot exceed 500 characters.
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="eventPhoto" class="label-required">Event Photo</label>
+          <p-fileUpload
+            name="eventPhoto"
+            [customUpload]="true"
+            (uploadHandler)="onFileChange($event)"
+            chooseLabel="Choose File"
+            [auto]="true"
+          ></p-fileUpload>
+        </div>
+
+        <div class="form-group">
+          <label for="eventAccess" class="label-required">Event Access</label>
+          <p-dropdown
+            formControlName="eventAccess"
+            [options]="eventAccessTypes"
+            optionLabel="name"
+            [style]="{ width: '100%' }"
+            optionValue="code"
+            placeholder="Select a Event Access Type"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="eventLocation" class="label-required">Event Location</label>
+          <input
+            pInputText
+            [style]="{ width: '100%' }"
+            id="eventLocation"
+            formControlName="eventLocation"
+            type="text"
+            class="form-control"
+            placeholder="Enter Event Location"
+          />
+          <small *ngIf="eventForm.get('eventLocation')?.errors?.['valueRequired']" style="color: red">
+            Event Location is required
+          </small>
+          <small *ngIf="eventForm?.get('eventLocation')?.errors?.['noSpaceAtStart']" style="color: red">
+            Event Location cannot start with a space.
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="eventDate" class="label-required">Event Date</label>
+          <p-calendar
+            id="eventDate"
+            [style]="{ width: '100%' }"
+            formControlName="eventDate"
+            [showIcon]="true"
+            placeholder="Select Event Date"
+          >
+          </p-calendar>
+        </div>
+
+        <div class="form-group">
+          <label for="registrationLastDate" class="label-required">Registration Last Date</label>
+          <p-calendar
+            id="registrationLastDate"
+            [style]="{ width: '100%' }"
+            formControlName="registrationLastDate"
+            [showIcon]="true"
+            placeholder="Select Last Date to Register"
+          >
+          </p-calendar>
+        </div>
+
+        <div class="form-group">
+          <label for="eventStartTime" class="label-required">Event Start Time </label>
+          <p-calendar
+            id="eventStartTime"
+            formControlName="eventStartTime"
+            [timeOnly]="true"
+            [style]="{ width: '100%' }"
+            placeholder="Select Start Time"
+            [readonlyInput]="true"
+          >
+            <!-- This disables manual typing -->
+          </p-calendar>
+        </div>
+
+        <div class="form-group">
+          <label for="eventEndTime" class="label-required">Event End Time</label>
+          <p-calendar
+            id="eventEndTime"
+            formControlName="eventEndTime"
+            [timeOnly]="true"
+            [style]="{ width: '100%' }"
+            placeholder="Select End Time"
+            [readonlyInput]="true"
+          >
+          </p-calendar>
+        </div>
+
+        <div class="form-group">
+          <label for="eventAttendenceTerms" class="label-required"> Event Attendance Terms </label>
+          <textarea
+            rows="5"
+            cols="20"
+            pInputTextarea
+            formControlName="eventAttendenceTerms"
+            placeholder="Enter Attendance Terms"
+          >
+          </textarea>
+
+          <small *ngIf="eventForm?.get('eventAttendenceTerms')?.errors?.['valueRequired']" style="color: red">
+            Event Attendance Terms is required
+          </small>
+          <small *ngIf="eventForm?.get('eventAttendenceTerms')?.errors?.['noSpaceAtStart']" style="color: red">
+            Event Attendance Terms cannot start with a space.
+          </small>
+          <div *ngIf="eventForm?.get('eventAttendenceTerms')?.invalid" style="color: red; margin-top: 5px">
+            <div *ngIf="eventForm?.get('eventAttendenceTerms')?.errors?.['maxlength']">
+              Maximum 200 characters allowed.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="additionalInfo">Additional Information</label>
+          <textarea rows="5" cols="20" pInputTextarea formControlName="additionalInfo"> </textarea>
+          <small *ngIf="eventForm?.get('additionalInfo')?.errors?.['noSpaceAtStart']" style="color: red">
+            Additional Information cannot start with a space.
+          </small>
+        </div>
+      </div>
+    </fieldset>
+    <!-- Event Costs -->
+    <!-- create-event.component.html -->
+    <div class="event-cost-div responsive-text" *ngIf="eventForm.get('eventAccess')?.value === 'Paid'">
+      <div class="form-group">
+        <label for="eventCosts">Event Costs</label>
+        <div formArrayName="eventCosts">
+          <div *ngFor="let cost of eventCosts.controls; let i = index" [formGroupName]="i" class="cost-item">
+            <!-- Dropdown for Cost Type -->
+            <p-dropdown
+              formControlName="participantTypeId"
+              [options]="getFilteredCostTypes(i)"
+              optionLabel="name"
+              optionValue="code"
+              placeholder="Cost Type"
+              (onChange)="updateSelectedCosts()"
+              class="dropdown"
+            />
+
+            <!-- Input for Cost -->
+            <input pInputText formControlName="cost" type="number" placeholder="Enter Cost" class="responsive-input" />
+
+            <!-- Button for Removing Cost -->
+            <button type="button" pButton icon="pi pi-trash" (click)="removeCost(i)" class="custom-btn"></button>
+          </div>
+
+          <!-- Button for Adding Cost -->
+          <button
+            type="button"
+            class="primary-btn"
+            pButton
+            label="Add Cost"
+            icon="pi pi-plus"
+            (click)="addCost()"
+          ></button>
+        </div>
+      </div>
+    </div>
+    <button pButton type="submit" class="w-full" label="Submit Event" [disabled]="isSubmitDisabled()"></button>
+  </form>
+</div>
+<div class="flex justify-center">
+  <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }" />
+</div>
+<ngo-loading-spinner></ngo-loading-spinner>

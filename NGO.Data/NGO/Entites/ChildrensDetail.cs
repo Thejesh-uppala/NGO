@@ -1,0 +1,21 @@
+﻿namespace NGO.Data
+{
+    public partial class ChildrensDetail
+    {
+        public int Id { get; set; }
+        public string? ChildUniqueId { get; set; }
+        public int UserDetailId { get; set; }
+        public string FirstName { get; set; } = null!;
+        public string? LastName { get; set; } = null!;
+        public string? EmailId { get; set; } = null!;
+        public string? PhoneNo { get; set; } = null!;
+        public int? YearOfBirth { get; set; } = null!;
+        public string? ResidentCity { get; set; } = null!;
+        public string? ResidentState { get; set; } = null!;
+        public string? ResidentCountry { get; set; } = null!;
+
+
+        public virtual UserDetail UserDetail { get; set; } = null!;
+    }
+}
+

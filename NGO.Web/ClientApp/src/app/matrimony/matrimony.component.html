@@ -1,0 +1,324 @@
+<app-navbar></app-navbar>
+<div class="hero-section">
+  <div class="hero-content">
+    <h1 class="header">Find the Best Partner for Your Life</h1>
+    <p class="title">Your soulmate is waiting. Start your journey today.</p>
+    <button class="cta-button responsive-text" (click)="scrollToPartners()">Get Started</button>
+    <button class="cta-button ml-2 responsive-text" (click)="createProfile()">Create Matrimony Profile</button>
+  </div>
+</div>
+<h3 class="pl-5 title mt-4">Find the Best Match</h3>
+
+<!-- Header with Search Bar and Filter Button -->
+<div class="search-filter-header" id="search-filter-header">
+  <input
+    type="text"
+    class="search-bar"
+    placeholder="Search by name, location, or profession..."
+    [(ngModel)]="searchQuery"
+    (input)="onSearchInput($event)"
+    (keyup.backspace)="onSearchInput($event)"
+  />
+  <button class="filter-icon-button" (click)="showDialog('center')"><i class="pi pi-filter"></i> Filter</button>
+  <p-button icon="pi pi-refresh" (click)="clearFilters()" class="custom-refresh-button"></p-button>
+</div>
+
+<div id="partner-cards" class="partner-cards">
+  <div
+    class="partner-card"
+    (click)="viewProfile(partner.id, partner.orgId)"
+    *ngFor="let partner of filteredMatrimonialUsersList"
+  >
+    <img
+      [src]="partner.matrimonialDataPhotos[0]?.photoPath"
+      alt="{{ partner.brideOrGroomFName }}"
+      class="partner-photo"
+    />
+    <div class="card-content">
+      <h4>{{ partner.brideOrGroomFName + ' ' + partner.brideOrGroomLName }}</h4>
+      <p class="responsive-text"><strong>Location:</strong> {{ partner.brideGroomCurrentLocation }}</p>
+      <p class="responsive-text"><strong>Education:</strong> {{ partner.brideGroomEducation }}</p>
+    </div>
+  </div>
+</div>
+
+<div
+  class="card flex justify-center"
+  style="border-top: 0px; border-left: 0px; border-right: 0px; background-color: #f5f5f5"
+>
+  <p-paginator
+    [first]="first"
+    [rows]="rows"
+    [totalRecords]="totalRecords"
+    [rowsPerPageOptions]="[8, 10, 15]"
+    [style]="{ 'background-color': '#f5f5f5' }"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
+    (onPageChange)="onPageChange($event)"
+  >
+  </p-paginator>
+</div>
+
+<p-dialog
+  header="Filter Profiles"
+  [modal]="true"
+  [(visible)]="visible"
+  [position]="position"
+  [style]="{ width: '40rem' }"
+  class="modern-dialog"
+>
+  <div class="filter-container responsive-text">
+    <div class="filter-row responsive-text">
+      <div class="filter-item">
+        <label for="gender">Gender</label>
+        <p-dropdown
+          [style]="{ width: '100%' }"
+          [(ngModel)]="filters.gender"
+          [showClear]="filters.gender !== null && filters.gender !== ''"
+          [options]="gender"
+          optionLabel="name"
+          optionValue="code"
+          placeholder="Select Gender"
+        />
+      </div>
+
+      <div class="filter-item">
+        <label for="ageRange">Age Range</label>
+        <div class="range-group">
+          <input type="number" id="minAge" [(ngModel)]="filters.minAge" placeholder="Min Age" class="input-field" />
+          <span class="range-separator">-</span>
+          <input type="number" id="maxAge" [(ngModel)]="filters.maxAge" placeholder="Max Age" class="input-field" />
+        </div>
+      </div>
+    </div>
+    <div class="filter-row">
+      <div class="filter-item">
+        <label for="prevMarried">Previous Marriage</label>
+
+        <p-dropdown
+          id="prevMarried"
+          [style]="{ width: '100%' }"
+          [showClear]="filters.prevMarried !== null && filters.prevMarried !== ''"
+          [(ngModel)]="filters.prevMarried"
+          [options]="marriageStatus"
+          optionLabel="name"
+          optionValue="code"
+          class="responsive-text"
+          placeholder="Select Status"
+        >
+        </p-dropdown>
+      </div>
+      <div class="filter-item">
+        <label for="heightRange">Height Range (in cm)</label>
+        <div class="range-group">
+          <input
+            type="number"
+            id="minHeight"
+            [(ngModel)]="filters.minHeight"
+            placeholder="Min Height"
+            class="input-field responsive-text"
+          />
+          <span class="range-separator">-</span>
+          <input
+            type="number"
+            id="maxHeight"
+            [(ngModel)]="filters.maxHeight"
+            placeholder="Max Height"
+            class="input-field responsive-text"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="filter-row">
+      <div class="filter-item">
+        <label for="location">Location</label>
+      
+
+
+        <p-dropdown
+          id="country"
+      
+
+          (onClear)="onClearCountry()"
+          [showClear]="filters.country !== null"
+          [options]="countries"
+          optionLabel="name"
+          (onChange)="onChangeCountry($event.value)"
+          placeholder="Select Country"
+          [editable]="true"
+          autoWidth="false"
+          class="responsive-text"
+          [style]="{ width: '100%' }"
+        >
+        </p-dropdown>
+
+        <p-dropdown
+          id="state"
+    
+          class="mt-4 responsive-text"
+          (onClear)="onClearState()"
+          [options]="states"
+          optionLabel="name"
+          [showClear]="filters.state !== null"
+          (onChange)="onChangeState($event.value)"
+          placeholder="Select State"
+          [editable]="true"
+          autoWidth="false"
+          [style]="{ width: '100%' }"
+        >
+        </p-dropdown>
+      </div>
+    </div>
+
+    <div class="filter-row">
+      <div class="filter-item">
+        <label for="education">Education</label>
+        <div class="input-container">
+          <input
+            type="text"
+            id="education"
+            [(ngModel)]="filters.education"
+            placeholder="Education"
+            class="input-field responsive-text"
+          />
+          <button *ngIf="filters.education" class="clear-btn" (click)="clearEducation()">×</button>
+        </div>
+      </div>
+
+      <div class="filter-item">
+        <label for="profession">Profession</label>
+        <div class="input-container">
+          <input
+            type="text"
+            id="profession"
+            [(ngModel)]="filters.profession"
+            placeholder="Profession"
+            class="input-field responsive-text"
+          />
+          <button *ngIf="filters.profession" class="clear-btn" (click)="clearProfession()">×</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dialog-actions">
+    <p-button label="Clear Filters" class="p-button-primary" (click)="clearFilters()"></p-button>
+
+    <p-button label="Cancel" class="p-button-text" (click)="visible = false"></p-button>
+    <p-button label="Apply Filters" class="p-button-primary" (click)="applyFilters()"></p-button>
+  </div>
+</p-dialog>
+
+<div class="card">
+  <h3 class="title">Matched Profiles</h3>
+  <p-dataView #dv [value]="matrimonialUsersList" [layout]="layout">
+    <ng-template pTemplate="header">
+      <div class="flex justify-content-end cursor-pointer">
+        <button
+          pButton
+          type="button"
+          [icon]="isGridLayout ? 'pi pi-bars' : 'pi pi-th-large'"
+          (click)="toggleLayout()"
+        ></button>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="list" let-items>
+      <div class="grid grid-nogutter">
+        <div class="col-12" *ngFor="let item of matrimonialUsersList; let first = first" class="col-12">
+          <div
+            class="flex partner-layout-card flex-column sm:flex-row sm:align-items-center p-4 gap-3"
+            [ngClass]="{ 'border-top-1 surface-border': !first }"
+          >
+            <div class="md:w-10rem relative">
+              <img
+                class="block xl:block mx-auto partner-photo border-round w-full"
+                [src]="item.matrimonialDataPhotos[0]?.photoPath"
+                [alt]="item.brideOrGroomFName"
+              />
+
+              <p-tag
+                [value]="item.recordStatus === 'expired' ? 'InActive' : item.recordStatus"
+                [severity]="getSeverity(item.recordStatus)"
+                class="absolute tag-style"
+                [style.left.px]="4"
+                [style.top.px]="4"
+              />
+            </div>
+            <div class="flex flex-column md:flex-row justify-content-between md:align-items-center flex-1 gap-4">
+              <div class="flex flex-row md:flex-column justify-content-between align-items-start gap-2">
+                <div>
+                  <span class="font-medium text-secondary text-sm">{{ item.profileFor }}</span>
+                  <div class="text-lg font-medium text-900 mt-2">
+                    {{ item.brideOrGroomFName + ' ' + item.brideOrGroomLName }}
+                  </div>
+                </div>
+              </div>
+              <div class="flex flex-column md:align-items-end gap-5">
+                <span class="text-xl font-semibold text-900">{{ 'Height:' + item.brideGroomHeight }}</span>
+                <div class="flex flex-row-reverse md:flex-row gap-2">
+                  <p-button
+                    icon="pi pi-arrow-right"
+                    class="flex-auto md:flex-initial white-space-nowrap"
+                    label="View Profile"
+                    (click)="viewProfile(item.id, item.orgId)"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template let-item pTemplate="grid">
+      <div class="grid grid-nogutter">
+        <div class="col-12 sm:col-6 md:col-4 xl:col-4 p-2" *ngFor="let item of matrimonialUsersList">
+          <div class="p-4 partner-layout-card border-1 surface-border surface-card border-round flex flex-column">
+            <div class="relative surface-50 flex justify-content-center border-round p-3">
+              <p-tag
+                [value]="item.recordStatus === 'expired' ? 'InActive' : item.recordStatus"
+                [severity]="getSeverity(item.recordStatus)"
+                class="tag-style"
+              ></p-tag>
+
+              <div class="mx-auto">
+                <img
+                  class="border-round w-full partner-photo"
+                  [src]="item.matrimonialDataPhotos[0]?.photoPath"
+                  [alt]="item.brideOrGroomFName"
+                  style="max-width: 300px"
+                />
+              </div>
+            </div>
+            <div class="pt-4">
+              <div class="flex flex-row justify-content-between align-items-start gap-2">
+                <div>
+                  <span class="font-medium text-secondary text-sm">{{ item.profileFor }}</span>
+                  <div class="text-lg font-medium text-900 mt-1">
+                    {{ item.brideOrGroomFName + ' ' + item.brideOrGroomLName }}
+                  </div>
+                </div>
+              </div>
+              <div class="flex flex-column gap-4 mt-4">
+                <span class="text-xl font-semibold text-900">{{ 'Height: ' + item.brideGroomHeight }}</span>
+                <div class="flex gap-2">
+                  <p-button
+                    icon="pi pi-arrow-right"
+                    class="flex-auto md:flex-initial white-space-nowrap"
+                    label="View Profile"
+                    (click)="viewProfile(item.id, item.orgId)"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-dataView>
+  <router-outlet></router-outlet>
+</div>
+<div class="flex justify-center">
+  <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }" />
+</div>
+<ngo-loading-spinner></ngo-loading-spinner>

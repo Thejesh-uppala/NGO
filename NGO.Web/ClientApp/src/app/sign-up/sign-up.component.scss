@@ -1,0 +1,123 @@
+.signup-container {
+  max-width: 700px;
+  margin: 30px auto;
+  padding: 25px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  font-family: 'Roboto', sans-serif;
+
+  .password-container {
+    position: relative;
+  }
+
+  .basic-text-styles::after {
+    bottom: -5px; /* Place the underline at the bottom */
+    left: 0;
+    height: 2px; /* Thickness of the underline */
+    width: 50%; /* Half the width */
+    background-color: red; /* Color of the underline */
+  }
+  .password-container i {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    color: #686868;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+
+  @media (max-width: 767px) {
+    padding: 35px;
+    margin: 0px;
+    border-radius: 0px;
+    box-shadow: none;
+    .form-row {
+      gap: 10px; // Gap between form elements on mobile
+    }
+
+    .form-row-gap {
+      gap: 10px; // Gap for the flex items in form-row-gap on mobile
+    }
+  }
+
+  .form-row-gap {
+    flex-direction: column;
+    display: flex;
+    gap: 20px;
+  }
+  .signup-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 28px;
+    color: #333;
+    font-weight: 600;
+  }
+
+  .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+
+    .form-group {
+      flex: 1;
+      min-width: 240px;
+    }
+  }
+
+  label {
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: 500;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    outline: none;
+    box-sizing: border-box;
+
+    &:focus {
+      border-color: #4caf50;
+      box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+    }
+  }
+
+  .btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: #4caf50;
+    color: #fff;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #45a049;
+    }
+
+    &:disabled {
+      background-color: #ddd;
+      cursor: not-allowed;
+    }
+  }
+
+  .error-message {
+    font-size: 12px;
+    color: #f44336;
+    margin-top: 5px;
+  }
+
+  .form-group.invalid {
+    .form-control {
+      border-color: #f44336;
+      background-color: #f8d7da;
+    }
+  }
+}
