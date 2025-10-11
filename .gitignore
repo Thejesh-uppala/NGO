@@ -1,7 +1,100 @@
-NGO.Business/obj
-NGO.Web/obj
-NGO.Common/obj
-NGO.Data/obj
-NGO.Repository/obj
-NGO.Model/obj
+# Dependencies
+packages/
+*.nupkg
+# NuGet v3's project.json (3.3 and later)
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio / VS Code
+.vs/
+.vscode/
+!.vsconfig
+*.user
+*.suo
+*.sln.docstates
+*.cache
+*.VSWorkspaceState.json
+*.msi
+*.tlog
+*.resx
+*.iws
+
+# Project-specific ignores (based on your structure)
+NGO.Business/obj/
+NGO.Web/obj/
+NGO.Common/obj/
+NGO.Data/obj/
+NGO.Repository/obj/
+NGO.Model/obj/
 .vs/NGO/
+
+# ASP.NET Core
+*.config
+appsettings.*.json
+!appsettings.Development.json  # Keep development settings if needed
+!appsettings.json
+
+# Docker
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Entity Framework Migrations
+migrations/
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Temporary files
+*.tmp
+*.temp
+
+# JetBrains Rider
+.idea/
+*.dotSettings.user
+
+# TeamCity
+_TeamCity*
+
+# DotNetCli
+.DOTNETCLI
+
+# Node.js (if using ClientApp in NGO.Web)
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# ClientApp (if Angular/React in NGO.Web/ClientApp)
+ClientApp/node_modules/
+ClientApp/wwwroot/
