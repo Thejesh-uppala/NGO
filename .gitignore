@@ -105,3 +105,7 @@ yarn-error.log
 # ClientApp (if Angular/React in NGO.Web/ClientApp)
 ClientApp/node_modules/
 ClientApp/wwwroot/
+NGO.Web/out/
+NGO.Web/wwwroot/
+ClientApp/dist/
+ClientApp/build/

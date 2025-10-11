@@ -1,5 +1,5 @@
 # Stage 1: Build the Angular frontend and .NET Core application
-FROM --platform=linux/amd64 mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM --platform=linux/amd64 mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
 # Install Node.js (required for Angular build)
@@ -26,7 +26,7 @@ WORKDIR /app/NGO.Web
 RUN dotnet publish -c Release -o out
 
 # Stage 2: Create the runtime image
-FROM --platform=linux/amd64 mcr.microsoft.com/dotnet/aspnet:6.0 AS runtime
+FROM --platform=linux/amd64 mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 
 # Copy the published application from the build stage
