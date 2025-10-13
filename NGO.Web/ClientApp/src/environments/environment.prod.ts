@@ -1,4 +1,4 @@
 export const environment = {
-  apiUrl: 'https://localhost:7079',
+  apiUrl: 'https://unionhub.onrender.com',
   production: true,
 };
